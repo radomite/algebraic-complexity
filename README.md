@@ -1,6 +1,6 @@
 # Algebraic complexity
 
-This repository collects results in algebraic complexity found with the help of AI agents. Each paper includes its LaTeX source and a compiled PDF. Lean formalizations are planned as well.
+This repository collects results in algebraic complexity found with the help of AI agents. **The notes strive for simplicity but are not polished.** Each paper includes its LaTeX source and a compiled PDF. Lean formalizations are planned as well.
 
 ### VP versus VNP from Euclidean flatness
 
