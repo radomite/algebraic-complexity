@@ -8,7 +8,7 @@ OpenAI’s flatness theorem assigns each binary tensor wire a cost equal to the 
 
 ### Sharp circuit lower bounds in pathwidth
 
-For support graphs of pathwidth $p$, we prove unconditional arithmetic circuit lower bounds matching the dynamic programs. Up to polynomial factors, the sharp base for the permanent is $2$ outside characteristic two, even on subcubic bipartite graphs. For directed Hamiltonian cycles it is $6$ outside characteristic two and $2+2\sqrt{2}$ in characteristic two. For the multivariate Tutte polynomial, the sharp leading exponent is $p\log_2 p$ over every field. [Paper](pathwidth/sharp-pathwidth-bases.pdf) · [Source](pathwidth/sharp-pathwidth-bases.tex)
+The perfect-matching polynomial of a graph of size $n$ and pathwidth $p$ has an arithmetic circuit of size $n^{O(1)}2^p$. In characteristic zero, we prove that replacing $2^p$ by $2^{p-p^\alpha}$ fails for every fixed $\alpha>3/4$, even on bipartite graphs of maximum degree three. We also rule out dividing the $6^p$ factor for directed and undirected Hamiltonian cycles by $2^{p^\alpha}$. For the chromatic and multivariate Tutte polynomials, the same lower bound applies to the number of partitions of $p+1$ vertices into at most $r$ classes for $r\ge 2$ colors, or into any number of classes when the color parameter is indeterminate. Whether unrestricted circuits can divide these bounds by the smaller factor $2^{\sqrt p}$ remains open. We rule out that improvement in the width of a linear sweep in any edge order. [Paper](pathwidth/sharp-pathwidth-bases.pdf) · [Source](pathwidth/sharp-pathwidth-bases.tex)
 
 ### Circuit complexity of small colorful patterns
 

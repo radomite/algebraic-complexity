@@ -41,7 +41,7 @@
 \maketitle
 \vspace{-2.8em}
 \begin{abstract}
-We prove unconditional arithmetic circuit lower bounds in terms of the pathwidth \(p\) of the support graph. Over every field of characteristic different from two, for every \(0<\varepsilon<1\) and \(C\ge0\), there are bipartite graphs of maximum degree three whose permanent requires more than \(n^C(2-\varepsilon)^p\) gates, where \(n=1+|V|+|E|\). The matching upper bound is \(n^{O(1)}2^p\). For the directed Hamiltonian cycle polynomial the optimal base is six outside characteristic two and \(2+2\sqrt2\) in characteristic two. For the multivariate Tutte cluster polynomial with an indeterminate cluster parameter, every fixed saving in the leading exponent \(p\log_2 p\) is impossible over every field. We also determine the optimal base when the parameter is a fixed number of colors.
+We prove unconditional arithmetic circuit lower bounds for edge-weighted graph polynomials in the pathwidth \(p\) of their support. In characteristic zero the reference exponents \(L\) are \(p\) for perfect matchings, \(p\log_2 6\) for directed and undirected Hamiltonian cycles, and \(\log_2 B_r(p+1)\) for the chromatic and multivariate Tutte polynomials, where \(B_r\) counts set partitions into at most \(r\) color classes. An indeterminate cluster parameter gives the full Bell number. We first prove the fixed-base lower bounds using a strip of tables. A second construction gives graphs with \(\log_2 s\ge L-O(E(L))\) and \(\log_2 n=O(E(L))\), where \(s\) is unrestricted circuit size, \(n\) is graph size and \(E(x)=x^{3/4}(\log_2(2+x))^{3/8}\). The permanent witnesses are subcubic and bipartite. We also determine the sharp undirected tour base \(3+2\cos(2\pi/9)\) in characteristic three. On polynomial-size graphs even a factor \(2^{\sqrt p}\) is impossible for linear sweeps that may choose their edge order. For unrestricted circuits that saving remains open.
 \end{abstract}
 
 \section{Introduction}
@@ -98,7 +98,7 @@ Let \(r=q\) in characteristic zero and let \(r\) be the least nonnegative residu
 Every graph admits a circuit of size \(n^{O(1)}r^p\) in this case. For \(r=0\) the polynomial vanishes on every graph with at least one vertex. For \(r=1\) it equals \(\prod_{e\in E}(1-y_e)\). The empty graph gives one in all cases.
 \end{theorem}
 
-All four circuit lower bounds are unconditional. They follow from the Euclidean price theorem of OpenAI~\cite{euclid}. They also hold for border circuits in the sense of Section~\ref{sec:tables}, and with treewidth in the lower-bound exponents since treewidth is at most pathwidth. In the proofs, \(\OO\) suppresses a fixed polynomial in \(n\).
+The preceding circuit lower bounds follow from the Euclidean price theorem of OpenAI~\cite{euclid}. They also hold for border circuits in the sense of Section~\ref{sec:tables}. In the proofs, \(\OO\) suppresses a fixed polynomial in \(n\).
 
 \paragraph{Where the bases come from.}
 Suppose a table on each vertex of a graph reads the labels on its incident edges. We construct an ordered graph for which summing the product of the tables needs nearly \(2^A\) gates, where \(A\) is the largest number of bits crossing a cut in the order. The price theorem of OpenAI~\cite{euclid} supplies the circuit lower bound. A power of a path supplies demands for which \emph{every} balanced cut is as expensive as the most expensive prefix. Routing these demands on a strip makes individual tables small. We give the construction in Section~\ref{sec:tables}.
@@ -106,6 +106,45 @@ Suppose a table on each vertex of a graph reads the labels on its incident edges
 It remains to put as many labels as possible on a boundary of \(m\) vertices. Half-size subsets suffice for perfect matchings, giving \(2^{m-o(m)}\) labels. For directed tours a boundary specifies degrees and a pairing of path ends. The rank of the pairing test gives \(6^{m-o(m)}\) labels in odd or zero characteristic. For named colors a boundary simply stores a word in \([q]^m\). Section~\ref{sec:color} shows how to read an arbitrary table of such words. With an indeterminate cluster parameter, a clique names enough colors to store almost \(\log_2 p\) bits at a single boundary vertex.
 
 OpenAI use balanced circuit cuts and sparse graph projections for the permanent and the directed Hamiltonian cycle polynomial~\cite{circuits}. Our width estimates use their circuit argument and several of their local gadgets. Molter's encoding of choices into bits~\cite{molter} and the use of routings to measure graph cuts by Curticapean, Döring, Neuen, and Wang~\cite{linkup} suggest the two parts of the construction. Their decision-time hypotheses play no role here. For tours, the use of the rank of a matching compatibility matrix goes back to work of Cygan, Kratsch, and Nederlof~\cite{ckn} and Curticapean, Lindzey, and Nederlof~\cite{cln}. We will need the bipartite permutation version of this matrix.
+
+\paragraph{How much can be saved in the exponent?}
+Write \(B_r(k)\) for the number of partitions of \(k\) labelled sites into at most \(r\) nonempty blocks and \(B_\infty(k)=\operatorname{Bell}(k)\). For a cluster scalar \(q\), its \emph{effective palette} \(r\) is the least nonnegative integer equal to \(q\) in the field, or \(\infty\) if there is no such integer. An indeterminate has effective palette \(\infty\). In particular \(q=-1\) has the full Bell scale in characteristic zero. For an undirected graph we sum each spanning cycle's edge monomial once. All logarithms in the quantitative bounds are binary.
+
+\begin{theorem}[Additive lower bound]\label{thm:additive}
+Put \(E(x)=x^{3/4}(\log_2(2+x))^{3/8}\). Each row below has graphs of minimum pathwidth \(p\to\infty\) and size \(n\) satisfying
+\[
+                 \log_2 s_{\F}(f_G)\ge L-O(E(L)),
+                 \qquad \log_2 n=O(E(L)).
+\]
+\begin{center}
+\normalfont\begin{tabular}{@{}lll@{}}
+\hline
+Polynomial \(f_G\) & Field characteristic & Reference exponent \(L\)\\
+\hline
+Perfect matching on subcubic bipartite graphs & different from \(2\) & \(p\)\\
+Directed Hamiltonian cycle & different from \(2\) & \(p\log_2 6\)\\
+Directed Hamiltonian cycle & \(2\) & \(p\log_2(2+2\sqrt2)\)\\
+Undirected Hamiltonian cycle & \(0\) & \(p\log_2 6\)\\
+Undirected Hamiltonian cycle & \(2\) & \(p\log_2(2+\sqrt2)\)\\
+Undirected Hamiltonian cycle & \(3\) & \(p\log_2(3+2\cos(2\pi/9))\)\\
+Chromatic edge indicators and multivariate Tutte & any, \(2\le r\le\infty\) & \(\log_2 B_r(p+1)\)\\
+\hline
+\end{tabular}
+\end{center}
+Each row has an upper bound \(n^{O(1)}2^L\). The constants in the palette row are uniform in the effective palette, which may vary between graphs.
+\end{theorem}
+
+For each fixed \(C\), these witnesses exclude \(n^C2^{L-g}\) as soon as \(g\ge K_C E(L)\) for a sufficiently large constant \(K_C\). For example, a factor \(2^{p^{0.76}}\) is excluded in every row, including the full Bell case where \(L=\Theta(p\log p)\). The lower bound allows circuit gates to combine edges from anywhere in the graph. At a specified chronological cut, a linear table must already store \(2^L/p^{O(1)}\) scalars on a polynomial-size graph (Section~\ref{sec:frontiers}). This latter estimate excludes a \(2^{\sqrt p}\) saving for that table. The same exclusion holds for sums of \(2^{o(\sqrt p)}\) linear sweeps with independently chosen edge orders or binary variable trees (Theorem~\ref{thm:orders}).
+
+Sections~\ref{sec:tables}--\ref{sec:color} give the fixed-base proofs above. Section~\ref{sec:quant-source} returns to the source polynomial. Three parts of a balanced circuit product determine three points in the price estimate. An extra wire between consecutive tables charges a part assignment according to the number of times it changes along the order. This yields the additive bound while keeping each input table small. Sections~\ref{sec:quant-transfer} and~\ref{sec:part-bank} turn the source into the graph polynomials. Section~\ref{sec:frontiers} gives upper bounds for actual path sweeps, and Section~\ref{sec:cancellation} quantifies how much cancellation a small circuit for the ordinary permanent must use.
+
+\paragraph{Open questions.}
+\begin{enumerate}[leftmargin=*,label=\textnormal{(\arabic*)}]
+\item For any of the rows of Theorem~\ref{thm:additive}, can unrestricted circuits achieve size \(n^{O(1)}2^{L-\sqrt p}\) on every graph, or can this saving be ruled out? More generally, what is the threshold between \(\log p\) and \(E(L)\)? A saving of \(O(\log p)\) bits can always be absorbed in the allowed polynomial factor since \(p<n\).
+\item For exact weighted perfect matching on an arbitrary \(N\)-vertex graph of pathwidth \(p\), can every vertex introduction be handled in \(O(2^p\sqrt{p+1})\) scalar gates, or can this bound be attained by amortizing over introductions? Section~\ref{sec:frontiers} proves the exact square-root factor for bipartite graphs, and the exponent \(1/2+\eta\) for every fixed \(\eta>0\) on general graphs outside characteristic two.
+\item For undirected Hamiltonian cycles over a fixed prime characteristic \(\ell\ge5\), what is the sharp pathwidth base? Section~\ref{sec:modular} gives an upper base \(4+2\cos(\pi/\ell)\) and lower bounds from matching-connectivity minors.
+\item Can the permanent outside characteristic two, or the directed Hamiltonian cycle polynomial in any characteristic, require \(2^{\Omega(m)}\) arithmetic gates as a function of matrix order \(m\) alone? OpenAI prove a superpolynomial lower bound in this parameter~\cite{circuits}. The counting-stars algorithm gives the permanent an upper base strictly below two in matrix order~\cite{stars}. A pathwidth lower bound at the square-root scale for the bipartite permanent would already imply \(\limsup_m\log s_{\F}(\per_m)/(\log m)^2=\infty\) (Section~\ref{sec:cancellation}).
+\end{enumerate}
 
 \section{A family of hard tables}\label{sec:tables}
 
@@ -506,10 +545,365 @@ For the lower bound use the strip of Proposition~\ref{prop:hard}, with \(J\) fix
 The constant in the first \(O\) is absolute. There are at most polynomially many vertices and edges in \(k,a,b\) times \(a^{\max b}\), since each switch uses \(O(ab)\) short paths and each vertex meets at most \(a\) anchors in addition to the named graph edges. Hence \(\log_2 n=O_J(T+d\log a+\log D)=o(D)\). Lemma~\ref{lem:anchors} extracts the source with a polynomial factor in \(n\), uniformly in \(a\). Proposition~\ref{prop:hard} gives \(\log_2(s+1)\ge(1-o(1))D\) for target size \(s\). In particular the pathwidth tends to infinity, by the upper bound. Given \(0<\varepsilon<1\), choose \(\eta\) so that \(\delta=1-(1-\varepsilon)(1+\eta)>0\). Since \(p\log_2 p\le(1+\eta+o(1))D\), subtracting \(C\log_2 n+(1-\varepsilon)p\log_2 p\) from \(\log_2(s+1)\) leaves at least \((\delta-o(1))D\) for every fixed \(C\). This gives the stated strict gate lower bound.
 \end{proof}
 
-\clearpage
-\section{An open question}
 
-Can the permanent in characteristic different from two, or the directed Hamiltonian cycle polynomial in any characteristic, be shown to require \(2^{\Omega(N)}\) arithmetic gates as a function of the matrix order \(N\) alone? OpenAI proved a superpolynomial lower bound in this parameter~\cite{circuits}. Our constructions use a separate variable for each entry of a local table. An exponential bound in matrix order would require controlling how many entries suffice for a given circuit lower bound, or a different source of hardness. For the permanent the counting-stars algorithm already gives an upper bound with base strictly below two in matrix order~\cite{stars}.
+\section{A quantitative lower bound for the ordered tables}\label{sec:quant-source}
+
+In Proposition~\ref{prop:hard} the permissible fractional loss is fixed before the width grows. Here both the number of graph variables and the error in the exponent have to fit the same additive budget.
+
+\begin{proposition}\label{prop:quant-source}
+There are ordered graphs as in \eqref{eq:source}, over every field, with parameters \(w=4^h\), \(t=\lceil w^3(\log_2(2w))^{3/2}\rceil\), and \(D=wt\), for which
+\[
+ A\le D+O(t),\qquad T=O(t),\qquad
+ \log_2(\circuit(F_H)+1)\ge D-O(t).
+\]
+There are \(O(w^2)\) tables of at most six ports and at most \(w+1\) wires across each prefix. The size may be degree-component border size. In particular \(t=\Theta(E(D))\).
+\end{proposition}
+
+\subsection{Keeping the total number of crossing bits small}
+
+Use \(w\) parallel lanes. Each round injects a mark into each lane and ends with all lanes carrying the same vector. A switch takes two lanes in and returns two lanes. Its table in \(F_H\) has arbitrary entries. The vectors below prescribe only the capacities and endpoints for the proof.
+
+Process a dyadic interval of \(s\) lanes by processing its left half, then its right half, then merging the results. A singleton injects one marked basis vector. At the end of an interval distribute its accumulated increment equally over \(r_s=2^{\lceil(\log_2 s)/2\rceil}\) of its lanes. To merge, pair the \(r_{s/2}\) carrying lanes on either side. At each such switch divide the two increments' sum equally between the outputs if \(r_s=2r_{s/2}\), and send the sum to one output otherwise. Always retain the round's common starting vector on both outputs. After the entire interval is processed, repeatedly pair a carrying lane with an empty one to broadcast the final increment equally to all \(w\) lanes. The number of switches per round is \(O(w)\), since the number of merge switches of order \(s\) is \((w/s)r_{s/2}\), and the broadcast takes fewer than \(w\) further switches.
+
+Give each mark in one round squared weight \(\rho\). Choose the weights symmetrically around the middle, using the following prescription on each half. Let \(v=\sqrt w\), \(\kappa=2^{-8}\), and let \(z\in[0,w]\) measure the sum of round weights from the middle outwards. On \([0,v]\) take \(\rho=\kappa/v\). On each \([2^jv,2^{j+1}v]\), \(0\le j<h\), take \(\rho=\min(1,\kappa4^j/v)\). Each interval contains an integral number of rounds. The first interval takes \(w/\kappa\) rounds, and the others together take at most \(\sum_{j<h}(2^jv+(w/\kappa)2^{-j})\), giving \(O(w)\) rounds per half. Write \(k=O(w^2)\) for the number of all tables.
+
+In a space with one coordinate per mark put \(d_i=\sqrt{\rho_i}\), \(S=\|d\|^2=2w^2\), and let \(\Pi\) be orthogonal projection off \(d\). Inject \(\Pi(d_i e_i)\) at mark \(i\). The currents \(f_e\) so defined are conserved at the switches, and the lanes start and finish at zero. If the injected prefix has squared mass \(x\), the current mean on the \(w\) lanes is \(\bar f=\Pi(d\,\one_{\rm prefix})/w\).
+
+To estimate variation from the mean, first remove the common vector at the start of the round and divide increments by \(\sqrt{\rho}\), before projection. A completed interval of size \(s\) now contributes \(s/r_s\le\sqrt s\) to the sum of squared norms. In a partial merge bound the two old contributions and the new one by \(2\sqrt{s/2}+\sqrt s\). The other completed siblings on the recursion stack, at most one of each dyadic size, contribute a geometric series. Broadcasting can only decrease the sum. Hence this sum is at most \(10\sqrt w\), and every single increment has norm at most one. Projection contracts norms and the mean minimizes total squared deviations. It follows that at every prefix
+\[
+ \sum_e\|f_e\|^2\le w\|\bar f\|^2+10v\rho
+ =\frac{S}{4w}-\frac{(x-S/2)^2}{wS}+10v\rho .
+\]
+In the central interval the last term is \(10\kappa\). In interval \(j\) the absolute deviation is at least \(w\,2^jv\), so the subtracted term is at least \(4^j/2\), while \(10v\rho\le10\kappa4^j\). In all cases the bound is \(S/(4w)+10\kappa\). Each individual current has norm at most \(\sqrt{S}/(2w)+1<2\).
+
+Set \(\lambda=2D/\sqrt S\) and give wire \(e\) capacity \(c_e=\lceil\lambda\|f_e\|\rceil\), omitting zero-capacity wires. A cut has at most one wire per lane and, by Cauchy--Schwarz, at most
+\[
+        w+\lambda\sqrt{S/4+10\kappa w}=D+O(t)
+\]
+crossing bits. Each incident capacity is \(O(t)\). Finally join every consecutive pair of tables by one additional, independent \(t\)-bit wire. This costs at most \(t\) at each cut. Summing over wires gives total capacity \(B=O(w^2t)\).
+
+\subsection{Charging the changes of part in a circuit product}
+
+Complete \(\lambda f_e/c_e\) to a unit vector and place the original wire ends at its signed halves as in Lemma~\ref{lem:cost}. For the additional wires use signed halves of fresh orthonormal vectors, one per wire. The output sites \(P\) have Gaussian width \(W=O(\sqrt{\log(2w)})\) by the maximum estimate in the proof of Proposition~\ref{prop:hard}. The target coefficient tensor has price \(B\).
+
+Extract the component of degree one in each table as in Lemma~\ref{lem:balanced}. In each parse follow the child at a sum and the unique child with mark mass greater than \(S/2\) at a product, until there is no such child. The stop is a product, since a single mark has mass at most one. Its two input supports and the exterior support form an ordered tripartition with each mass at most \(S/2\). For fixed supports the two input polynomials and every eligible exterior context factor, because the choice above the stop uses only the supports. Grouping by tripartition expresses the output as a sum of tensors of three-way rank at most \(R=O(3^k(s+1))\) each, where \(s\) is the original circuit size. Here three-way rank is the number of products of one tensor on each of the three parts. Thus a single common label in \([R]\) suffices to contract each term.
+
+For one tripartition write \(a_1,a_2,a_3\) for its fractions of the total mark mass and \(b_i=\lambda\Pi(d\,\one_{I_i})\) for the corresponding divergences in the original mark space. These sum to zero. Draw them as three successive sides of a triangle. We claim there are hubs \(q_i\) of half-perimeter one, all at pairwise distances at least \(1/2\), such that \(\sum_i\langle b_i,q_i\rangle\ge D\).
+
+Indeed, for positive masses the squared side lengths are \(\lambda^2 S a_i(1-a_i)\). Consecutive centered vectors have inner product \(-\lambda^2 S a_i a_j\), so the triangle is acute and its squared circumdiameter is \(\lambda^2S\prod_i(1-a_i)\), by the area formula. The product is at least \(1/4\) because its logarithm is concave on \(\{0\le a_i\le1/2,\ \sum a_i=1\}\), with that minimum at a permutation of \((1/2,1/2,0)\). To realize the circumdiameter, sum \(\sum_i\langle b_i,q_i\rangle\) by parts around the three vertices. Choose the successive hub differences along the radial vectors from the circumcenter, with lengths twice its barycentric weights. Their sum is zero, and the resulting value is twice the radius. In the squared-side formula the barycentric numerator opposite side \(i\) is proportional to \(a_i(1-a_i)\,2a_j a_k\), giving weight \((1-a_i)/2\). All hub distances are therefore at least \(1/2\). For zero mass put the two positive-mass hubs one unit apart in the divergence direction and the remaining hub at their midpoint.
+
+The same argument already gives a simpler intermediate estimate with four ports. Temporarily omit the consecutive-table wires and put \(t_0=\lceil w^4\sqrt{\log_2(2w)}\rceil\), \(D_0=wt_0\) in the construction. The target price is \(B_0=O(w^2t_0)\). With the hubs at displacement \(y\), their common rank label costs \(y\log_2 R\) because the mean width of a triangle is its half-perimeter. The original sum inequality of Theorem~\ref{thm:price} charges \(O(kW)\) for all tripartitions. The tangent bound from Lemma~\ref{lem:cost} and the gain \(D_0\) give
+\[
+ \log_2(s+1)\ge D_0-O\bigl(k+B_0y+kW/y\bigr)
+              \ge D_0-O(t_0)
+\]
+on taking \(y=\sqrt{kW/B_0}\). Thus an additive error of order \(D_0^{4/5}(\log D_0)^{1/10}\) follows already from one common bound on the price of every summand.
+
+Return to \(t,D\) of Proposition~\ref{prop:quant-source} and the extra consecutive-table wires. Let \(j\) count changes of part between successive tables. In the fresh space the added divergences \(g_i\) have \(\sum_i\|g_i\|^2=H^2=2t^2j\). If \(H>0\), adjoin \(xg_i/H\) to each old hub. The half-perimeter rises to at most \(1+6x^2\) by orthogonality and the distance lower bound, and the gain rises by \(xH\). Set \(x=H/(12D)\) and rescale to half-perimeter one. The gain is at least
+\[
+ \frac{D+H^2/(12D)}{1+H^2/(24D^2)}
+ \ \ge\ D+\gamma j,\qquad \gamma=c\,t^2/D
+\]
+for an absolute \(c>0\), since \(H^2/D^2=O(k/w^2)=O(1)\). This also holds at \(j=0\). Translate the hubs so that all their norms are at most one.
+
+We use two more parts of the Euclidean price theorem~\cite{euclid}. Sharing an \(R\)-valued label among sites \(Q\) has price \(W(Q)\log_2 R\). For three sites \(W(Q)\) is their half-perimeter, since for any three real numbers the sum of the pairwise absolute differences is twice their range. On the fixed sites \(P\), \(2^{\operatorname{price}/W}\) is a spectral point. Its value on an ordinary sum is at most the sum of its values, by restriction from the direct sum. For a term with \(j\) changes put its hubs at \(yq_i\), \(y>0\). The common label costs \(y\log_2 R\). Each spoke length is bounded as in Lemma~\ref{lem:cost}. Its linear gain, summed over spokes, is at least \(y(D+\gamma j)\), and all quadratic errors total at most \(2By^2\). At most \(3\binom{k-1}{j}2^j\) assignments have \(j\) changes. Divide the sum of the spectral bounds by the spectral value \(2^{B/W}\) of the target to get
+\[
+ 1\le
+  2^{[y(\log_2 R-D)+2By^2]/W}
+       \,3\bigl(1+2\cdot 2^{-y\gamma/W}\bigr)^{k-1}.
+\]
+The extraction and reshaping maps are linear on the fixed coefficient space. The spectral sublevel set defined by this single upper bound is closed at the nonzero target, which extends the comparison to degree-component border limits. Take \(y=W\log_2(4k)/\gamma\). The last factor is bounded by \(3e^{1/2}\), and hence
+\[
+ \log_2(s+1)\ge D-O(k+By+W/y)=D-O(t).
+\]
+Here \(By=O(w^3(\log(2w))^{3/2})\), \(W/y=O(t/(w\log(2w)))\), and \(k=O(w^2)\). Finally \(t^4/D^3=t/w^3=\Theta((\log D)^{3/2})\), proving Proposition~\ref{prop:quant-source}.
+
+\section{Transferring an additive bound to matchings and tours}\label{sec:quant-transfer}
+
+\begin{lemma}\label{lem:quant-transfer}
+Suppose a \(c\)-bit equality wire can be implemented on
+\[
+              m(c)\le c/\log_2 b+O(\log(2+c))
+\]
+crossing vertices for a fixed \(b>1\). Suppose the at most six incident wires of each table in Proposition~\ref{prop:quant-source} can be read with \(O(t)\) additional live vertices and graph size \(2^{O(t)}\), with total specialization cost polynomial in the graph size. If the target has a general \(n^{O(1)}a^p\) upper bound for some fixed \(a>1\), the resulting graphs satisfy
+\[
+      \log_2 s\ge p\log_2 b-O(E(p)),\qquad \log_2 n=O(E(p)).
+\]
+\end{lemma}
+\begin{proof}
+Between tables at most \(w+1\) words cross. Their total number of positions is at most \((D+O(t))/\log_2 b+O(w\log(2+t))\). Processing a table costs \(O(t)\) further positions. Thus \(p\log_2 b\le D+O(t)\) and \(\log_2 n=O(t)\). Specializing to the source gives \(\log_2(s+1)\ge D-O(t)\), using the degree extraction in Lemma~\ref{lem:transfer} for homogeneous border circuits. The general upper bound gives \(p=\Omega(D)\), while the constructed decomposition gives \(p=O(D)\). Hence \(t=\Theta(E(p))\) on these graphs. If \(a=b\) the same comparison gives \(p\log_2 b=D+O(t)\).
+\end{proof}
+
+For perfect matching choose the least even \(m\) for which \(\binom m{m/2}\ge2^c\). The central binomial bound gives \(m\le c+O(\log(2+c))\). Fix a list of \(2^c\) half-sets. To compute a port bit or emit its normalization, scan this list, comparing one address at a time to the stored \(c\)-bit word. This costs \(2^{O(c)}\) operations and \(O(c)\) live bits, including the terminal vertices and the dummy matrix in the half-set construction. To retain degree three for a high-degree row, make a row for each successive old incidence and insert a unit column between consecutive rows. Exactly one external edge must be used, and the remaining path has a unique completion. Use the reversed colors to split columns. Following the order of the original incidences retains a constant number of ends per active vertex, so all expansions inside one table cost \(O(t)\) additional width. Crossing terminals already have degree two. This proves the first row of Theorem~\ref{thm:additive}.
+
+For directed cycles, \eqref{eq:rankgrowth} gives a nonsingular minor of order \(2^c\) on \(m\le c/\log_2 b+O(\log(2+c))\) sites, with \(b\) as in Theorem~\ref{thm:tours}. Index its rows and columns by \(c\) bits. The inverse minor on the left and the identity on the right realize logical equality by the construction of Section~\ref{sec:tours}. A physical state is stored by its minor index. For each candidate ordered pair of sites scan the list of indices to learn its selection bit, create its guard, and finish this bit before going on to the next pair. There are \(O(m^2)\) pairs. A scan emitting an entry of the inverse minor reads just \(2c\) address bits. The relays, live bit paths and private terminals therefore cost \(O(c)\) live vertices per wire, and the complete table has size \(2^{O(t)}\). The private degree-three selectors can be taken as combs with their leaves in incidence order. Each suffix has a leaf and the next suffix as children, with the latter's representative at its first leaf. Only constantly many additional vertices per live private vertex are needed at any cut in this order. Lemma~\ref{lem:quant-transfer} gives the two directed rows.
+
+\subsection{Unoriented paths and matching connectivity}
+
+For even \(j>0\) let \(M_j\) index perfect matchings of \(j\) labelled sites, with entry one when their union is one cycle (count the doubled edge at \(j=2\)). On \(m\) shared vertices a fragment specifies the left degrees \(0,1,2\) and pairs the degree-one sites by paths. The right degrees must be complementary. After permuting columns the compatibility matrix contains \(\binom mj2^{m-j}\) independent copies of \(M_j\) for each even \(j>0\). If \(\rank M_j\ge \rho^j/j^{O(1)}\), summing the even terms of the binomial expansion gives rank at least \((2+\rho)^m/m^{O(1)}\). Curticapean, Lindzey and Nederlof prove this with \(\rho=4\) in characteristic zero~\cite{cln}. In characteristic two the rank is \(2^{j/2-1}\)~\cite{ckn}. Every odd characteristic has at least the bipartite submatrix \(H_{j/2}\) from Lemma~\ref{lem:rank}, giving \(\rho=2\). Section~\ref{sec:modular} gives the exact growth in characteristic three.
+
+Here is a graph implementing these blocks with one shared vertex per site. For each side prescribe the paths of its matching and insert all degree-two sites on the first path. Break one connection of the first left path at two private ends as in the directed construction. Give each site two private ports on each side. A selected incident path edge uses its own port. Join all unused ports on that side in fixed order into a private path with its own two ends. Retain the possible edge from each port to its shared site. An unused port has both incidences filled by the private path, and a used one must take its edge to the shared site.
+
+For each possible private connection choose a fixed direction for its three-vertex guard, and compute its control bit in the verifier from Section~\ref{sec:tours}. Replace each verifier or guard vertex \(v\) by the undirected path \(v_{\rm in},v_{\rm mid},v_{\rm out}\). Attach every former directed incidence to its indicated port. Leave route vertices and route ends unsplit. The middle vertex forces traversal between the two ports of each split vertex. The selected incidences there give one former incoming and one former outgoing arc, and a directed two-cycle confined to split vertices would form a separate component. Thus the same clause and guard rules apply to the selected incidences. An active guard supplies one undirected connection to its route and an inactive guard occupies its prescribed gap in the verifier. Either traversal direction of a route gives the same selected edge set. Join the broken main paths, verifier paths and private unused-port paths in fixed cyclic order by their ends. A consistent choice yields exactly one spanning cycle edge set if the two matchings on each block close one cycle, and zero otherwise. Private vertices on the candidate connections also distinguish two sides prescribing the same pair. Inverting a minor and scanning its state numbers now proceeds exactly as for directed tours, with the same space and size estimates. The known path sweeps give the matching upper bases in characteristic zero and two~\cite{bckn,ckn}. This proves both rows of Theorem~\ref{thm:additive} in these characteristics.
+
+\subsection{Undirected cycles in prime characteristic}\label{sec:modular}
+
+\begin{proposition}\label{prop:mod3}
+Over any field of characteristic three and for positive even \(j\),
+\[
+ \rank M_j=(C^{j-2})_{11},\qquad
+ C=\begin{pmatrix}1&2&1\\1&0&0\\0&1&2\end{pmatrix}.
+\]
+The integer on the right has order \(\rho^j\) for \(\rho=1+2\cos(2\pi/9)\). The graph polynomial admits a sweep of size \(n^{O(1)}(2+\rho)^p\).
+\end{proposition}
+\begin{proof}
+Work over the algebraic closure. Let \(V=\operatorname{Sym}^2 K^2\) for \(K=\overline{\mathbb F}_3\). It is a three-dimensional simple \(\mathrm{SL}_2(K)\)-module with the nondegenerate symmetric discriminant form. The action maps onto \(\mathrm{SO}(V)\) with kernel \(\{\pm I\}\) (the image is connected of dimension three). On even tensor powers its invariants equal those of \(\mathrm O(V)\), since \(-I_V\) acts trivially there. Regard a matching diagram with one distinguished site as an equivariant map \(V\to X=V^{\otimes(j-1)}\), using the inverse form to create pairs. The opposite diagram is a map \(X\to V\). Their composition is the identity times \(3^{c-1}\), where \(c\) is the number of cycles in the union. Thus its scalar is the entry of \(M_j\). Bending the strands identifies both Hom spaces with even-degree invariants, which are spanned by pairing diagrams by orthogonal Schur--Weyl duality~\cite[Theorem~1.2]{doty-hu}. The rank of this scalar composition pairing is precisely the multiplicity of \(V\) as a direct summand of \(X\). On copies of \(V\) the inclusions and projections pair as an identity matrix. A nonzero scalar through any other indecomposable would split off a copy of \(V\).
+
+Write \(T_i\) for the indecomposable tilting module of highest weight \(i\). Put \(V=T_2,\ W=T_4,\ U=T_6,\ P=T_8\). Their Weyl characters are \(\chi_2,\chi_4+\chi_0,\chi_6+\chi_4,\chi_8\), respectively, by the rank-one tilting character formula~\cite[Proposition~3.20]{tilting-sl2}. Here \(\chi_i=z^i+z^{i-2}+\cdots+z^{-i}\). Multiplication by \(\chi_2\) and uniqueness of tilting characters give
+\[
+ V\otimes V=V\oplus W,\quad W\otimes V=2V\oplus U,\quad
+ U\otimes V=V\oplus 2U\oplus P .
+\]
+The second Steinberg module \(P=\operatorname{Sym}^8 K^2\) is free on the translation subgroup \(H=(\mathbb F_9,+)\). Evaluation identifies polynomials of degree at most eight with all functions on \(\mathbb F_9\), equivariantly for translations. A free \(KH\)-module tensored diagonally with any module remains free, by \(h\otimes x\mapsto h\otimes h^{-1}x\) on a regular summand. The group algebra \(KH=K[X,Y]/(X^3,Y^3)\) is local, so a direct summand of a free module is free and its dimension is divisible by nine. Copies of \(P\) can consequently be discarded at every step. The three remaining multiplicities evolve by \(C\) over the integers, starting with one copy of \(V\). The characteristic polynomial is \(z^3-3z^2+3\). Perron--Frobenius gives the asserted growth from its largest root. Matrix rank is preserved by field extension.
+
+For the upper bound, give an open strand the space \(V\) and use its invariant form to join or create strands. Each vertex has local space \(\mathbf1\oplus V\oplus\mathbf1\) for degrees zero, one and two. An edge may be skipped or selected with its weight. Selection creates a pair, evaluates a pair or transfers one open strand as the endpoint degrees require. Delete a chosen root edge \(uv\) and start \(u,v\) with external strands. A completed degree pattern gives the identity map \(V\to V\) on the open path times three for each extra cycle. A diagonal entry selects spanning paths. Multiply by the deleted edge weight, sum over the edges at the root, and divide by two. One passive \(V\) slot suffices to carry the external output during a sweep.
+
+Project away any equivariant summand free on \(H\) during the calculation. Every complete coefficient lost this way is a scalar endomorphism of \(V\) factoring through an \(H\)-free module, hence zero by the same splitting argument. The retained types are \(\mathbf1,V,W,U\). A pair of retained types decomposes into retained types and an \(H\)-free complement, since each type is a summand of a tensor power of \(V\) or of the unit. Fix the finitely many inclusion and projection matrices. A balanced binary tree on the bag slots, with a type and multiplicity label at each node, specifies coordinates in the retained space. Its dimension for \(k\) slots is \(O((2+\rho)^k)\), by summing \(O(\rho^j)\binom kj2^{k-j}\) over the number of open slots. On an unaffected subtree projection after inclusion is the identity on the chosen copy and zero between different copies. An edge update can therefore change labels only on the ancestors of its two leaves. The \(O(\log(p+2))\) affected nodes have constantly many choices and bounded-size matrices, giving polynomial work per coordinate. All the finitely many matrices are defined over one finite extension of \(\mathbb F_3\), which can be simulated at constant cost over the original field. Lemma~\ref{lem:quant-transfer} and the undirected block then give the characteristic-three row.
+\end{proof}
+
+For comparison, let the characteristic be a fixed prime \(\ell\ge5\). Use a two-dimensional even space with symmetric form and a two-dimensional odd space \(J\) with alternating form. Interchanging two odd strands supplies a minus sign. Evaluation uses the form and coevaluation its inverse. These satisfy the two cancellation identities for a continuing strand, while a closed component evaluates to \(2-2=0\). The edge rules in the preceding proof thus count spanning paths with external ends pinned to an even color. As an \(\mathrm{SL}_2\)-module one slot is \(4\mathbf1\oplus J\), with \(J\) the natural module. For \(0\le i\le\ell-2\), tensoring \(\operatorname{Sym}^i J\) with \(J\) gives \(\operatorname{Sym}^{i-1}J\oplus\operatorname{Sym}^{i+1}J\), omitting the negative index. Symmetric multiplication has its polarized splitting because \(i+1\) is invertible. The first omitted type, \(\operatorname{Sym}^{\ell-1}J\), is free on translations by \(\mathbb F_\ell\), by evaluation. Through a free summand the composite on the trivial external label is zero. The retained transition for multiplication by \(J\) is the adjacency matrix of the path on \(0,\ldots,\ell-2\), whose spectral radius is \(2\cos(\pi/\ell)\) by its sine eigenvector. The same finite-type update therefore gives upper base \(4+2\cos(\pi/\ell)\). Explicit nonsingular minors and their matching patches~\cite[Lemma~3.1 and Corollary~3.6]{cln} improve the lower base \(4\) above to \(2+9890^{1/12}\) in characteristic five and \(2+9933^{1/12}\) in characteristics seven, eleven and thirteen. Their patch realizes a tensor power on the disjoint union of the blocks' sites. Restricting the binomial sum to multiples of twelve preserves its exponential base up to a polynomial factor.
+
+\section{An additive bound at the partition-table scale}\label{sec:part-bank}
+
+For a bag of \(k\) vertices, keep the conditional spin sum for each exact equality partition of the live colors. When forgetting a vertex and fixing the partition of the other vertices with \(j\) classes, sum its \(j\) possible placements in an existing class and its placement in a new class with multiplicity \(q-j\). An edge contributes \(1+w_e\) when its ends agree, and one otherwise. At finite effective palette \(r\) only partitions with at most \(r\) classes occur. With a formal parameter the recurrence is a polynomial identity by evaluation at every sufficiently large integer palette, and so it specializes in every field. This gives \(O(n B_r(p+1))\) gates uniformly in \(r\).
+
+The lower bound must account for the entropy lost to unnamed colors. For instance \(\log_2\operatorname{Bell}(p+1)\) and \(p\log_2 p\) differ by order \(p\log\log p\), already larger than the allowed additive error. We encode the equality partition itself.
+
+\paragraph{Small palettes.}
+Take \(D,t,w\) from Proposition~\ref{prop:quant-source}. For \(2\le r\le D^{2/3}\), store each \(c_e\)-bit word on \(\lceil c_e/\log_2 r\rceil\) named sites. Keep the \(r\) clique anchors from Section~\ref{sec:color} throughout. Scan the candidate tuples of the incident sites to realize a table. Each implication uses \(O(r)\) constant-length paths, processed in sequence. For \(r=2\) use the two-spin corner constructed there. Visiting \(r^b\) tuples on \(b\) incident sites costs \(2^{O(t)}\operatorname{poly}(D)\), because \(b\log_2 r=O(t+\log r)\). Thus
+\[
+    (p+1)\log_2 r\le D+O(t+(r+w)\log(2+r))=D+O(t),
+    \qquad \log_2 n=O(t).
+\]
+Only the current table's incident positions and \(O(1)\) working vertices beyond the anchors are needed. The anchor factor \(r!\) is invertible at every finite effective palette. The source bound and the conditional spin sweep give \(D-O(t)\le\log_2 B_r(p+1)\le D+O(t)\).
+
+\paragraph{Encoding a partition in consecutive pieces.}
+For \(r>D^{2/3}\) reserve \(s_0=3+s'\) distinct colors, where \(s'=2^{\lfloor(\log_2 t)/2\rfloor}\). For \(r=\infty\) use \(r-s_0=\infty\). Choose an integer \(A=D+O(t)\) at least the number of bits crossing any cut. On \(P\) ordered memory sites name the classes of a partition by first occurrence. Divide the sites into \(b=\lceil P/m\rceil\) consecutive pieces of length at most \(m=\lceil\sqrt P\rceil\). A list of integers \(h_1,\ldots,h_b\) specifies how many new names first occur in each piece. For this fixed list the words in a piece can use the earlier names and exactly its prescribed new names, in their canonical order. Their choices in different pieces are independent. If their alphabet sizes are \(a_i\), summing \(\prod_i a_i\) over all lists with \(\sum h_i\le r-s_0\) gives \(B_{r-s_0}(P)\). There are at most \((m+1)^b\) lists. Some list therefore carries at least
+\[
+         \sum_i\lfloor\log_2 a_i\rfloor
+         \ \ge\ \log_2 B_{r-s_0}(P)-b\log_2(m+1)-b
+\]
+independent bits. Fix that list and a power-of-two subalphabet in each piece.
+
+Choose the least \(P\) for which \(\log_2 B_{r-s_0}(P)-c\sqrt P\log_2(2+P)\ge A\), with a fixed sufficiently large \(c\). Then \(P=\Theta(D/\log D)\). Indeed \(B_{r-s_0}(P)\le P^P\), and at \(P=C D/\log D\) one can introduce \(\lfloor\sqrt P\rfloor\) distinct names first and then use those names freely. That fits the available palette, and suffices for a large constant \(C\). A further site multiplies the partition count by at most \(P+1\), so the logarithmic capacity at this \(P\) exceeds \(A\) by only \(O(\sqrt P\log P)\).
+
+Reserving scratch colors also fits the budget. For a partition using \(j>r-s_0\) names, erase its \(j-(r-s_0)\) smallest blocks by merging them into the first surviving block in canonical order. Their union has at most \(Ps_0/(r-s_0)\) sites. Recording those sites and their induced partition suffices to reconstruct the original by removing the recorded sites and restoring their blocks. Thus
+\[
+ \log_2 B_r(P)-\log_2 B_{r-s_0}(P)
+      =O\bigl((1+Ps_0/(r-s_0))\log(2+P)\bigr)=O(t).
+\]
+For the last bound use \(r>D^{2/3}\), \(s_0=O(\sqrt t)\), and \(t=\Theta(E(D))\). The loss is zero if \(r-s_0\ge P\) or \(r=\infty\).
+
+\paragraph{Reading equality into a bit.}
+Reserve three anchors \(c_0,c_1,d\) and the \(s'\) scratch anchors by a clique of hard disequalities. Data avoid all reserved colors. In an integer palette of size \(q\), an edge of weight \(u\) contributes \(1+u[x=y]\). To list a spin \(x\) on a nonempty set \(T\) of anchors excluding \(d\), require \(x\ne d\). Join a fresh center to \(x\) and all of \(T\) with weight one, and to \(d\) with weight \(-q-1-|T|\). The constant terms cancel upon summing the center, and a collision with one listed anchor supplies one, giving \(\sum_{c\in T}[x=c]\). Unary activities on the list follow by edges to its anchors.
+
+Let \(x,y\) avoid \(c_0,c_1,d\), and let a listed bit \(\beta\) take \(c_0,c_1\). Set \(J=[x=y]\) and \(H=[\beta=c_1]\). A center joined to \(x,y,\beta,c_1,d\) with weights \(u,1,v,1,s\) sums to \(q+u+v+2+s+uJ+vH\). Choose \(s\) so the constant is one, and use two centers with \((u,v)=(1,-1),(-1,1)\). The resulting product \((1+J-H)(1-J+H)\) is exactly \([J=H]\) in every characteristic. This works for comparing a data position to another, or a scratch word to a scratch anchor. Comparing a position with itself returns true directly. The two-spin corner in Section~\ref{sec:color} now realizes a listed bit implication. To forbid one tuple of a constant-arity Boolean relation, introduce a switch with activities \(1,-1\). When on, implications force all the entries of that tuple. Summing the switch removes exactly the forbidden tuple. This implements deterministic Boolean gates with conditioned weight one.
+
+\paragraph{Reading and replacing the stored words.}
+Initialize the memory sites to the partition encoding the zero address by testing their required equalities and disequalities. To find the canonical name at site \(j\), locate the first equal site and count first occurrences up to it, testing each first occurrence by a scan of preceding sites. The loops use polynomially many comparisons and \(O(\log P)\) bits besides the memory. A variable address can be implemented by scanning all positions in a fixed order and selecting the requested one with a Boolean test. A whole piece has at most \(m\) names. Store its name list in \(O(m\log P)\) bits and scan its fixed subalphabet, of size at most \(P^m\), to translate to or from its binary address. To rewrite a piece keep its old sites until its replacements have been installed. Each new site must equal the old representative of its prescribed name. Test this by scanning every candidate representative and imposing the conditional equality just described. The old memory contains every name used by the list. Thus each new site has a unique actual color, and the new partition preserves the association of canonical names to colors even when a first occurrence moves inside the piece.
+
+Use these bits for the crossing labels. At an input table read its incoming labels, guess the outgoing bits, and emit its one addressed variable by a scan of the table. Close exhausted labels and write new bits in the vacated or free slots. The allocation of slots is fixed by the order of the source. All input and output bits of the table fit in \(O(t)\) ordinary bits of temporary storage, including the counters and the current piece, since \(m\log P=O(t)\). The unrolled number of operations is \(2^{O(t)}\). With an initial naming fixed, every full wire assignment contributes its table product exactly once.
+
+Pack persistent temporary bits in groups of \(\log_2 s'\) per spin, listed on the \(s'\) scratch anchors. Read a word's digits by comparing it to each possible anchor in turn. Testing the desired digits uniquely determines a replacement word. One bit instruction can be simulated with a constant number of unpacked words, \(O(\log s')\) ordinary Boolean temporaries, and polynomial overhead in \(s',t\). The width and size are consequently bounded by
+\[
+ p\le P+O(m+s'+t/\log s'+\log s')=P+O(t/\log t),
+ \qquad \log_2 n=O(t).
+\]
+A table entry can be attached to the true value of an exact-address test by a unary activity. Parallel factors on one pair, if present, merge into one weight by multiplying their equal-spin factors. The total arithmetic overhead of these substitutions is polynomial in the construction size. One can also keep the tested entries on separate private bits.
+
+If the chosen list uses \(a=\sum_i h_i\) names, the specialized cluster polynomial equals \((q)_{s_0+a}F_H\), where \((q)_d=q(q-1)\cdots(q-d+1)\). The factor counts the mutually distinct anchor and initial data colors. All later actual colors are either forced, summed by an exact gadget, or chosen as wire bits. This identity follows for all sufficiently large integers \(q\) from the spin sum, hence formally by polynomial identity. One may first work with formal generic constants in the two-spin corner and clear its nonzero normalizations. All coefficient identities then survive reduction to the field, and the corner constants can be chosen in its algebraic closure. The falling factorial is nonzero at every stated scalar. For free \(Q\) evaluate at a transcendental element over the ground field, where the same source lower bound applies. Dividing by the scalar gives \(\log_2 s\ge D-O(t)\), also for ordinary border size by bounded-degree specialization. Adding \(O(t/\log t)\) sites changes \(\log_2 B_r(P)\) by \(O(t)\). The upper sweep in minimum width now gives
+\[
+              \log_2 B_r(p+1)=D+O(t),\qquad t=\Theta(E(\log_2 B_r(p+1))).
+\]
+The change \(w_e=-y_e\) costs at most one gate per edge in either direction. This completes the palette row of Theorem~\ref{thm:additive} for both graph polynomials.
+
+\section{Linear information at a path cut and scalar upper bounds}\label{sec:frontiers}
+
+A coefficient matrix at a cut has rows indexed by monomials in the past edge variables and columns by monomials in the future variables. If all dependence across the cut passes through \(d\) scalar entries and the output is linear in them, the matrix is a sum of \(d\) rank-one matrices. This gives a direct lower bound for the number of stored entries.
+
+For example, process \(K_{p,p}\), \(p\) even, one column at a time. Halfway through, the processed columns occupy exactly \(p/2\) rows. All \(\binom p{p/2}\) row sets occur and have disjoint, nonempty monomial supports on both sides, so the rank is exactly \(\binom p{p/2}\) over every field. The layout has width \(p\) and contracting \(p-1\) disjoint matching edges exhibits a \(K_{p+1}\) minor. Even for an arbitrary edge order on this graph, mark the time each matching's \(p/2\)-th edge is read. At least \(p!/p^2\) matchings mark one time. Each fixed pair of covered row and column sets accounts for at most \(((p/2)!)^2\) of them, so that cut has rank at least \(\binom p{p/2}/p^2\).
+
+There is a common small host for the other polynomials. Join every vertex of a \(k\)-clique to every vertex of a disjoint \(k\)-vertex path. Keeping the clique live permits its edges to be processed first. The resulting bags and the clique of size \(k+2\) give \(p=k+1\). For directed tours use both arc orientations. Every prescribed fingerprint with an open path is realizable on the clique, by inserting all degree-two sites in the first path. On the other side subdivide each connection except the last with one private path vertex, and subdivide the last with the entire remaining consecutive suffix. There are at most \(k-1\) connections. Selected monomials determine their fingerprints, so the coefficient matrix contains the compatibility blocks of Section~\ref{sec:quant-transfer}. For the cluster polynomial realize each left partition by a clique forest. On the right connect one private vertex to each block and attach remaining private vertices to a shared vertex. The resulting matrix is
+\[
+   \bigl(q^{|\pi\vee\sigma|}\bigr)_{\pi,\sigma}
+    =U\,\mathrm{diag}\bigl((q)_{|\tau|}\bigr)_\tau U^{\mathsf T},
+ \qquad U_{\pi,\tau}=[\pi\text{ refines }\tau].
+\]
+The identity counts colorings by their exact equality partition and thus holds formally. Triangularity of \(U\) gives rank \(B_r(k)\). In all the rows of Theorem~\ref{thm:additive}, a fixed chronological cut on a polynomial-size host therefore needs at least \(2^L/p^{O(1)}\) coordinates. An unrestricted circuit may combine variables across this cut at any of its gates. For instance, the same \(2k\)-vertex tour host has a subset dynamic program with \(4^k k^{O(1)}\) gates in characteristic zero.
+
+\subsection{Putting the square root in the matching update}
+
+Write \(N=|V|\). Introducing one vertex with all its edges to earlier neighbors \(i\) requires computing
+\[
+             (L_w f)(S)=\sum_{i\in S}w_i f(S\setminus\{i\})
+\]
+on the old bag. The subset-transform update of~\cite{falco-network} already reduces the usual factor \(p\) per state to a fixed power below one. For any fixed \(\eta>0\), a Walsh transform gives size \(O_\eta(N2^p(p+1)^{1/2+\eta})\) outside characteristic two. Indeed let \(A_w f(S)=\sum_iw_i f(S\mathbin{\triangle}\{i\})\) and \(Df(S)=|S|f(S)\). Comparing coefficients of the two possible neighbor sizes gives \(2L_w=A_w+DA_w-A_wD\). Under Walsh conjugation \(A_w\) is diagonal with entries \(\sum_i(-1)^{[i\in R]}w_i\). All these signed sums take \(O(2^p+p)\) gates by subset sums. Apply the Fourier exponent theorem~\cite{fourier-exponent} to the binary group for each of the constantly many transforms. The constant in its upper bound can depend on the chosen \(\eta>0\). The factor involving the vertex count remains linear. Already a disjoint union of \(N/2\) independent weighted edges at pathwidth one needs \(N/2-1\) binary gates.
+
+For a bipartite past edge set, fix signs \(s_v=\pm1\) on the shores. In a matching, if \(x_v\) is the covered bit at a live site, then \(\sum_{\rm live}s_vx_v=-\sum_{\rm forgotten}s_v\). Complement the bits on the negative shore. The number of ones is now prescribed, so a \(k\)-site bag has at most \(\binom{k}{\lfloor k/2\rfloor}\) reachable entries. A bipartite future gives the same bound using \(1-x_v\). This proves exact size \(O(N2^p\sqrt{p+1})\) over any commutative ring on bipartite graphs, and \(O(n2^p/\sqrt{p+1})\) when processing edges individually. More generally either the past or the future may supply the bipartition at each event boundary. In particular an edge order consisting of two successive bipartite pieces permits the exact edge bound even if their union contains odd cycles.
+
+If both sides are bipartite, their signs may be chosen independently. Let them agree on \(a\) sites and disagree on \(b=k-a\). After the same complementation the two signed sums prescribe the sum and difference of the numbers of ones in those groups. The number of entries is at most
+\[
+          \binom a{\lfloor a/2\rfloor}\binom b{\lfloor b/2\rfloor}.
+\]
+If both sides are bipartite and \(a,b\ge\delta k\) at large vertex introductions for a fixed \(\delta>0\), the vertex algorithm uses \(O_\delta(N2^p)\) gates. It suffices to require this at \(k>p-2\log_2(p+2)\). One can delete states using a future equation because every full matching satisfies every intermediate test.
+
+There is also an \(O(N2^p)\) \emph{border} algorithm on all graphs. For even \(N\) order vertices by introduction and form
+\[
+ J(z)=\sum_{x\in\bits^V}(-1)^{N-\sum_v x_v}
+       \prod_v\Bigl(1+z x_v\sum_{u<v,\,uv\in E}w_{uv}x_u\Bigr).
+\]
+The Boolean sum removes terms missing any vertex. The rest are edge covers with at most one selected edge per later endpoint. Their degree is at least \(N/2\), and equality selects exactly the perfect matchings. Thus \(z^{-N/2}J(z)\) is regular at zero with matching polynomial as its constant term. At an introduction form all subset sums for the new star in \(O(2^k+k)\) gates, and multiply the old entry by the indicated factor for each assignment. Forget a vertex by subtracting the zero entry from the one entry. This proves the border bound in every characteristic. An ordinary computation of \(J(1)\) gives the matching polynomial as its degree-\(N/2\) component.
+
+\subsection{Scalar gate counts for Hamiltonian cycles}
+
+In the directed determinant sweep of Section~\ref{sec:tours}, let \(i,o,y\) indicate a live nonroot site's incoming usage, outgoing usage and second-wedge occupancy. The total charges \(o-i\) and \(y-o\) are fixed once the root data are known, since each arc has one incidence of each direction, each selected nonroot tail supplies one factor to each wedge, and a forgotten nonroot site is complete. The states of degree zero and two have charge zero. After an invertible integer change of charge coordinates the four degree-one states contribute \(\pm e_1,\pm e_2\). For \(m\) fixed degree-one sites their two diagonal-coordinate sums are sums of independent fair signs, so any prescribed endpoint occupies at most \(O(4^m/(m+1))\) entries. Summing over their locations under weights \(\binom km4^m2^{k-m}\) yields \(O(6^k/(k+1))\) entries, since \(m\) is binomial with mean \(2k/3\). Each arc has constantly many transitions per entry with wedge signs determined by the indices. The exact gate bound is \(O(n6^p/(p+1))\).
+
+For an undirected characteristic-zero sweep, use the signed strand calculation of Section~\ref{sec:modular}. Split a root into two ends of degree one and allow each former incident edge to attach to either end, retaining its weight. Fix opposite isotropic even colors at the external ends with pairing one. A path joining them contributes one, each extra cycle contributes zero, and each spanning tour has two choices of root assignment. Divide by two at the end. Using both copies of a single old edge would confine the joining path to one neighbor and leave extra cycles when \(N>2\). Small graphs are handled directly. Thus the root costs only a constant number of slots and a constant factor in events.
+
+In an isotropic basis of the even plane record its two colors explicitly with charges \(+1,-1\). On the odd plane use the standard two-dimensional \(\mathrm{SL}_2\) representation. For a fixed collection of \(i\) even-strand and \(j\) odd-strand sites, the charge condition allows \(O(2^i/\sqrt{i+1})\) even assignments. The odd tensor is invariant. For even \(j\) its invariant space has dimension \(\binom j{j/2}/(j/2+1)\), and for odd \(j\) it is zero. Under the characteristic-zero rule \(V_a\otimes V_1=V_{a-1}\oplus V_{a+1}\), with \(V_a=\operatorname{Sym}^a K^2\) and \(V_{-1}=0\), paths of labels starting and ending at zero count the Catalan number. For \(m=i+j\) given open sites, the binomial sum over \(i,j\) has \(O(4^m/(m+1)^2)\) coordinates, since both are linear in \(m\) except for exponentially small tails. Counting the neutral sites gives \(O(6^k/(k+1)^2)\) in a bag.
+
+Keep the odd tensor in a balanced binary coupling tree on the slots~\cite{singh-vidal}. Each leaf carries \(V_0\) or \(V_1\), and coupling \(V_a,V_b\) gives one copy of each \(V_c\) with \(c=|a-b|,|a-b|+2,\ldots,a+b\). For any physical edge move one endpoint leaf towards the other by tree rotations. Each rotation involves that individual leaf. Once the four incident branch labels are known, coupling with its label zero or one permits at most two intermediate labels. The basis change is therefore a matrix of order at most two per fixed block. Interchanging branches contributes a scalar on a multiplicity-one component and the prescribed odd sign. After \(O(\log(p+2))\) rotations the two slots are siblings. Apply the local cup, cap, transfer or skip in a constant-size block and undo the rotations. Slot degrees are fixed throughout every change of basis. The intertwiners can be chosen over the rationals, and the even isotropic basis needs at most a constant-degree extension. The exact gate count is
+\[
+                  O\bigl(n6^p\log(p+2)/(p+1)^2\bigr).
+\]
+
+A bipartite past or future gives an additional saving for either tour sweep. The selected degrees \(d_v=0,1,2\) obey a prescribed signed sum \(\sum_B s_v d_v\), since private vertices have selected degree two. Use \(2-d_v\) on the future side. Open sites have \(d_v=1\), and on the neutral set \(U\) each \(d_v-1\) is a sign. For fixed \(U\), one balance retains at most a central-binomial fraction \(O(1/\sqrt{|U|+1})\) of its choices. With two bicolorings agreeing on \(A\) the fraction is \(O(1/\sqrt{(|U\cap A|+1)(|U\setminus A|+1)})\). Relative to the weights above, each site is neutral independently with probability \(1/3\). Binomial concentration gives an additional factor \(O(1/\sqrt{p+1})\) in the one-side gate bounds, or \(O_\delta(1/(p+1))\) if the agreement and disagreement groups have size at least \(\delta k\) at every large cut. Conditioning on the root states costs only a constant. The projections are valid on each contributing degree pattern, including configurations that cancel at the end. The undirected basis rotations preserve each ordinary slot's degree. Thus on every bipartite host the directed bound is \(O(n6^p/(p+1)^{3/2})\) and the undirected bound is \(O(n6^p\log(p+2)/(p+1)^{5/2})\) in characteristic zero.
+
+\subsection{A vertex update for the two partition polynomials}
+
+On a simple \(N\)-vertex graph the conditional spin sweep of Section~\ref{sec:part-bank} can compute both polynomials in \(O(N B_r(p))\) gates on a supplied decomposition. Process each edge at the introduction of its later endpoint \(v\). For the old sites \(S\) precompute \(U_v(A)=\prod_{x\in A}(1+w_{xv})\) for all subsets, setting absent edge weights to zero. This takes \(O(2^{|S|})\) gates. At size at most \(p\), introducing \(v\) multiplies an old entry by the product for the class it joins, and forgetting a vertex sums placements as before.
+
+An introduction creating \(p+1\) sites is immediately followed by a forget. Combine these events. If \(u\ne v\) leaves, fix a partition \(\pi\) of the common \(p-1\) sites into \(j\) classes. Denote by \(f_C\) the old entry when \(u\) is in class \(C\), and by \(f_0\) its value in a new class. Compute \(H_\pi=\sum_C f_C+(q-j)f_0\) once. With \(v\) placed in class \(B\), the new entry is \(U_v(B)(H_\pi+w_{uv}f_B)\) because only the color equal to \(v\) receives the extra edge weight. For a new class use \(U_v(\varnothing)=1\) and \(f_0\) in the correction. Omit unrealizable inputs and outputs at a finite palette. Each old and new partition occurs a constant number of times in these operations.
+
+If \(v\) itself leaves, multiply the entry of a partition \(\pi\) of the \(p\) retained sites by \(q+\sum_{C\in\pi}(U_v(C)-1)\). Generate all multipliers by extending partitions of prefixes one site at a time. Each extension changes at most one summand, whose two subset products have already been computed. Each nonempty prefix partition admits at least two extensions for \(r\ge2\), so the total number visited is \(O(B_r(p))\). Finally \(B_r(p)\ge2^{p-1}\) for \(p\ge1\), covering the subset products, and there are \(O(N)\) events. The recurrences are formal identities at \(r=\infty\) and specialize over every field. The chromatic sign change costs \(O(|E|)\), within this bound on simple graphs.
+
+\subsection{When graph order gives a square-root saving}
+
+There are also graphs on which exact circuits do save \(2^{\sqrt p}\) from the full width scale. Write \(N=|V|\) and \(g\ge0\). For arbitrary perfect matchings, Björklund's hafnian circuit over a commutative ring takes \(2^{N/2}\operatorname{poly}(N)\) operations~\cite{hafnian-ryser}. Thus \(N\le2p-2g\) suffices for size \(\operatorname{poly}(n)2^{p-g}\). For the bipartite permanent, the fixed exponential improvement in matrix order~\cite{stars} also covers \(K_{p,p}\), where \(N=2p\).
+
+For either tour polynomial, subset dynamic programming for paths from a fixed root costs \(2^N\operatorname{poly}(N)\) gates. For undirected cycles, prescribe the smaller of the two root neighbors as the first and the larger as the last and sum over neighbor pairs. This counts each cycle once in every characteristic. Hence \(N\le p\log_2 b-g\) suffices at any of the stated tour bases \(b\).
+
+For chromatic and Tutte the corresponding sufficient condition is \(N\le\log_2 B_r(p+1)-g\), by the vertex-exponential Tutte algorithm~\cite{vertex-tutte}. To see the arithmetic bound with independent variables, write \(A(S)=\prod_{uv\in E(S)}(1+w_{uv})\), \(C(S)\) for the weight of connected spanning subgraphs of \(S\), and \(Z(S)\) for the cluster polynomial. For a least vertex \(i\), set \(U=\{v:v>i\}\) and \(H_i(S)=H(S\cup\{i\})\) on \(S\subseteq U\). Sorting by the component containing \(i\) gives \(A_i=C_i*(A|_U)\) and \(Z_i=q\,C_i*(Z|_U)\) for subset convolution \(*\). The inverse of \(A|_U=1+f\) is \(\sum_{j=0}^{|U|}(-f)^{*j}\) since \(f(\varnothing)=0\). Process \(i\) in decreasing order. Fast subset convolution over rings~\cite{fast-subset-convolution} gives \(2^N\operatorname{poly}(n)\) gates, including for free \(q\). Taking \(g=\sqrt p\) in these three order inequalities gives genuine exponent savings on the indicated hosts. Graphs of width \(p\) may have arbitrarily many vertices.
+
+\subsection{Sums of independently ordered sweeps and binary contractions}\label{sec:orders}
+
+The preceding fixed-cut examples allow a program to choose a better variable order. The following construction permits each summand to choose its own order, or even its own binary tree on the edge variables. A tensor on one such tree has \emph{width} \(w\) if its coefficient matrix at every tree-edge cut has rank at most \(w\). Binary contractions with bond dimensions at most \(w\) have this property. A read-once linear sweep of width \(w\) gives the property on the caterpillar for its order, taking the coefficient of degree zero or one at a variable leaf. The graph parameter of the following theorem is pathwidth.
+
+\begin{theorem}\label{thm:orders}
+For each row of Theorem~\ref{thm:additive}, each sufficiently large even \(k\), and \(h\ge1\), there is a graph of pathwidth \(p=k+O(1)\) and size \(\operatorname{poly}(k,h)\) such that any sum of \(h\) tensors with independently chosen binary variable trees must have
+\[
+                       \sum_{i=1}^h w_i\ge 2^L/k^{O(1)} .
+\]
+For the matching row the graphs here are bipartite, with unrestricted maximum degree. For any fixed \(C\) and \(h=2^{o(\sqrt k)}\) this rules out a total width \(n^C 2^{L-\sqrt p}\) on all such graphs.
+\end{theorem}
+
+\paragraph{The graphs used in the rank test.}
+On \(k\) shared sites make \(M\) copies of a graph fragment, each with \(O(k^2)\) private vertices and its own marked edges. We require two simultaneous operations. Two active fragments give a matrix of rank \(R\ge 2^L/k^{O(1)}\) on their respective sets of marks. Every other fragment can independently give a factor of rank two on any two of its marked variables. It can also be set to a nonzero scalar. Here are concrete implementations.
+
+For bipartite matching, use equal shores of shared sites. In each fragment include a path \(u_i-a_i-b_i-v_i\) for every possible cross-shore pair and mark its internal edge \(z_i\). Add the edges \(b_i a_{i+1}\) cyclically. For an active fragment delete these cycle links. Its private pair is matched internally or is matched to both shared ends. Two active fragments thus encode complementary covered sets by their distinct monomials. There are \(R=\sum_j\binom{k/2}j^2=\binom k{k/2}\) such sets. For a neutral fragment delete its exterior legs instead. Its private cycle contributes \(1+\prod_i z_i\), with unit cycle links. The two-variable test sets the remaining marks to one, and setting all marks to zero gives a constant. The shared sites can be covered by a fixed matching when needed. Keeping the shared sites and a constant number of current private vertices suffices. Contracting \(k\) private cycles gives a \(K_{k,k}\) minor. A version using every unordered pair of shared sites gives \(R=2^{k-1}\) for general matching.
+
+For Tutte and chromatic, give each fragment private apices \(a,b\). For each pair \(i<j\) make one marked edge \(x_{ij}y_{ij}\), with \(x_{ij}\) adjacent to \(i,a\) and \(y_{ij}\) to \(j,b\). To activate, contract \(x_{ij}\) onto \(i\) and \(y_{ij}\) onto \(j\), deleting unused attachments. The two active fragments supply two cliques on the same sites, hence the partition matrix of rank \(R=B_r(k)\). To make a neutral fragment, instead contract each pair's ends onto \(a,b\). Its factor is \(q(q-1)+q\prod(1+z_i)\), of rank two on any two retained marks when the rest are zero. A fully discarded fragment contributes a nonzero constant since \(q\ne0,1\). Contraction extracts a nonloop edge coefficient in the multilinear polynomial. Equivalently substitute \(t^{-1}\) on all edges being contracted, multiply by \(t\) per edge and take the regular limit at zero. The contracted attachment edges form a forest. Edge-indicator signs change only scalars. The graph has a clique minor on the shared sites and only a constant number of extra live vertices.
+
+For tours split one distinguished site into \(s,t\). A fixed chain from \(t\) to \(s\) passes through all fragment verifiers. In an active fragment there is a selectable route for every pair of ordinary sites and the two new ends, in both ordered directions in the directed case. A selected route is tagged once. We give its physical implementation so that the same tags also work when the fragment is neutral. For candidate \(u,v\) use bidirected private triples \(d,w,x\), \(y,h',e\), and \(a,b,c\), marking \(w\to d\). In active mode use the links
+\[
+             x\to c,\quad a\to y,\quad y\to x,\quad u\to a,\quad c\to v .
+\]
+A traversal \(d\) to \(e\) uses the middle triple from \(c\) to \(a\). A traversal \(e\) to \(d\) takes \(y\to x\), uses the marked arc and forces the route \(u,a,b,c,v\). The middle vertices of the triples require distinct neighbors in a spanning tour. Private connectors between consecutive candidates give each bit either traversal direction. In neutral mode remove the exterior arcs and \(y\to x\), and retain both directions on \(x,c\) and \(a,y\). Connect the resulting bidirected nine-vertex paths end to end through the same connectors. The fragment's entrance can enter either outer end and either end can lead to its exit. It now has just two spanning traversals, of total weight \(1+\prod z_i\). Start with the union of these two possible edge sets, so selecting a mode deletes only unmarked arcs.
+
+For undirected tours split each private vertex into its forced in--middle--out path as in Section~\ref{sec:quant-transfer}. A selected route can then be traversed in either direction. The two neutral traversals have different selected marked edges. Use two active fragments and keep all other fragments neutral. Choosing the tags on each active fragment prescribes all the selected paths. Realize any fingerprint with the distinguished site mixed by inserting degree-two sites in its first path. Replace its distinguished occurrence on one side by \(s\) and on the other by \(t\), with \(s\) the path start in the directed case. Contracting the fixed verifier chain restores that site. The two selected monomials give one spanning cycle precisely for compatible fingerprints, and distinct fingerprints have different monomials. Requiring one distinguished open site retains at least a \(1/k\) fraction of every nonempty compatible-degree family (at least \(a/k\) with \(a\) mixed sites of prescribed direction). Thus \(R\ge 2^L/k^{O(1)}\) by the ranks already proved. Neutral fragments supply independent factors at the same time. There are only constantly many extra live ends, and one active fragment contains a clique minor on the ordinary sites. This proves \(p=k+O(1)\) for the tour hosts as well.
+
+\paragraph{Choosing one cut in every tree.}
+Let \(d=\lfloor\log_2 R\rfloor\), \(K=100(h+1)^2(d+1)^2\), \(m=(h+1)K\), \(\ell=(h+1)m\), and \(M=32(h+1)\ell+2\). In a binary tree restricted to its marked leaves, each fragment spans a connected subtree. An edge splits the fragment precisely when it lies in that subtree. Call a tree crowded if some edge splits at least \(\ell\) fragments. Root by subdividing an edge and choose a deepest crowded edge. Every fragment split there crosses one of the two child edges, so it splits fewer than \(2\ell\) fragments. Exclude all such fragments as candidates for the active pair, in all crowded trees.
+
+In any other tree fewer than \(3\ell\) subtrees contain any one vertex, by its three incident edges. For each intersecting pair the deeper of the two topmost subtree vertices belongs to both subtrees. Charging that subtree (breaking ties by index) bounds the number of intersecting pairs by \(3\ell M\). Since \(\binom{M-2h\ell}{2}>3h\ell M\), two eligible fragments have disjoint subtrees in every uncrowded tree. Choose them as the active pair and choose a separating edge in each such tree. In the crowded trees use the previously chosen edge. Each active fragment is unsplit by every chosen cut.
+
+For each crowded tree reserve \(m\) fresh neutral fragments split by its chosen cut, and in each choose two marked edges on opposite sides. This is possible since \(\ell=(h+1)m\). Repeatedly discard all separated neutral pairs at any cut separating between one and \(K-1\) remaining pairs. This empties that cut permanently, so fewer than \(hK\) pairs are lost. Every cut now either splits at least \(K\) neutral pairs or splits none and separates the two active fragments.
+
+\paragraph{One coefficient matrix for all the summands.}
+Use local linear maps on each entire active group to turn its rank-\(R\) matrix, restricted to a nonsingular minor of order \(2^d\), into an identity. Turn each retained neutral pair into a binary identity by maps on its individual marks. Each operation preserves the summand's own cut-rank bound since each active group is unsplit. For the Tutte degeneration apply the same fixed maps over the rational function field in the limit parameter. A nonzero minor of the limiting total matrix remains nonzero generically, even when individual summands have poles.
+
+The target now has one identity of dimension \(2^d\) and \(b\) binary identities. Make a matrix by putting the two ends of each on opposite sides. Fix the large identity's orientation, and orient the others independently and uniformly. For cut \(i\), let \(D_i\) be the number of bits separated in the reference orientation minus the number separated in reverse. When it splits no neutral pair, \(|D_i|=d\). Otherwise \(D_i\) is a fixed shift of a sum of at least \(K\) independent fair signs. The largest atom is at most \(2/\sqrt{K+1}\), so \(\Pr(|D_i|<d)\le 2(2d+1)/\sqrt{K+1}<1/h\). Fix orientations for which every \(|D_i|\ge d\).
+
+Moving an index of dimension \(2^c\) across a matrix cut multiplies its rank by at most \(2^c\). After choosing the better of cut \(i\) and its reversal, moving from it to the reference matrix costs at most \(d+b-|D_i|\) bits. The target has full rank \(2^{d+b}\) there. Rank subadditivity gives \(1\le\sum_i w_i2^{-|D_i|}\le 2^{-d}\sum_iw_i\). This proves Theorem~\ref{thm:orders}, since each fragment has \(O(k^2)\) vertices and edges and \(d=O(k\log(2+k))\). Each cut is selected within a prescribed tree for one entire summand. An unrestricted circuit has no such tree requirement.
+
+\section{The cost of cancellation on the ordinary permanent}\label{sec:cancellation}
+
+For a complex arithmetic circuit \(C\), replace subtraction by addition and each scalar leaf by its absolute value to obtain \(|C|\). On \(K_{p,p}\), setting every edge variable to \(z\) makes the true degree-\(p\) coefficient \(p!\). Define \(K=[z^p]|C|(z,\ldots,z)/p!\). Parse expansion and the triangle inequality give \(K\ge1\).
+
+\begin{proposition}\label{prop:cancellation}
+Let \(p\) be even, \(n=1+2p+p^2\), and \(0\le g=o(p)\). If \(C\) computes the ordinary permanent in at most \(n^{C_0}2^{p-g}\) gates, then
+\[
+             \log_2 K\ge g-O_{C_0}\bigl(\log(p+2)+(1+g)^4/p^3\bigr).
+\]
+In particular a factor \(2^{\sqrt p}\) requires \(K\ge 2^{\sqrt p}/p^{O_{C_0}(1)}\). The same polynomial loss applies throughout \(g=O(p^{3/4}(\log p)^{1/4})\).
+\end{proposition}
+\begin{proof}
+Write \(m=p/2\) and \(M=Kp!\). In each unsigned degree-\(p\) parse follow the unique child of degree greater than \(m\) as long as possible, choosing the indicated child at sums. At the stopping product, its two inputs and the outside context have degrees at most \(m\). Fixing the gate and the two input degrees allows every eligible input parse to be combined with every eligible context, also for reused gates. We obtain at most \(G=(s+1)(p+1)^2\) products of three nonnegative polynomials, with masses at all ones summing to \(M\). Sort each group's degrees as \(m\ge a\ge b\ge c\).
+
+A monomial that can occur in a permutation is a partial matching, with a scope specifying its row set and column set. Normalize each factor by its mass. Call its scope heavy when the partial matchings with that scope have normalized mass at least \(1/(8K)\). The two other factors' monomials determine the missing scope uniquely whenever they can complete a permutation. Across all groups, valid contributions from a light scope in either of the first two factors therefore have mass at most \(M/(4K)=p!/4\).
+
+Clip each permutation coefficient at one. The total clipped unsigned mass on these coefficients is \(p!\), since each true coefficient is one. Clipping is subadditive. For one group of mass \(M_0\), write \(A_\alpha,B_\beta,C_\sigma\) for its masses on the indicated partial matching scopes. A compatible triple supports \(a!b!c!\) permutation monomials. By \(\min(1,x)\le\sqrt{x}\) and Cauchy--Schwarz their clipped sum is bounded by
+\(\sqrt{a!b!c!\,A_\alpha B_\beta C_\sigma}\).
+Identify each scope with its vector of \(2p\) row and column bits. Compatibility implies \(\alpha+\sigma=\bar\beta\) under binary addition. The heavy \(\alpha,\bar\beta\) together occupy at most \(16K\) cube vertices.
+
+For nonnegative \(u_J\) indexed by \(d\)-sets, let \(T=\sum_J u_J X_J\), where \(X_J\) is translation by \(J\) on the binary cube. On any set \(V\) of \(h\) vertices, its principal restriction has
+\[
+ \|T_V\|\le h^{1/(2l)}(2l-1)^{d/2}\|u\|_2,\qquad l=1,2,\ldots .
+\]
+Indeed its \(2l\)-th trace counts closed walks staying in \(V\), bounded by \(h\) times the total closed-walk weight from one cube vertex. Fourier diagonalization makes the latter \(\mathbb E P(\epsilon)^{2l}\), where \(P=\sum_Ju_J\prod_{j\in J}\epsilon_j\) on independent uniform signs. The Boolean cube moment bound~\cite{bonami} gives \(\|P\|_{2l}\le(2l-1)^{d/2}\|u\|_2\). To see this, write \(P=F+\epsilon G\) in one sign. Its conditional even moment is bounded by \((F^2+(2l-1)G^2)^l\) by binomial expansion. The triangle inequality in \(L^l\) and induction give the result.
+
+Apply this inequality with \(d=2c\), \(u_\sigma=\sqrt{C_\sigma}\), and the two heavy vectors \(\sqrt{A_\alpha},\sqrt{B_\beta}\) (the latter at \(\bar\beta\)). Dropping the nonoverlap test can only increase the sum. The group's heavy clipped mass is bounded by \(\sqrt{a!b!c!M_0}\,D_c\), where
+\[
+               D_c^2\le\inf_{l\ge1,\ l\in\mathbb Z}
+                      (16K)^{1/l}(2l-1)^{2c}.
+\]
+Put \(H=\ln(16K)\). At \(c\ge3H\) choose \(l=1\), obtaining \(D_c^2\le e^H\le\binom mc\) since \(c\le p/3\). For \(1\le c<3H\), use \(l=\lceil H/(2c)\rceil\) to get \(D_c^2\le(4eH/c)^{2c}\). This is at most \((m/c)^c\le\binom mc\) whenever \(c\ge32e^2H^2/p\). In these ranges \(a!b!\le m!(m-c)!\) gives a clipped bound \(\sqrt{(p!/\binom pm)M_0}\).
+
+For \(c<32e^2H^2/p\), merge the two smaller factors. For a fixed scope of the larger factor and its complementary scope, apply Cauchy--Schwarz to the at most \(a!\) and \((p-a)!\) monomials on the two sides. Summing again by Cauchy--Schwarz over complementary scopes bounds this group's entire clipped mass by \(\sqrt{a!(p-a)!\,M_0}\). Since \(m-a\le c/2\) and \(a\ge p/3\), the product formula for the binomial ratio gives
+\[
+      \binom pm/\binom pa
+       \le\exp\bigl(O((m-a+1)^2/p)\bigr)
+       \le\exp\bigl(O(1+H^4/p^3)\bigr).
+\]
+Summing over the \(G\) groups by Cauchy--Schwarz, using \(\sum M_0=Kp!\) and the \(p!/4\) discarded light mass, yields
+\(\log_2(GK)\ge \log_2\binom pm-O(1+H^4/p^3)\).
+If \(\log_2 K\ge g\) the conclusion already holds. Otherwise \(H=O(1+g)\) and \(\log_2\binom pm\ge p-O(\log p)\), proving the claim.
+\end{proof}
+
+The input to Proposition~\ref{prop:cancellation} is the ordinary permanent with independent edge weights. A small signed circuit is free to incur the stated mass. In fact the matrix-order algorithm of Curticapean~\cite{stars} achieves a fixed exponential saving on this particular host.
+
+The single vertex update admits a related test in which its old entries \(f_S\) and weights \(w_i\) are independent inputs. For a multioutput circuit computing all \(y_T=\sum_{i\in T}w_i f_{T-i}\), set every \(f_S=z\) and \(w_i=x\) in the unsigned circuit. Write \(M\) for the sum of the \(xz\) coefficients of its outputs, \(m=p2^{p-1}\) for their true sum, and \(K=M/m\).
+
+\begin{proposition}\label{prop:update-mass}
+A size-\(s\) complex circuit computing this bilinear update satisfies
+\[
+                       (s+1)K\ln(2K)=\Omega(p2^p).
+\]
+In particular an \(O(2^p\sqrt p)\) update of an independent table requires \(K=\Omega(\sqrt p/\log p)\).
+\end{proposition}
+\begin{proof}
+In each unsigned bidegree-\((1,1)\) parse there is a unique product where its \(w\)-leaf and \(f\)-leaf first meet. Each such gate gives at most two product groups, selecting which input has the \(w\)-leaf. The contributions across outputs thus have the form \(a_i b_S c_T\) summed over at most \(2s\) groups. The first two factors sum the corresponding input parses and the third sums their degree-zero contexts leading to output \(T\). Denote a group's mass by \(M_0=(\sum a_i)(\sum b_S)(\sum c_T)\).
+
+In a valid triple \(T=S+i\), \(i\notin S\). The other two indices determine either \(S\) or \(T\) uniquely, so as in Proposition~\ref{prop:cancellation} scopes of normalized mass below \(1/(8K)\) in either list discard at most \(m/4\) total valid mass. On the remaining at most \(h=16K\) vertices of the binary cube use the weighted one-coordinate translation matrix \(A=\sum_i\sqrt{a_i}\,X_i\). For its principal restriction to \(V\),
+\[
+ \operatorname{tr}\exp(tA_V)
+    \le h\prod_i\cosh(t\sqrt{a_i})
+    \le h\exp(t^2\textstyle\sum_i a_i/2).
+\]
+The first inequality counts nonnegative closed walks, with the same unrestricted count at each cube vertex. Since \(A_V\) is nonnegative symmetric, its norm is a nonnegative eigenvalue. Optimizing \(t\) gives \(\|A_V\|\le\sqrt{2\ln(2h)\sum_i a_i}\). Clip each true triple at one and bound a group's heavy contribution by the sum of \(\sqrt{a_i b_S c_T}\) on valid triples. Apply the norm estimate to the vectors \(\sqrt{b_S},\sqrt{c_T}\). The result is at most \(\sqrt{2\ln(32K)M_0}\). A final Cauchy--Schwarz over groups gives \(3m/4\le\sqrt{4s\ln(32K)M}\), as required. An algorithm for the whole graph can also exploit relations between the tables of successive vertices.
+\end{proof}
+
+The matrix-order consequence in the introduction uses a different quantifier. Suppose for every \(C\) there is a bipartite graph whose permanent exceeds \(n^C2^{p-\sqrt p}\). Enlarge \(a\) so that \(s\le n^a2^p\) always. For each growing integer \(j\) choose such a graph with \(C=a+j\). Then \(\sqrt p>j\log_2 n\) and \(\log_2 s\ge p-\sqrt p\). Completing its support with zero entries specializes a generic permanent of matrix order \(m\le n\) to this polynomial. These \(m\) are unbounded and \(\log_2 s_{\F}(\per_m)/(\log_2 m)^2\) is unbounded along them. Thus resolving the pathwidth square-root question in this direction would also strengthen the known unrestricted lower bound in matrix order~\cite{circuits}.
 
 \bibliographystyle{../linkedtitles}
 \bibliography{../references}
