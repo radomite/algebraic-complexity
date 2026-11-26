@@ -1,15 +1,26 @@
 # Algebraic complexity
 
-This repository collects results in algebraic complexity found with the help of AI agents. **The notes strive for simplicity but are not polished.** Each paper includes its LaTeX source and a compiled PDF. Lean formalizations are planned as well.
+This slop dump collects results in algebraic complexity found with the help of AI agents. Lean formalizations are planned. **The notes are AI-written and barely post-processed. Read at your own risk.** 
+
+## Expositions of known results
 
 ### VP versus VNP from Euclidean flatness
 
-OpenAI’s flatness theorem assigns each binary tensor wire a cost equal to the Euclidean distance between its endpoints. This simple 5-page paper shows how this geometry implies a lower bound for the clique polynomial. For cliques of size $k$ on $N$ vertices, the circuit-size exponent in $N$ grows as $\Omega(\sqrt{k})$, which implies $\mathrm{VP}\ne\mathrm{VNP}$ over every field. This is not a new result, merely a self-contained presentation of a part of the OpenAI $\mathrm{VP}\ne\mathrm{VNP}$ result. [Paper](vp-vnp/vp-vnp.pdf) · [Source](vp-vnp/vp-vnp.tex)
+OpenAI’s flatness theorem assigns each binary tensor wire a cost equal to the Euclidean distance between its endpoints. A 5-page argument shows how this geometry implies a lower bound for the clique polynomial. For cliques of size $k$ on $N$ vertices, the circuit-size exponent in $N$ grows as $\Omega(\sqrt{k})$. This implies $\mathrm{VP}\ne\mathrm{VNP}$ over every field. This is not a new result, merely a self-contained presentation. [Paper](vp-vnp/vp-vnp.pdf)
 
-### Sharp circuit lower bounds in pathwidth
+## Sharp bounds under width parameters
 
-The perfect-matching polynomial of a graph of size $n$ and pathwidth $p$ has an arithmetic circuit of size $n^{O(1)}2^p$. In characteristic zero, we prove that replacing $2^p$ by $2^{p-p^\alpha}$ fails for every fixed $\alpha>3/4$, even on bipartite graphs of maximum degree three. We also rule out dividing the $6^p$ factor for directed and undirected Hamiltonian cycles by $2^{p^\alpha}$. For the chromatic and multivariate Tutte polynomials, the same lower bound applies to the number of partitions of $p+1$ vertices into at most $r$ classes for $r\ge 2$ colors, or into any number of classes when the color parameter is indeterminate. [Paper](pathwidth/sharp-pathwidth-bases.pdf) · [Source](pathwidth/sharp-pathwidth-bases.tex)
+We consider the complexity of graph-related polynomials parameterized by pathwidth, cutwidth, and bandwidth.
 
-### Circuit complexity of small colorful patterns
+### Permanents, independent sets, and the Tutte polynomial
+For the bipartite permanent outside characteristic two and for generating bipartite independent sets over every field, graphs on $n$ vertices of pathwidth $p$ admit arithmetic circuits of size $n^{O(1)}2^p$. For every fixed $\alpha>3/4$ and $C\ge 0$, each polynomial admits graphs of arbitrarily large pathwidth requiring more than $n^C2^{p-p^\alpha}$ gates. For the chromatic and multivariate Tutte polynomials, the corresponding bound uses the number of partitions of a bag of $p+1$ vertices into at most $r$ blocks for an effective palette of $r\ge 2$ colors. A multivariate Tutte polynomial gives the full Bell number. Our constructions also give size bounds in terms of cutwidth and bandwidth. [Paper](pathwidth/sharp-pathwidth-bases.pdf)
 
-For the triangular prism and $K_{3,3}$, the colorful homomorphism polynomial has circuit lower exponent at least $4/\sqrt{3}$ over every field. In characteristic zero, an ordinary weighted seven-edge path has the same circuit complexity as the colorful four-clique. At eleven edges the lower exponent is already strictly above the matrix multiplication exponent $9/4$. Whether seven edges suffice for this separation remains open. [Paper](small-patterns/small-patterns.pdf) · [Source](small-patterns/small-patterns.tex)
+### Hamiltonian cycles
+
+For undirected Hamiltonian cycles, let $\rho$ be the exponential rank growth per path end of the matrix that tests whether two perfect matchings join into one cycle. Over every field, we rule out circuit size $n^{O(1)}B^p$ for every fixed pathwidth base $B<2+\rho$, and likewise every cutwidth base below $1+\rho$. Algorithms attain both bases in characteristics zero, two and three, where $\rho$ equals $4$, $\sqrt{2}$ and $1+2\cos(2\pi/9)$, respectively. In characteristic five we prove $\rho>2.7458$. Its exact value and algorithms attaining the corresponding bases remain open. [Paper](pathwidth/matching-connectivity-width.pdf)
+
+## Complexity within VP
+
+### Small patterns
+
+For the triangular prism and $K_{3,3}$, the colorful homomorphism polynomial has circuit lower exponent at least $4/\sqrt{3}$ over every field. In characteristic zero, an ordinary weighted seven-edge path has the same circuit complexity as the colorful four-clique. At eleven edges the lower exponent is already strictly above the matrix multiplication exponent $9/4$. Whether seven edges suffice for this separation remains open. [Paper](small-patterns/small-patterns.pdf)
