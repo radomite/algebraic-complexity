@@ -1,0 +1,383 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,microtype,xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,citecolor=blue!45!black]{hyperref}
+\hypersetup{pdftitle={Arithmetic circuits for counting sparse patterns}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newcommand{\Match}{\mathsf M}
+\newcommand{\sizeF}{\operatorname{size}_F}
+\title{Arithmetic circuits for counting sparse patterns}
+\author{}
+\begin{document}
+\maketitle
+
+\section{Counting copies of a sparse pattern}
+Let $H$ be a simple graph with $k$ vertices and $m$ edges. With an indeterminate $X_{ij}$ for every unordered pair of distinct host vertices, put
+\[
+ P_{H,n}(X)=\sum_{H'\subseteq K_n:\,H'\simeq H}\prod_{ij\in E(H')}X_{ij}.
+\]
+A copy specifies its vertices and its edges. It contributes once, regardless of its automorphisms or the other edges on its vertices. For fixed $H$ consider the circuit size exponents
+\[
+ a_F(H)=\liminf_{n\to\infty}\log_n(1+\sizeF(P_{H,n})),\qquad
+ \bar a_F(H)=\limsup_{n\to\infty}\log_n(1+\sizeF(P_{H,n})).
+\]
+Size counts binary addition, subtraction and multiplication gates, with arbitrary field constants and unrestricted reuse. Equality is as formal polynomials, also over finite fields. All limits in host size are taken before growing the pattern. Thus an arbitrary factor depending only on $H$ has no effect on these exponents.
+
+\begin{theorem}[Sparse pattern bounds]\label{main}
+\leavevmode
+\begin{enumerate}
+\item\label{main:expanders} For every $\varepsilon>0$ there is an explicit family of bounded-degree expanders of unbounded order $k$ satisfying $a_F(H)\ge (1/\sqrt2-\varepsilon)\sqrt k$ over every field. A single family of degree $613$ gives coefficient $64/(27\sqrt{17})>0.574$.
+\item\label{main:matchings} Let $mK_2$ be a matching of $m$ edges. In characteristic zero and every odd characteristic,
+\[
+ \liminf_{m\to\infty}\frac{a_F(mK_2)}{\sqrt m}\ \ge\ \frac13 .
+\]
+The same bound holds with host $K_{n,n}$. In terms of the $k=2m$ pattern vertices the coefficient is $1/(3\sqrt2)$.
+\item\label{main:upper} Over every field, $\bar a_F(H)\le C(k+m)/\sqrt{\log(2+k+m)}$ for an absolute $C$. In particular this is $O_D(k/\sqrt{\log(2+k)})$ whenever $m\le Dk$.
+\end{enumerate}
+\end{theorem}
+Section~\ref{expanders} proves the expander bound by placing an exterior tensor on each neighborhood. For matchings, Curticapean and Marx reduced counting color-prescribed copies of cubic bipartite graphs to counting bipartite matchings~\cite[Section~4]{cm}. In Section~\ref{matchsec} we use the vertex-fracture version~\cite{fractures} of the homomorphism-basis method of Curticapean, Dell and Marx~\cite{cdm}. Our source is the edge-labelled tensor of a four-regular expander on $h$ vertices. For $q$ wire labels its encoding uses a cubic bipartite graph with $3h$ edges and $q^2$ states per position. Together with the edge potential on the four-regular tree this gives the coefficient $1/3$. The fracture coefficient is a power of two up to sign, so the bound includes characteristic three.
+
+In characteristic two the classical polynomial-size construction uses a Pfaffian on an even host with upper entries $1+zX_{ij}$. Each matching has an odd number of perfect completions, so the coefficient of $z^m$ is the ordinary matching sum. For odd host order one adds a vertex whose incident edges have weight zero. Section~\ref{upper} applies the grid contraction of the counting-ETH refutation~\cite{eth} to unlabelled copies, using orders on the pattern vertices to account for automorphisms over every field.
+
+\paragraph{Open questions.}
+Can the lower exponent grow faster than $\sqrt{k}$ for an ordinary sparse family, or for matchings in one specified odd characteristic? How large can the matching coefficient be if the growth is of square-root order?
+
+\section{A three-part circuit inequality}\label{geometry}
+For a fixed graph $G$ with $h\ge3$ vertices, let $Z_{G,q}$ sum over assignments of $q$ labels to its edges the product of one independent table entry per vertex. A table is indexed by the tuple of incident edge labels. Orient the edges, assign vectors $u_e$ of norm at most one, and let $b_v$ be the sum of its outgoing vectors minus the sum of its incoming vectors. Write $b_S=\sum_{v\in S}b_v$. For $b_1+b_2+b_3=0$ define
+\[
+ D(b_1,b_2,b_3)=\sup_{p_1,p_2,p_3}\sum_{j=1}^3\langle b_j,p_j\rangle,
+ \qquad \tfrac12\sum_{j=1}^3\|p_j-p_{j+1}\|=1,\quad p_4=p_1 .
+\]
+\begin{lemma}[Three-part circuit bound]\label{wire}
+For every field, $\liminf_{\ell\to\infty}\ell^{-1}\log_2(1+\sizeF(Z_{G,2^\ell}))$ is at least the minimum, over binary trees on the $h$ labelled leaves, of the maximum of $D(b_{S_1},b_{S_2},b_{S_3})$ at the trivalent junctions. Here $S_1,S_2,S_3$ partition the leaves at a junction.
+\end{lemma}
+\begin{proof}
+Apply the Euclidean price theorem~\cite{euclid} over an algebraically closed extension of $F$ and use the three-factor circuit decomposition of~\cite{width}. Retaining the squarefree vertex degrees costs a factor depending only on $G$. Group the resulting terms by their binary multiplication tree on the labelled rows and choose a junction for each tree. At each gate realizing that junction the two descendant sums and the sum of contexts above the gate factor. Thus each of the $O_G(1)$ trees contributes at most $C_G(s+1)$ products on its three parts for a circuit of size $s$.
+
+Extend each $u_e$ to a unit vector with its own extra orthogonal coordinate. At sites $\pm u_e/2$ the target coefficient tensor is a product of equality wires of price $\ell |E(G)|$. To supply a tree's three factors at $t p_j$ costs at most $t\log_2(C_G(s+1))$, since the normalized Gaussian mean width of three points is their half-perimeter. Take the $p_j$ in the original subspace and translate one to zero. Moving each endpoint label from its supplier to its site costs its Euclidean distance times $\ell$. At $t=0$ these costs total $\ell|E(G)|$, and their first derivative is $-\ell\sum_j\langle b_{S_j},p_j\rangle$. The total error is $O_G(\ell t^2)$. Adding the finitely many trees on the fixed sites costs $O_G(1)$ beyond the largest price. Comparing with the target, dividing by $t\ell$, taking $\ell\to\infty$ and then $t\downarrow0$ proves the claim.
+\end{proof}
+
+\begin{lemma}[Centroid bound]\label{centroid}
+Every binary tree on $h\ge3$ leaves has a junction whose three leaf sets $S_j$ satisfy $D(s_1,s_2,s_3)\ge\sqrt h/2$, where $s_j=\mathbf1_{S_j}-(|S_j|/h)\mathbf1$. For even $h\ge4$ the same junction gives the sharper bound $\tfrac12\sqrt{(h-1)(h+2)/h}$.
+\end{lemma}
+\begin{proof}
+Choose a leaf centroid, so $a_j=|S_j|/h\le1/2$. For any three vectors summing to zero, $D$ equals twice the minimum enclosing radius of the triangle with these consecutive sides. Indeed, summation by parts gives the upper bound using any center. At a minimum enclosing circle its active outward radii have a nonzero nonnegative combination summing to zero. Use these multiples as successive supplier differences and normalize their total length to two to attain equality. This also shows that a linear map of least singular value $c$ on the span multiplies $D$ by at least $c$, by projecting a candidate center to the image span and applying the inverse.
+
+The side triangle for the $s_j$ is nonobtuse. Its squared sides are $h a_j(1-a_j)$ and the Gram determinant of two sides is $h^2a_1a_2a_3$. The squared circumdiameter is therefore $h\prod_j(1-a_j)$. Concavity of $\sum_j\log(1-a_j)$ puts its minimum over $\sum a_j=1$, $0\le a_j\le1/2$ at $(1/2,1/2,0)$ up to permutation. For even $h$ the positive parts are at least $1/h$. The new minimizer is $(1/2,1/2-1/h,1/h)$, giving the sharper statement.
+\end{proof}
+
+\section{Exterior minors on expander neighborhoods}\label{expanders}
+Let $G$ be a simple $r$-regular graph on $d$ vertices, where $r\ge2$ and $d\ge4$ is even. Let $\eta<1$ bound the absolute nonconstant eigenvalues of $A_G/r$. Join distinct vertices with a common neighbor to form $J$. Replace each vertex of $J$ by a pair joined by an edge, and each edge of $J$ by all four edges between its pairs. The resulting pattern $H=J[K_2]$ has $k=2d$ vertices.
+\begin{theorem}[Exterior bound for neighborhood graphs]\label{expbound}
+Over every field,
+\[
+ a_F(H)\ \ge\ \sqrt{\frac r{r-1}}(1-\eta^2)
+                \sqrt{\frac{(d-1)(d+2)}d}.
+\]
+\end{theorem}
+For each neighborhood $B_v=N_G(v)$, place its rows at the $r$ centered unit vectors
+\[
+ x_{i,v}=\sqrt{\frac r{r-1}}(e_i-\mathbf1_{B_v}/r),\quad i\in B_v .
+\]
+Work over an uncountable algebraically closed extension of $F$. At these sites take the exterior tensor $U$ of~\cite{exterior} with an even number $q$ of slots per row, $M=100\log(rq)$, and evenly spaced midpoint biases $\theta_j$ in $[-M,M]$. The tensor has one occupation word $v\in\{0,1\}^q$ per row. Its coefficient on exactly $rq/2$ occupied slots is the corresponding maximal Vandermonde minor and its other coefficients vanish. Give $v$ the weight $t(v)=\sum_j(\theta_jv_j-\max(\theta_j,0))$. In natural logarithms the cost of supplying one row at distance $s$ is bounded by
+\[
+ \Phi(s)=s\log\sum_v e^{t(v)/s}
+        =s\sum_j\log(1+e^{-|\theta_j|/s}).
+\]
+Write $w=q/M$ and $H_q=\Phi'(1)$.
+
+\begin{lemma}[Typical words in one neighborhood]\label{typical}
+Fix $r$ and a sufficiently small $\rho>0$. For all sufficiently large even $q$ and then all sufficiently large $h$, one can restrict $U^{\otimes h}$ to at most $e^{h(H_q+\rho w)}$ words per row while retaining weighted price at least $h(r\Phi(1)-E_q)-O_r(1)$, where $E_q=O_r(\log^2(rq))$. Here $H_q=\Theta(w)$ and $\sup_{1/2\le s\le2}|\Phi''(s)|=O(w)$.
+\end{lemma}
+\begin{proof}
+The exterior near-star estimate and the parity correction for ordinary tensor powers in~\cite{exterior} give weighted price at least $r\Phi(1)-E_q$ for one copy. The correction sends one parity bit per row per copy and contributes at most $r\log 2$ to the deficit. For the estimates on $\Phi$, biases of magnitude at most one contribute a constant each to $H_q$, and the upper tails of both derivative sums are $O(e^{-|\theta_j|/4})$ per slot. Summing over the equally spaced biases gives the stated bounds.
+
+Retain the row words whose total weight is at least $h(\mathbb E_\mu t-\rho w)$, where $\mu(v)=e^{t(v)-\Phi(1)}$. Their number is at most $e^{h(H_q+\rho w)}$ since $H_q$ is the entropy of $\mu$. The discarded probability is at most $e^{-c h\rho^2 w}$ because the second derivative of $\log\sum_v e^{\beta t(v)}$ is $O(w)$ near $\beta=1$. Split the tensor according to the first discarded row. Supplying such a term at zero and moving all rows outward costs at most $hr\Phi(1)-ch\rho^2 w$. Take $q$ large enough that $c\rho^2 w>E_q$. Additivity under powers and the bounded cost of summing $r+1$ terms give the claimed price for the fully retained tensor.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{expbound}]
+A row $i$ belongs to $r$ neighborhoods. Summing the sites of these occurrences gives
+\[
+ b_i=r\sqrt{r/(r-1)}\,L e_i,\qquad L=I-(A_G/r)^2.
+\]
+The least singular value of $L$ on $\mathbf1^\perp$ is at least $1-\eta^2$. Lemma~\ref{centroid} therefore gives each parse tree on the $d$ row variables a three-part score at least
+\[
+ D_* = \frac r2\sqrt{\frac r{r-1}}(1-\eta^2)
+                      \sqrt{\frac{(d-1)(d+2)}d}.
+\]
+Use two independent copies of the restricted tensor from Lemma~\ref{typical} for every neighborhood, one in each layer. Group the $2r$ words at physical row $i$ into one variable $Y_{i,\boldsymbol v}$. If the resulting row polynomial has size $s_h$, the same three-part extraction as in Lemma~\ref{wire} costs at most $\tau\log(C_d(s_h+1))$ at three supplier sites $\tau p_j$ of half-perimeter $\tau$, with one $p_j=0$. Separate the words of each row again. Its occurrence $(i,v)$ travels distance $1-\tau\langle x_{i,v},p_j\rangle+O(\tau^2)$. Transporting all the words in both layers thus costs at most $2h(dr\Phi(1)-\tau H_qD_*+O(dr w\tau^2))$. The product of the $2d$ neighborhood tensors has price at least $2dh(r\Phi(1)-E_q)-O_{d,r}(1)$. Comparing the two prices and sending $h\to\infty$ at fixed $q$ gives
+\[
+ \liminf_h\frac{\log(1+s_h)}{2hH_q}
+       \ge D_*-\frac{dE_q}{\tau H_q}-O(dr\tau).
+\]
+
+To realize this tensor as ordinary copies, use a host class for each vertex of $H$. A state stores its $r$ retained words and, in each underlying copy of each neighborhood, a prefix count between zero and $rq/2$. All pairs in a neighborhood are adjacent in $J$. Put the cross-row Vandermonde differences on these pairs and test the prefix counts between successive rows in a fixed order. Fix the start to zero and the final total to $rq/2$. A legal collection of words determines its prefix counts uniquely. Put the within-row factors of both layers and their single variable $Y_{i,\boldsymbol v}$ on the edge joining the two copies of $i$. If several neighborhoods use the same pair, multiply their scalar factors there. All unused pattern edges have unit weight.
+
+On this $H$-partite host extract copies meeting every class by inclusion--exclusion over class deletion. Such a copy has one vertex per class and exactly $|E(H)|$ edges, so it uses the unique full set of allowed pairs on the chosen vertices. This recovers the row polynomial with coefficient one and costs $O_H(n^2)$ gates to prepare the entries. A circuit over $F$ may first be extended to the larger field. The number of host vertices is at most $2d\exp(hr B_q)$, where $B_q=H_q+\rho w+\log(rq/2+1)$. Given $n$, use $h=\lfloor\log(n/(2d))/(r B_q)\rfloor$ and pad with isolated vertices. The host limit, followed by $q\to\infty$ and then $\rho,\tau\downarrow0$, gives $\max(2,a_F(H))\ge 2D_*/r$. The ordinary polynomial depends on all $\binom n2$ inputs, hence $a_F(H)\ge2$. This proves the theorem.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{main}(\ref{main:expanders})]
+Take a prime $p\equiv1\pmod4$, $r=p+1$, and the nonbipartite LPS graphs on $d=t(t^2-1)/2$ vertices for sufficiently large primes $t\equiv1\pmod{4p}$~\cite{lps}. They have growing girth and $\eta\le2\sqrt{r-1}/r$. When the girth exceeds four, $A_J=A_G^2-rI$. Thus $J$ has degree $r(r-1)$ and nonconstant eigenvalues in $[-r,3r-4]$. The two-fold blowup has degree $2r(r-1)+1$ and nonconstant eigenvalues of the form $2\lambda(J)+1$ or $-1$, giving a uniform absolute normalized spectral gap. Substituting in Theorem~\ref{expbound} and using $k=2d$ gives a coefficient before $\sqrt k$ of at least
+\[
+ \sqrt{\frac{r}{2(r-1)}}\left(1-\frac{4(r-1)}{r^2}\right).
+\]
+It tends to $1/\sqrt2$ as the fixed degree is increased. With $p=17$ it is $64/(27\sqrt{17})$ and the degree is $613$.
+\end{proof}
+
+\begin{corollary}[Border size]\label{border}
+The bounds of Theorem~\ref{expbound} and Theorem~\ref{main}(\ref{main:expanders}) hold for degree-component border size, defined using the Zariski closure of the degree-$m$ components of circuit outputs.
+\end{corollary}
+\begin{proof}
+At fixed $H,n$, keeping the output component of degree $m$ costs $O_H(1)$ per gate. After the substitutions, extraction of one variable per row is linear on the coefficient vector. The price upper bound in the proof of Theorem~\ref{expbound} holds for the image of all size-bounded circuits, and the weighted-price sublevel sets at the fixed sites are Zariski closed~\cite{exterior}. It therefore holds on the image of their closure. The same LPS substitution gives the explicit families.
+\end{proof}
+
+\subsection{Two related expander bounds}
+\begin{proposition}[Products of bounded-degree factors]\label{boundedfactors}
+Let $H$ be a $\Delta$-regular $k$-vertex graph with a perfect matching, where $\Delta\ge3$. If $P_{H,n}$ is a sum of $R_n$ products of homogeneous factors of degrees at most $B$, then over every field
+\[
+ \liminf_{n\to\infty}\log_n(1+R_n)\ge k\left(1-\frac{B-1}{\Delta-1}\right).
+\]
+For the degree-$613$ family and $B=62$, the lower bound is $(551/612)k>0.9k$.
+\end{proposition}
+\begin{proof}
+We use projected shifted partial derivatives~\cite{klss}. Give each position a host class of $N=\lfloor n/k\rfloor$ labels, keep only edges between classes adjacent in $H$, and extract copies meeting every class by deletion. Color the perfect matching red and all other pattern edges blue. Differentiating in the $k/2$ red entries specified by a tuple $a$, then setting red to zero, leaves a single blue monomial $M_a$. Changing a set $S$ of labels changes at least $(\Delta-1)|S|/2$ of its entries. Write $V$ for the number of blue variables, which is $\Theta_H(N^2)$, and $\sigma=2/(\Delta-1)$. Shift each $M_a$ by all squarefree monomials of degree $\ell=\lfloor V N^{-\sigma}/\log N\rfloor$, discarding repeated variables. Nearly all $\binom{V}{\ell}$ shifts survive for each tuple. Among the surviving monomials the fraction shared with a tuple differing on $S$ is at most $(\ell/(V-O_H(1)))^{|S|/\sigma}$. Summing over the at most $N^{|S|}$ choices for these changes gives $o(1)$ overlap. The shifted derivative space thus has dimension at least $(1-o(1))N^k\binom{V}{\ell}$.
+
+Taking the degree-$m$ component keeps only products of that total degree, since all factors are homogeneous. Each such product has at most $m$ nonconstant factors. Group the Leibniz expansion by which ones are differentiated. The untouched product is fixed, and the differentiated part has degree at most $b=(k/2)(B-1)$. For each group the dimension after shifting and discarding repeated variables is at most $\sum_{j\le\ell+b}\binom Vj\le\binom V\ell N^{\sigma b+o(1)}$. Indeed square-containing monomials can be discarded before multiplication by the untouched factors. The numbers of groups and color deletions depend only on $H$. Comparing the dimensions gives $R_n\ge N^{k-\sigma b-o(1)}$. The edges within the pairs of $J[K_2]$ form a perfect matching, so the degree-$613$ family gives the stated example.
+\end{proof}
+
+For induced copies one also multiplies $1-X_{ij}$ on each nonedge of the copy. The following application uses the independent-set case of the induced-pattern reduction of Bl\"aser, Komarath and Sreenivasaiah~\cite[Theorem~6.1]{patterns}. Floderus et al.\ gave the corresponding detection reduction for patterns with a unique maximum independent set~\cite{induced}.
+
+\begin{proposition}[Induced expanders and colorful cliques]\label{inducedclique}
+Let $G$ range over a $d$-regular expander family, $d\ge3$. For a member on $r$ vertices, retain its $t=dr/2$ edges and add one vertex adjacent to the ends of each edge. The resulting patterns $H$ are expanders on $k=r+t$ vertices with $3t$ edges and maximum degree $2d$. Over every field the colorful $t$-clique polynomial $\sum_{a\in[n]^t}\prod_{i<j}Y^{ij}_{a_i,a_j}$ is a signed sum of at most $2^r$ evaluations of the induced-copy polynomial of $H$ on at most $r+tn$ host vertices. At maximum degree six, $t=3k/5$.
+\end{proposition}
+\begin{proof}
+The $t$ added vertices are independent, and the counts of vertices, edges and degrees follow from the construction. If $s$ is a normalized base eigenvalue, the unsigned incidence identity $BB^\top=dI+A_G$ gives eigenvalues $(1+s)/2$ and $-1/2$ on the nondegenerate blocks of the new normalized adjacency, with possible further zeros. Hence the family expands.
+
+Use a singleton class for each base vertex and a data class of size $n$ for each added vertex. Fix every pair incident to a singleton to its pattern adjacency, make each data class a clique, and put $1-Y$ between distinct data classes. Inclusion--exclusion over the $r$ singletons selects copies containing them all. In a nonzero term the $t$ independent positions must avoid all pairs fixed to one. Using $a>0$ singletons would exclude at least $da/2>a$ data classes, each supplying at most one vertex. Hence the independent positions form a transversal of the data classes. All $3t$ pattern edges are fixed, so each transversal contributes its product of colorful clique entries $Y$ with coefficient one. For $d=3$, $t=3r/2=3k/5$.
+\end{proof}
+
+\begin{remark}
+For any $k$-vertex pattern $H$ with $m$ edges, the component of degree $\binom{k}{2}$ in its induced-copy polynomial is the ordinary $k$-clique polynomial times $(-1)^{\binom{k}{2}-m} k!/|\operatorname{Aut}H|$. Each $k$-set supports $k!/|\operatorname{Aut}H|$ copies, all with the same sign in this degree. The integer multiplier is nonzero in characteristic zero and can vanish in positive characteristic.
+\end{remark}
+
+\section{The matching constant from a four-regular tree}\label{matchsec}
+Let $\Match_{n,m}$ denote the ordinary $m$-edge matching polynomial of $K_{n,n}$. Its lower host exponent is
+\[
+ \beta_F(m)=\liminf_{n\to\infty}\log_n(1+\sizeF(\Match_{n,m})).
+\]
+Zeroing the edges within two shores of $K_n$ gives $a_F(mK_2)\ge\beta_F(m)$, since both shores can have size $\lfloor n/2\rfloor$.
+For numerical evaluation, Bl\"aser and Curticapean proved parameterized counting hardness for weighted bipartite matchings~\cite{bc}. Curticapean, Dell and Husfeldt proved modular counting hardness for odd moduli and recorded the polynomial-time parity algorithm~\cite{cdh}. Here $\beta_F(m)$ measures the size of a circuit computing the formal polynomial.
+
+\subsection{From color-prescribed homomorphisms to matchings}
+Let \(H\) be a bipartite graph with no isolated vertices. Give position \(v\) a set \(A_v\) of labels, and edge \(uv\) a table \(W_{uv}:A_u\times A_v\to F[\mathbf X]\). The desired sum is
+\[
+ P_H(W)=\sum_{a\in\prod_v A_v}\prod_{uv\in E(H)} W_{uv}(a_u,a_v).
+\]
+This is the color-prescribed homomorphism sum into the host with one vertex class $A_v$ per color $v$. In our application every table entry is a variable, zero, or one.
+\begin{lemma}[Weighted fracture reduction]\label{split}
+Suppose \(\Delta(H)\le3\), \(b=|E(H)|\le m\), and \(2\) is invertible in \(F\).
+Then \(P_H(W)\) is an \(F\)-linear combination of at most \(5^{|V(H)|}2^m\) evaluations of \(\Match_{n,m}\) with entries from the tables or from \(\{0,1\}\). One may take \(n\le 3\sum_v |A_v|+m\).
+\end{lemma}
+\begin{proof}
+Apply the fracture reduction of Peyerimhoff et al.~\cite[Corollary~4.3 and Lemmas~4.4--4.6]{fractures} to the property of being a matching. A fracture splits each vertex into one copy per block of a partition of its incident edges. Only the partition into singletons at every vertex produces a matching. Thus the coefficient of the color-prescribed homomorphism sum for the original $H$ is
+\[
+ c_H=\prod_{v\in V(H)}(-1)^{d_v-1}(d_v-1)!
+      =\pm 2^{|\{v:d_v=3\}|},\qquad d_v=\deg_H(v).
+\]
+Their integer unitriangular system recovers $c_H P_H$ from one sum per fracture over colorful matchings, those using each edge color once. Each query makes one copy of $A_v$ per block at $v$ and retains the edge colors $uv$. The host stays bipartite. There are at most five partitions per vertex and at most three copies of each class. The sole division is by $c_H$.
+
+To pass from counts to formal weights, first give each base host edge its own indeterminate and copy that weight into every query. Both sides are multiaffine because each term uses one edge per color. The counting identity on all $0/1$ assignments therefore implies the polynomial identity, and we can substitute the entries of $W$. Finally add $m-b$ disjoint unit edges of fresh colors. Inclusion--exclusion over the resulting $m$ colors~\cite[Lemma~4.7]{fractures} gives $2^m$ ordinary $\Match_{n,m}$ evaluations per fracture. Padding the shores with isolated vertices gives the stated $n$.
+\end{proof}
+
+\begin{lemma}[Cubic encoding of a four-regular tensor]\label{encoding}
+Let $G$ be a connected simple four-regular graph on $h$ vertices. For $m\ge3h$ and $\operatorname{char} F\ne2$, the polynomial $Z_{G,q}$ is an $F$-linear combination of $O_m(1)$ evaluations of $\Match_{n,m}$ on at most $C_mq^2$ vertices per shore. Every substituted entry is a variable, zero, or one. In particular,
+\[
+ \beta_F(m)\ \ge\ \frac12\liminf_{\ell\to\infty}
+           \frac{\log_2(1+\sizeF(Z_{G,2^\ell}))}{\ell}.
+\]
+\end{lemma}
+\begin{proof}
+Orient an Euler tour of $G$, giving two incoming and two outgoing arcs at every vertex. Replace each vertex $i$ by positions $i^+,i^-$ on opposite shores. Their states in $[q]^2$ specify the outgoing and incoming labels, respectively. On the edge $i^+i^-$ place the variable for the four incident labels. For every arc $i\to j$ add the edge $i^+j^-$ with the equality test on the two coordinates reserved for that arc. This is a simple cubic bipartite graph with $h$ variable edges and $2h$ test edges. Every edge labelling of $G$ gives exactly one consistent assignment to its positions, so its table sum is $Z_{G,q}$. Lemma~\ref{split} now gives the asserted evaluations.
+
+For an arbitrary host size $n$, take the largest power of two $q$ with $C_mq^2\le n$ and pad the shores with isolated vertices. Combining the evaluations costs $O_m(1)$ gates beyond the copies of the matching circuit. Since $\log_2 n=2\log_2 q+O_m(1)$, the exponent inequality follows.
+\end{proof}
+
+\begin{remark}[A shorter proof of the square-root order]
+For $h=\lfloor m/3\rfloor$, choose a four-regular graph on $h$ vertices with a fixed positive spectral gap~\cite{friedman}. Assign one orthogonal unit vector to each edge. A centroid of any binary tree on the vertices has a part $S$ of size between $h/3$ and $h/2$. Put its supplier one unit from the other two, in the direction of its divergence. The score is $\sqrt{|\partial S|}$, and the spectral gap gives $|\partial S|=\Omega(h)$ by the Laplacian quotient of the centered indicator of $S$. Lemmas~\ref{wire} and~\ref{encoding} give $\beta_F(m)=\Omega(\sqrt m)$ in characteristic different from two.
+\end{remark}
+
+\subsection{A dipole on an edge}
+Let $G$ be a connected simple four-regular graph on $h$ vertices, $L=4I-A_G$ its combinatorial Laplacian, and $L^\dagger$ its inverse on mean-zero vectors and zero on constants. We use its maximum biharmonic distance across an edge~\cite{biharmonic},
+\[
+ B(G)=\max_{ij\in E(G)}\|L^\dagger(e_i-e_j)\|_2 .
+\]
+\begin{lemma}[Lower bound from edge potentials]\label{matchingtransfer}
+For $m\ge3h$ and $\operatorname{char} F\ne2$,
+\[
+                    \beta_F(m)\ge \frac{\sqrt h}{4 B(G)} .
+\]
+\end{lemma}
+\begin{proof}
+Orient the edges and assign $i\to j$ the vector $u_{ij}=L^\dagger(e_i-e_j)/B(G)$. For any set $S$ the sum of its divergences is $(\mathbf1_S-|S|\mathbf1/h)/B(G)$, since the unnormalized sum is $L^\dagger L\mathbf1_S$. Lemmas~\ref{wire} and~\ref{centroid} give $Z_{G,q}$ a lower exponent of $\sqrt h/(2B(G))$ in $q=2^\ell$. Lemma~\ref{encoding} gives the factor $1/2$ in passing to the matching host.
+\end{proof}
+
+\begin{lemma}[Four-regular graphs with small edge potentials]\label{dipole}
+For every $\gamma>0$ and every sufficiently large integer $h$ there is a connected simple four-regular graph on $h$ vertices with $B(G)\le\sqrt3/4+\gamma$.
+\end{lemma}
+\begin{proof}
+Fix $R\ge1$. A uniform simple four-regular graph on $h$ vertices has combinatorial spectral gap at least a fixed $\delta>0$ with probability tending to one~\cite{friedman}. For fixed $R$ its probability of girth larger than $4R+8$ tends to a strictly positive number by the short-cycle law~\cite{cycles}. Hence both properties hold simultaneously for some graph at every sufficiently large $h$.
+
+For an edge $ij$ of this graph use its two rooted tree neighborhoods, with the edge $ij$ removed. At depth $t=0,\dots,R$ from $i$ give the vertices potential $+3^{-t}/4$, and at depth $t$ from $j$ give them $-3^{-t}/4$. Give all other vertices potential zero and write $f$ for this vector. The two rooted ternary trees have equal level sizes, so $f$ has mean zero. At the endpoints and all levels $t<R$, direct substitution gives $Lf=e_i-e_j$. The error is supported on the last occupied level and its outer neighbors, $O(3^R)$ vertices where its magnitude is $O(3^{-R})$. Thus
+\[
+ \|f\|_2^2=\frac{2}{16}\sum_{t=0}^R3^{-t}\le\frac3{16},\qquad
+ \|L^\dagger(e_i-e_j)-f\|_2\le\delta^{-1}O(3^{-R/2}).
+\]
+The estimates are uniform in the edge and host order. Choose $R$ first so that the last error is less than $\gamma$, and then choose the graph at the requested order.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{main}(\ref{main:matchings})]
+Fix $\gamma>0$. Taking $h=\lfloor m/3\rfloor$ in Lemmas~\ref{matchingtransfer} and~\ref{dipole} gives
+\[
+ \liminf_{m\to\infty}\frac{\beta_F(m)}{\sqrt m}
+   \ge \frac{1}{4\sqrt3(\sqrt3/4+\gamma)}.
+\]
+Letting $\gamma\downarrow0$ gives $1/3$ on bipartite hosts. The comparison $a_F(mK_2)\ge\beta_F(m)$ gives the same coefficient on complete hosts, and $k=2m$ gives $1/(3\sqrt2)$ in vertex units.
+\end{proof}
+
+\begin{proposition}[Sharpness of the four-regular estimate]\label{sharpdipole}
+Let $b_h$ be the minimum of $B(G)$ over connected simple four-regular graphs on $h$ vertices, $h\ge5$. Then $\lim_{h\to\infty} b_h^2=3/16$. Consequently the optimal asymptotic coefficient supplied by Lemma~\ref{matchingtransfer} with $m=3h$ is $1/3$.
+\end{proposition}
+\begin{proof}
+Write $R_{\mathrm{eff}}(u,v)$ for effective resistance with unit edge resistances. The biharmonic Foster identity~\cite[Corollary~4.3]{biharmonic} gives
+\[
+ 2h^2 B(G)^2\ \ge\ h\sum_{ij\in E(G)}\|L^\dagger(e_i-e_j)\|^2
+    =\sum_{u<v}R_{\mathrm{eff}}(u,v).
+\]
+For fixed $R$, all but $O_R(h)$ unordered vertex pairs have distance greater than $2R$. Around each end of such a pair, the edge boundaries of the balls of radii $j=0,\ldots,R-1$ have size at most $4\cdot3^j$. These $2R$ cutsets are pairwise edge-disjoint. The Nash--Williams inequality~\cite{nash} gives
+\[
+ R_{\mathrm{eff}}(u,v)\ge 2\sum_{j=0}^{R-1}\frac{1}{4\cdot3^j}
+                  =\frac34(1-3^{-R}).
+\]
+Summing over these pairs, then sending $h\to\infty$ and $R\to\infty$ in that order, gives $\liminf_h b_h^2\ge3/16$. Lemma~\ref{dipole} gives the matching upper limit. Dividing $\sqrt h/(4b_h)$ by $\sqrt{3h}$ gives the asserted coefficient.
+\end{proof}
+
+\section{Sublinear upper exponent}\label{upper}
+\begin{lemma}[Counting unlabelled copies by vertex orders]\label{orders}
+Let $H$ have $k\ge1$ vertices and $m$ edges. Choose a set $\mathcal O$ of representatives of the orbits of linear orders of $V(H)$ under $\operatorname{Aut}(H)$. Over every field,
+\[
+ P_{H,n}(X)=\sum_{(v_1,\ldots,v_k)\in\mathcal O}
+ \ \sum_{1\le a_{v_1}<\cdots<a_{v_k}\le n}\prod_{uv\in E(H)} X_{a_u,a_v}.
+\]
+Each inner sum is a contraction with $m+k-1$ binary tables.
+\end{lemma}
+\begin{proof}
+The embeddings onto any fixed copy form a free automorphism orbit. Ordering the vertices by their images identifies this orbit with the orbit of the induced order. Exactly one embedding therefore contributes to the displayed sum, including when $H$ has isolated vertices. One table per edge supplies the weights, and one table for each successive comparison enforces the order.
+\end{proof}
+For bipartite matchings one can equivalently sort the occupied labels on each shore and sum over their $m!$ possible bijections.
+
+\begin{proof}[Proof of Theorem~\ref{main}(\ref{main:upper})]
+The empty pattern has polynomial $1$. For $k\ge1$, Lemma~\ref{orders} reduces the proof to one contraction, since the number of orders is fixed in the host limit. Put $T=k+m$. We apply the grouping lemma and Theorem~A of the counting-ETH refutation~\cite{eth}. Encode a label in $L=\lceil\log_2 n\rceil$ bits and reject unused bit strings. Choose the largest level $K\le T^{1/9}$ from that theorem for sufficiently large $T$. Its growth bound gives $K\ge T^{1/90}$, so $\log K=\Theta(\log T)$. Enumeration covers the finitely many smaller $T$. Distribute the tables evenly among $g=3K^8\le T$ sites. For each label, run a path of $L$-bit equality wires through the sites that use it. A site sums over its private labels and multiplies its assigned factors and consistency tests. The choices that survive implement precisely one copy of each assignment. The total directed width is $U=O(TL)$, counting both ends of each equality wire. The maximum incident width of a site is $P=O((T/g+1)L)$. Computing a site entry costs $O_T(1)2^{O((T/g+1)L)}$ arithmetic operations, by enumerating even all its local labels.
+
+Lemma~8(i) of~\cite{eth}, with $\zeta=1/(2K)$, groups the network as a $K$-clique with pair width $\lambda=\lceil(U+2\zeta gP)/K^2\rceil=O(1+TL/K^2)$. Computing a group entry adds $O(gP/K)=O(TL/K)$ to the base-two logarithm of the query cost. A crossing on $a$-bit words with polynomially many pieces and row and column log ranks summing to $2\sqrt2\,a+O(\log(2+a))$ gives $\rho=1/\sqrt2$ in Theorem~A. Parts (a) and (b) then give a clique exponent $e_K=O(1/\sqrt{\log K})$. Including the costs of the queries, the arithmetic gate count is at most
+\[
+ 2^{e_K K^2\lambda+O(TL/K)}(1+L)^{O_T(1)}
+   \le 2^{O(TL/\sqrt{\log(2+T)})+o_T(L)} .
+\]
+For each fixed $T$, $o_T(L)/L$ tends to zero. The constants in the leading exponent are absolute.
+
+For formal edge weights, unroll the recursion with groupings, orientations and index ranges fixed by the dimensions and indices. Each query computes a sum of products in $F[X]$. In characteristic zero the crossing from Theorem~B of~\cite{eth} applies directly after division by its scalar $h!$, where $h$ is the partition weight in that construction. In characteristic $p$ this scalar vanishes for $h\ge p$. Lemma~\ref{crossing} in Appendix~\ref{integral} supplies both width bounds with normalization one over $\mathbb Z$. Its entries are nonuniform field constants. Dividing the logarithm of the gate bound by $\log_2 n$ and taking the upper limit gives $\bar a_F(H)\le CT/\sqrt{\log(2+T)}$ in every characteristic.
+\end{proof}
+
+\appendix
+\numberwithin{equation}{section}
+\section{An integral crossing for the grid recurrence}\label{integral}
+The grid recurrence of~\cite[Appendix~A]{eth} uses two ways of grouping the four indices of a crossing. For a matrix factorization with inner dimension \(d\ge1\), call \(\lceil\log_2 d\rceil\) its width.
+
+\begin{lemma}[Integral crossing]\label{crossing}
+For every word length \(\lambda\ge1\), the tensor \([I=J][A=A']\) on four \(\lambda\)-bit indices is a sum of \(O((1+\lambda)^2)\) integer tensors. Each summand has integral matrix factorizations across \((I,A')\mid(J,A)\) and \((I,A)\mid(J,A')\) with respective widths \(w_1,w_2\) satisfying
+\[
+  w_1,w_2\le2\lambda,\qquad
+  w_1+w_2\le2\sqrt2\,\lambda+O(\log(2+\lambda)).
+\]
+\end{lemma}
+
+Let \(c_i\) insert \(i\) into an ordered subset with the sign of the insertion, and \(a_i=c_i^*\) remove it with the same sign. Impossible insertions and removals are zero. On the exterior algebra these satisfy
+\[
+ a_i c_j+c_j a_i=\delta_{ij}I,\qquad
+ a_i a_j+a_j a_i=c_i c_j+c_j c_i=0.
+\]
+Give mode \(n=0,1,\ldots\) energy \(n+1/2\) and write \(h(A)=\sum_{n\in A}(n+1/2)\). Use integral Hasse derivatives \(D^i z^j=\binom ji z^{j-i}\) for integer \(j\) and set
+\[
+ \Psi(z)=\sum_{n\ge0} c_n z^n +\sum_{n\ge0} a_n z^{-n-1}.
+\]
+For an increasing subset \(I=(i_1,\ldots,i_r)\) define \(Y_I(z)=:D^{i_1}\Psi(z)\cdots D^{i_r}\Psi(z):\). Colons move creations before annihilations with permutation signs and discard contraction terms in the move. Matrix entries of a normal product between fixed finite states are Laurent polynomials. A single-field matrix entry \([B]Y_I(z)|A\rangle\) is a scalar times \(z^{h(B)-h(A)-h(I)}\). This follows for creation and removal separately and persists under multiplication.
+
+\begin{lemma}[Exchange of two normal products]\label{exchange}
+Let \(A,A'\) be finite states and \(I',J'\) be two \(r\)-subsets, with \(p=h(I')\) and \(q=h(J')\). The two expansions
+\begin{equation}\label{eq:exchange}
+ (z-w)^{p+q}\langle A'|Y_{I'}(z)Y_{J'}(w)|A\rangle,\qquad
+ (-1)^{r^2}(z-w)^{p+q}\langle A'|Y_{J'}(w)Y_{I'}(z)|A\rangle
+\end{equation}
+are one Laurent polynomial. At \(z=w=1\) its value is
+\begin{equation}\label{eq:coincidence}
+ [A=A']\,(-1)^{r(r-1)/2+\sum_{i\in I'}i}
+          \det\!\left[\binom{i+j}{i}\right]_{i\in I',j\in J'} .
+\end{equation}
+\end{lemma}
+\begin{proof}
+Apply the fermionic Wick theorem~\cite{wick} to the normal products in~\eqref{eq:exchange}. The undifferentiated contraction is the geometric series \(\sum_{n\ge0}z^{-n-1}w^n\), so a paired \(i,j\) contributes
+\[
+ D_z^i D_w^j(1/(z-w))=(-1)^i\binom{i+j}{i}(z-w)^{-1-i-j}.
+\]
+The reversed Wick expansion has the block sign \((-1)^{r^2}\) and expands the same rational function in the opposite order. A partial matching has pole order equal to the sum of the energies of its paired occurrences. Since all energies are positive, multiplication by \((z-w)^{p+q}\) clears every pole and only full matchings survive at coincidence. Their signs are \((-1)^{r(r-1)/2}\) times the permutation signs, giving the determinant in~\eqref{eq:coincidence}. The Hasse coefficients and the normal-product matrix entries are integral, so both identities hold over \(\mathbb Z\).
+\end{proof}
+
+\begin{proof}[Proof of Lemma~\ref{crossing}]
+The number \(d(E)\) of states at doubled energy \(E\) counts partitions into distinct odd parts. Their asymptotic formula~\cite{partitions} gives, in base two,
+\[
+ \log_2 d(E)=C\sqrt E+O(\log(2+E))
+\]
+for all sufficiently large \(E\) with an absolute \(C>0\). Choose the least \(E\) with at least \(2^\lambda\) states of some common cardinality \(r\), and take any \(2^\lambda\) of those states as the alphabet for \(I,J,A,A'\). Each state at this level has at most \(\sqrt E\) elements, so the largest cardinality class has at least \(d(E)/(1+\sqrt E)\) states. Minimality and the lower estimate at \(E-1\) give \(C\sqrt E=\lambda+O(\log(2+\lambda))\).
+
+Put \(T_{ij}=\binom ij\) for nonnegative indices up to \(E\), with zero entries above the diagonal. Vandermonde gives \((TT^\top)_{ij}=\binom{i+j}{i}\). The inverse is \(T^{-1}_{ij}=(-1)^{i-j}\binom ij\). Put \(L=T^{-1}\operatorname{diag}((-1)^i)\) and \(R=T^{-1}\). For words \(I,J\), sum the polynomials of Lemma~\ref{exchange} over \(I',J'\) with weights
+\[
+ (-1)^{r(r-1)/2}\det L_{I,I'}\det R_{J,J'} .
+\]
+Nonzero minors have \(i'_l\le i_l\) and \(j'_l\le j_l\), so \(p,q\le h=E/2\). Applying Cauchy--Binet twice to~\eqref{eq:coincidence} shows that the weighted sum at coincidence is \([I=J][A=A']\). The two triangular changes of basis have integral entries.
+
+Since \(h(A)=h(A')\), the polynomial is homogeneous of degree zero. Take its coefficients of \(z^s w^{-s}\) as the pieces. Expand the pole clearance as \(\sum_{\ell=0}^{p+q}(-1)^\ell\binom{p+q}{\ell}z^{p+q-\ell}w^\ell\). In forward order the intermediate state \(B\) must have energy \(h+q-\ell-s\le 2h-s\). In reverse order it has energy \(h-q+\ell+s\le 2h+s\). Both factorizations use a shared label \((2p,2q,\ell,B)\), with only polynomially many possible triples outside \(B\). After these energies are specified, the sum over \(I'\) belongs entirely to the \(I\) factor and the sum over \(J'\) to the \(J\) factor. Together the two orders impose \(-E\le s\le E\), giving at most \(2E+1=O((1+\lambda)^2)\) pieces. The row and column label counts are bounded by \(\operatorname{poly}(2+E)\) times \(\sum_{e\le 2E-2s}d(e)\) and \(\sum_{e\le 2E+2s}d(e)\), respectively, where \(e\) is doubled energy. The sum of their logarithms is at most
+\[
+ C\big(\sqrt{2E-2s}+\sqrt{2E+2s}\big)+O(\log(2+E))
+ \le 2\sqrt2\,\lambda+O(\log(2+\lambda)).
+\]
+Taking ceilings adds at most two. An identity matrix on a full pair of indices caps either width at \(2\lambda\). At fixed energies every intermediate-state sum is finite, and the Hasse coefficients and basis changes are integral, so both factorizations have integer entries.
+\end{proof}
+
+\begin{thebibliography}{10}
+\bibitem{biharmonic} M.~Black, L.~Lin, W.-K.~Wong and A.~Nayyeri, \href{https://proceedings.mlr.press/v235/black24a.html}{Biharmonic distance of graphs and its higher-order variants: Theoretical properties with applications to centrality and clustering}, ICML 2024.
+\bibitem{bc} M.~Bl\"aser and R.~Curticapean, \href{https://doi.org/10.1007/978-3-642-33293-7_17}{Weighted counting of $k$-matchings is $\#\mathrm{W}[1]$-hard}, IPEC 2012.
+\bibitem{patterns} M.~Bl\"aser, B.~Komarath and K.~Sreenivasaiah, \href{https://doi.org/10.4230/LIPIcs.FSTTCS.2018.18}{Graph pattern polynomials}, FSTTCS 2018.
+\bibitem{partitions} W.~Bridges, J.~Franke and T.~Garnowski, \href{https://doi.org/10.1007/s40687-022-00355-x}{Asymptotics for the twisted eta-product and applications to sign changes in partitions}, Remark 3.3.
+\bibitem{eth} Claude (Anthropic), \href{https://github.com/anthropics/formal-math/blob/16a5ce41304fcdaea4e0be7c132e1c361dc26da5/eth/paper.pdf}{A \(2^{o(n)}\) time algorithm for 3-SAT}, Appendices A and B, Definition 7, Lemma 8 and Theorems A and B.
+\bibitem{cdh} R.~Curticapean, H.~Dell and T.~Husfeldt, \href{https://arxiv.org/abs/2107.00629}{Modular counting of subgraphs: Matchings, matching-splittable graphs, and paths}, ESA 2021.
+\bibitem{cdm} R.~Curticapean, H.~Dell and D.~Marx, \href{https://doi.org/10.1145/3055399.3055502}{Homomorphisms are a good basis for counting small subgraphs}, STOC 2017.
+\bibitem{cm} R.~Curticapean and D.~Marx, \href{https://arxiv.org/abs/1407.2929}{Complexity of counting subgraphs: Only the boundedness of the vertex-cover number counts}, FOCS 2014.
+\bibitem{induced} P.~Floderus, M.~Kowaluk, A.~Lingas and E.-M.~Lundell, \href{https://doi.org/10.1016/j.tcs.2015.09.001}{Induced subgraph isomorphism: Are some patterns substantially easier than others?}, Theoret. Comput. Sci. 605 (2015), 119--128.
+\bibitem{friedman} J.~Friedman, \href{https://arxiv.org/abs/cs/0405020}{A proof of Alon's second eigenvalue conjecture and related problems}, 2004.
+\bibitem{klss} N.~Kayal, N.~Limaye, C.~Saha and S.~Srinivasan, \href{https://doi.org/10.1137/151002423}{An exponential lower bound for homogeneous depth four arithmetic formulas}, SIAM J. Comput. 46 (2017).
+\bibitem{lps} A.~Lubotzky, R.~Phillips and P.~Sarnak, \href{https://doi.org/10.1007/BF02126799}{Ramanujan graphs}, Combinatorica 8 (1988), 261--277.
+\bibitem{cycles} B.~McKay, N.~Wormald and B.~Wysocka, \href{https://www.kurims.kyoto-u.ac.jp/EMIS/journals/EJC/Volume_11/PDF/v11i1r66.pdf}{Short cycles in random regular graphs}, Electron. J. Combin. 11 (2004), R66.
+\bibitem{nash} C.~St.~J.~A.~Nash-Williams, \href{https://doi.org/10.1017/S0305004100033879}{Random walk and electric currents in networks}, Proc. Cambridge Philos. Soc. 55 (1959), 181--194.
+\bibitem{exterior} OpenAI, \href{https://github.com/openai/math/tree/92b516ef8e2abf66c3db7aa31438d3010bc7956f/preprints/Circuit-lower-bounds-for-Hamiltonian-cycle-and-the-permanent-November-24-2026}{Circuit lower bounds for Hamiltonian cycle and the permanent}, exterior near-star theorem and the section on packing the exterior tensor.
+\bibitem{euclid} OpenAI, \href{https://github.com/openai/math/tree/92b516ef8e2abf66c3db7aa31438d3010bc7956f/preprints/Euclidean-geometry-in-the-asymptotic-spectrum-of-tensors-November-24-2026}{Euclidean geometry in the asymptotic spectrum of tensors}, Theorem 1.1.
+\bibitem{fractures} N.~Peyerimhoff, M.~Roth, J.~Schmitt, J.~Stix, A.~Vdovina and P.~Wellnitz, \href{https://doi.org/10.1137/22M1479804}{Parameterized counting and Cayley graph expanders}, SIAM J. Discrete Math. 37 (2023), 405--486.
+\bibitem{width} \href{../pathwidth/sharp-pathwidth-bases.pdf}{Sharp width bounds for counting polynomials}, sections on the cost of separating tables and on charging the changes of part in a circuit product.
+\bibitem{wick} G.~C.~Wick, \href{https://doi.org/10.1103/PhysRev.80.268}{The evaluation of the collision matrix}, Phys. Rev. 80 (1950), 268--272.
+\end{thebibliography}
+\end{document}
