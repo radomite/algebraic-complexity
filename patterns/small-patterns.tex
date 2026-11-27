@@ -35,7 +35,7 @@ A wheel \(W_r\) has \(r\) rim vertices and one hub.
 Forest with an edge & \(2\) & \(2\)\\
 Triangle, cycle, or any cyclic partial 2-tree & \(9/4\) & \(9/4\)\\
 \(K_4,\ W_4,\ K_5-e\) & \(9/4\) & \(25/8\)\\
-\(K_5\) & \(9/4\) & \(4-1/300\)\\
+\(K_5\) & \(9/4\) & \(3.992353870\)\\
 Triangular prism and \(K_{3,3}\) & \(4/\sqrt3\) & \(25/8\)\\
 \(W_5\) and \(W_6\) & \(17173/7500\) & \(25/8\)\\
 Two copies of \(K_{2,3}\) joined by a $3+3$ matching & \(4/\sqrt3\) & \(25/8\)\\
@@ -50,7 +50,7 @@ seven edges and a \(K_4\) minor has cost \(\Theta_H(C_F(K_4,n))\).
 Grouping the four-clique vertices into parts of sizes \(2,1,1\) gives
 the upper exponent \(\omega(2,1,1)=25/8\) by the rectangular exponent formula~\cite{matrix-exponent}.
 For \(K_5\), combining equal terms in a signed expansion of two label equalities
-gives upper exponent \(4-1/300\). The fractional triangle-cover method with one
+and grouping seven digit positions gives upper exponent below \(3.992353870\). The fractional triangle-cover method with one
 dense residual contraction tree has optimal costs \(25/8\) and \(4\) for these
 two patterns. The five-clique circuit uses a different contraction for each of
 two families of terms. Both unrestricted exponents remain open
@@ -290,7 +290,7 @@ Pfaffian signs agree, and each chosen \(m\)-matching has an odd number of perfec
 
 \subsection{The four- and five-clique bounds}\label{five-clique-saving}
 
-\textbf{Proposition.} Over every field, the upper circuit exponent of the colorful
+\textbf{One-digit threshold bound.} Over every field, the upper circuit exponent of the colorful
 \(K_5\) is at most \(4-1/300\).
 
 \emph{Proof.} Absorb unaries into incident edges. Write the vertices as
@@ -404,6 +404,192 @@ dimension exponents up on a fixed mesh and use the finitely many padded
 algorithms. Continuity then allows arbitrarily small slack. Padding the
 original palette to a power of \(q\) increases it by a constant factor.
 This proves the bound. \hfill\(\square\)
+
+\paragraph{Grouping seven digits improves the five-clique bound.}
+The same two-label split gives upper exponent less than \(3.992353870<4-1/131\)
+over every field. Take \(q=39,\ b=7,\ \alpha=39849/100000,\ t=68504/100000\).
+In a palette of size \(q^m\) take \(L=\lfloor\alpha m/b\rfloor\) disjoint
+groups of \(b\) digits. Within a group use the complementary pair
+\[
+ B=\bigotimes_{i=1}^b K_i,\qquad
+ A=I-B=\sum_{\emptyset\ne U\subseteq[b]}(-1)^{|U|-1}P_U .
+\]
+The collected threshold identity just proved works for any \(A+B=I\).
+Apply it on the \(L\) groups, with \(D=\lceil tL\rceil\).
+A first-branch term selects \(j\ge D\) groups and one nonempty swap
+subset in each. A second-branch term selects \(j\ge L-D+1\) groups
+and puts \(K\) on every one of their \(bj\) digits. All coefficients
+are integers and every edge table remains independent.
+
+Write \(u=1/\log_2q\). Relative to exponent four, the preceding
+contractions give the following costs for one specified subset:
+\[
+ f(r)=-r+\frac{r^2}{8(2-r)},\qquad
+ g(y)=y\log_q\frac{q-1}{2q}+\frac{(1+2u)^2y^2}{4(1+uy)} .
+\]
+Here \(r\) and \(y\) are the respective selected fractions of the \(m\)
+digits. The second swap product still costs \(2+r\), since
+\(r\le\alpha<2/5\) implies \(r(2+r)\le 1+r\).
+In the correction branch \(uy<1/2\), \(2-y\ge1+uy\), and
+\(4-2y>3\), covering both the orientation contraction and table
+preparation. The orbit charge is \(y\log_q\binom q2\), already included
+in \(g\).
+
+Interpolate the convex \(f\) by chords on eight equal intervals of
+\([0,\alpha]\). Its interpolant is the maximum of the eight extended
+lines \(c+sr\). For one line and \(j\) fixed groups, summing its costs
+over the inner choices gives
+\(n^{4+c}((1+q^s)^b-1)^j\).
+Summing over all eight lines upper-bounds the maximum for each term.
+Put \(p=j/L\) and charge the choices of groups by binary entropy.
+It suffices to bound the following excesses, uniformly on their intervals:
+\[
+ c+\frac{\alpha p}{b}\log_q((1+q^s)^b-1)
+       +\frac{\alpha u}{b}H_2(p)\quad(t\le p\le1),\qquad
+ g(\alpha p)+\frac{\alpha u}{b}H_2(p)\quad(1-t\le p\le1).
+\]
+There are \(O(m)\) possible sizes. Rounding, uniform rectangular estimates
+and padding use the same argument as above.
+
+For reproducibility, divide each indicated interval into 512 equal cells.
+On a cell with left endpoint \(v\), bound entropy by
+\(p\log_2(1/v)+(1-p)\log_2(1/(1-v))\). The remaining cost is affine
+or convex, so evaluating both endpoints suffices. Use outward logarithm
+bounds from the positive expansion
+\(\ln z=2\sum_{j\ {\rm odd}} w^j/j\), \(w=(z-1)/(z+1)\), after
+power-of-two reduction to \(1\le z\le2\). Stop at \(j=37\) with tail at most
+\(2w^{39}/(39(1-w^2))\). Round logarithms outward on the \(2^{-48}\)
+mesh. For each chord round \(q^s\) upward on the \(2^{-20}\) mesh by
+comparing logarithms. The resulting upper bounds including the leading four
+are strictly below \(3.992353409\) and \(3.992353870\), respectively.
+The rational inequalities and all cell endpoints are implemented in
+\texttt{check\_block\_cliques.py}.
+
+\paragraph{A two-label obstruction for the four-clique.}
+Fix one genuine two-label incidence split. Consider identities expressed as
+sums of pure swap-subset and pure correction-subset operators, using the
+unordered-pair decomposition and separately charging each term by its best
+dense rectangular contraction tree. This pricing rule cannot beat \(B=25/8\),
+even if the alphabet size \(q_i\ge2\) varies by digit and the choice of
+subsets is arbitrary.
+
+Write \(n=\prod_i q_i\). For a selected set \(S\) put
+\(r=\log_n\prod_{i\in S}q_i\) and \(z=|S|\log_n2\).
+Thus \(0\le z\le r\le1\). The swap symbols have exponent \(r\);
+the two joint orientations have exponent \(z\). Both residual labels have
+exponent \(1-r\). Let \(P\) denote the swap tree price and \(J\) the
+correction tree price before the charge for the fixed unordered pairs.
+The latter charge adds \(\log_n\prod_{i\in S}\binom{q_i}{2}\).
+For every split the exact check below proves one of the following alternatives
+throughout the triangle, simultaneously for all trees:
+\[
+ P\ge B,\qquad J\ge B-2r+2z,\qquad
+ \bigl(P\ge B-r\ \text{and}\ J\ge B-2r+z\bigr).
+\]
+The first alternative leaves the swap branch at the benchmark. In the second
+the total joint price is at least \(B\), since each digit contributes a
+factor \(2(1-1/q_i)\ge1\) after restoring the orbit charge.
+Any empty-subset term already costs the benchmark. Otherwise both branches
+must occur: \(I,P_i\) are linearly independent in every characteristic,
+so the identity can be evaluated formally at arbitrary Boolean swap values,
+with \(K_i=1-P_i\). Evaluate at all zeros and all ones.
+
+For the third alternative give digit \(i\) an independent Boolean swap
+value equal to one with probability \(1/q_i\). A swap monomial on \(S\)
+is active with probability \(\prod_{i\in S}1/q_i\). A correction monomial
+is active with probability \(\prod_{i\in S}(1-1/q_i)\). In each case the
+charged cost is at least \(n^B\) times that probability, including the
+orbit charge for the correction. At least one surviving term is active
+at every Boolean assignment. Summing probabilities proves the bound on
+the separate-term pricing rule. Circuits that share work or contract mixed
+swap and correction operators fall outside this argument.
+
+Fix a root edge. There are 105 binary trees on the other five labelled
+leaves and eight split classes. At each join use the common-index charge
+plus any permuted rectangular lower price from \((15,10,10)/16\) or
+\((1,1,0)\). The former is the gradient of the convex rectangular exponent
+at \((2,1,1)\), and the latter follows from flattening. All prices are
+affine in \((r,z)\). Intersect the triangle with the half-planes where
+every price, including leaf charge two, is at most the proposed lower
+line. Zero area excludes a strict violation by continuity; an identically
+equal price also certifies the claim directly. For swaps the calculation
+is one-dimensional. In the mask convention of the checker the first
+alternative covers \((1,1),(2,2)\), the second covers \((1,6),(2,5)\)
+and the third covers \((1,2),(1,3),(2,3),(2,4)\).
+All intersections use rational arithmetic in \texttt{check\_block\_cliques.py}.
+
+\paragraph{Mixed affine terms for the four-clique.}
+On one binary digit the valid twelve endpoint bits form the four-dimensional
+space \(V\) repeating each vertex bit three times. Let \(H\) be a hyperplane
+in \(V\), \(a\in V-H\) and \(b\notin V\). The indicator of \(V\) is the
+sum of two affine terms. The first has values \(+1,-1\) on \(H,b+H\);
+the second has value \(+1\) on \(a+H,b+H\). The cancellation holds in
+every characteristic. Translations permute local indices and the sign
+is a product of local characters because the edge observations span
+the parameter dual.
+
+Apply such an exchange independently to any \(h\) of \(m\) digits, with
+\(n=2^m\) and \(r=h/m\). Even allowing a different exchange at each digit
+and a different dense contraction tree for each term, the sum of the
+individual tree charges has exponent at least \(25/8+r/16-o(1)\).
+Here is the finite certificate. At a trivalent cut let \(A,B,C\) be the
+linear spaces of observations of the three groups of leaves.
+Their sum has dimension four. Let \(s=\dim(A\cap B\cap C)\) and
+let \(x,y,z\) be the three pair intersection dimensions after removing
+the common part. The grouped tensor has \(s\) common bits, \(x,y,z\)
+pair wires and \(d=\dim A+\dim B+\dim C-4-2s-x-y-z\) copies of the
+tensor on \((i,j,i+j)\) with binary indices, up to changes of bases
+and private factors. Indeed, in the space of relations \(a+b+c=0\)
+the relations moving a coordinate between two sites span a subspace
+of dimension \(2s+x+y+z\). A basis of the quotient projects independently
+at each of the three sites modulo its pair intersections: a relation
+with first component in those intersections reduces to a relation on
+the other pair. Extending by private bases gives the factors claimed.
+
+The additive tensor restricts to any pair wire by fixing the other index
+to zero. At any of the preceding wire prices \(w\), the grouped log price
+is therefore at least \(s+w\cdot(x,y,z)+d\max_i w_i\).
+There are 15 hyperplanes \(H\). Take \(a\) to repeat the unit vector at
+the first vertex of its defining equation. Adding \(H\) to \(b\) preserves
+directions; adding \(a\) exchanges branch directions. Setting the first
+incidence at each vertex to zero leaves 255 nonzero representatives
+modulo \(V\). The integer checker \texttt{check\_k4\_affine\_pairs.py}
+examines every one of these 3,825 labelled types. Of the 90 candidate
+cuts with one edge fixed as root, 66 admit a single price giving at
+least \(50/16\) on the original digit and at least \(70/32\) on the
+average of the two branches for every type. Every tree meets such a
+cut, as verified by enumerating bipartitions of its leaf subsets.
+
+Balance both branch counts within each type, rounding by at most one.
+There are at least \(2^h/(h+1)^{3825}\) balanced terms by the central
+binomial bound. At the certified cut of each term's own tree, adding
+prices across digits gives at least \(25/8-15r/16-O(1/m)\) in base
+\(n\). The multiplicity supplies the remaining \(r-o(1)\). This is
+an obstruction to separate evaluation of the full expansion. It leaves
+circuits collecting terms or sharing intermediate tables open.
+
+\paragraph{Three-terminal witnesses with a median.}
+Write \(P\) for the perimeter of the terminal triangle of a spectral
+witness and \(D>0\) for the log price of its common bit. The product
+of the three wires is binary matrix multiplication, so \(P/D\le9/4\).
+If there is a point \(o\) on all three geodesic sides, put every frozen
+edge site there. A bit shared by two terminals and \(o\) costs their
+distance: discard the third leg for the lower bound and use convexity
+along the side for the upper bound. A single terminal with two sites at
+\(o\) costs its distance to \(o\). For a variable triangle or path in
+\(K_4\), each terminal contributes this distance twice, totalling \(P\).
+For a variable star the total is \(D+P/2\), at most \(17D/8\).
+Thus such witnesses cannot raise the three-edge lower bound above \(9/4\),
+even when the frozen tables couple digits.
+
+For a variable triangle without a median, moving a helper from a side to
+\(o\) costs at most the distance moved by inserting a wire and contracting.
+Consequently an improved triangle witness requires
+\[
+ \inf_o\sum_{\text{three sides }AB}\operatorname{dist}(o,[AB])
+       > 9D/4-P.
+\]
+The existence of a witness giving a larger unrestricted lower bound is open.
 
 \paragraph{What the fractional triangle-cover program certifies.}
 Brand et al.~\cite[Theorem~5 and Lemma~39]{beyond-bilinear} pay asymptotic

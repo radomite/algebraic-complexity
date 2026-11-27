@@ -1,8 +1,6 @@
 # Algebraic complexity
 
-<sub>AI-generated text. Read at your own risk. Comments and pull requests are welcome.</sub>
-
-This slop dump collects results in algebraic complexity found with the help of AI agents.
+This slop dump collects results in algebraic complexity found with the help of AI agents. The text is almost entirely AI-generated; read at your own risk. Comments and pull requests are welcome.
 
 ## Tensor prices
 
@@ -12,13 +10,13 @@ OpenAI’s flatness theorem assigns each binary tensor wire a cost equal to the 
 
 An additional companion paper uses the same import and obtains the same result, but in GCT language, by constructing a polynomial equation that separates the clique tensor from an orbit closure containing all the balanced decompositions of a small circuit. [GCT version](vp-vnp/vp-vnp-gct.pdf)
 
-### Computing Euclidean tensor prices
-
-A single bit shared among rational sites costs the mean width of their convex hull. Moving one site recovers the number of linear extensions of a poset from two price evaluations. High-precision evaluation is therefore #P-hard in growing dimension, and one counting-oracle call suffices. The paper also gives deterministic algorithms in fixed dimension and for explicit tensors on three collinear sites. [Paper](vp-vnp/computing-euclidean-tensor-prices.pdf)
-
 ### When does a field have ports?
 
 This exposition gives an introduction to OpenAI’s work on the geometry of the asymptotic spectrum of tensors. Then it studies *ports*: A field has them if bounded-degree graphs can control the average squared wire price between all pairs of attachment sites by the average along their edges, with a constant independent of graph size. The paper develops a finite test using a projective plane, and explains why the field classification matters to get tight circuit lower bounds. [Paper](ports/ports.pdf)
+
+### Computing Euclidean tensor prices
+
+A single bit shared among rational sites costs the mean width of their convex hull. Moving one site recovers the number of linear extensions of a poset from two price evaluations. High-precision evaluation is therefore #P-hard in growing dimension, and one counting-oracle call suffices. The paper also gives deterministic algorithms in fixed dimension and for explicit tensors on three collinear sites. [Paper](vp-vnp/computing-euclidean-tensor-prices.pdf)
 
 ## Sharp bounds under width parameters
 
@@ -35,7 +33,7 @@ For undirected Hamiltonian cycles, let $\rho$ be the exponential rank growth per
 
 ### Fixed-pattern catalogue
 
-Over every field, the unrestricted circuit exponent for the colorful four-clique lies between $9/4$ and $25/8$. For the colorful five-clique the bounds are $9/4$ and $4-1/300$. For $K_{3,3}$, the colorful homomorphism polynomial has circuit lower exponent at least $4/\sqrt{3}$ over every field. In characteristic zero, an ordinary weighted seven-edge path has the same circuit complexity as the colorful four-clique. At eleven edges the lower exponent is already strictly above the matrix multiplication exponent $9/4$. This is pretty open-ended. [Paper](patterns/small-patterns.pdf)
+Over every field, the unrestricted circuit exponent for the colorful four-clique lies between $9/4$ and $25/8$. For the colorful five-clique it is between $9/4$ and $3.992353870$. For $K_{3,3}$, the colorful homomorphism polynomial has circuit lower exponent at least $4/\sqrt{3}$ over every field. Many other bounds are shown as well. [Paper](patterns/small-patterns.pdf)
 
 ### Parameterized sparse patterns
 
