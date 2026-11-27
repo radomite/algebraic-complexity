@@ -8,6 +8,10 @@ This slop dump collects results in algebraic complexity found with the help of A
 
 OpenAI’s flatness theorem assigns each binary tensor wire a cost equal to the Euclidean distance between its endpoints. A 5-page argument shows how this geometry implies a lower bound for the clique polynomial. For cliques of size $k$ on $N$ vertices, the circuit-size exponent in $N$ grows as $\Omega(\sqrt{k})$. This implies $\mathrm{VP}\ne\mathrm{VNP}$ over every field. This is not a new result, merely a self-contained presentation. [Paper](vp-vnp/vp-vnp.pdf)
 
+### When does a field have ports?
+
+This exposition gives an introduction to OpenAI’s work on the geometry of the asymptotic spectrum of tensors. Then it studies *ports*: A field has them if bounded-degree graphs can control the average squared wire price between all pairs of attachment sites by the average along their edges, with a constant independent of graph size. The paper develops a finite test using a projective plane, and explains why the field classification matters to get tight circuit lower bounds. [Paper](ports/ports.pdf)
+
 ## Sharp bounds under width parameters
 
 We consider the complexity of graph-related polynomials parameterized by pathwidth, cutwidth, and bandwidth.
