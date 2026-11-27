@@ -28,7 +28,7 @@ A copy specifies its vertices and its edges. It contributes once, regardless of 
  a_F(H)=\liminf_{n\to\infty}\log_n(1+\sizeF(P_{H,n})),\qquad
  \bar a_F(H)=\limsup_{n\to\infty}\log_n(1+\sizeF(P_{H,n})).
 \]
-Size counts binary addition, subtraction and multiplication gates, with arbitrary field constants and unrestricted reuse. Equality is as formal polynomials, also over finite fields. All limits in host size are taken before growing the pattern. Thus an arbitrary factor depending only on $H$ has no effect on these exponents.
+Size counts binary addition, subtraction and multiplication gates, with arbitrary field constants and unrestricted reuse. Equality is as formal polynomials, also over finite fields. The exponents $a_F(H)$ and $\bar a_F(H)$ take the host limit at fixed $H$, so a factor depending only on $H$ has no effect on them. Corollary~\ref{growing-bound} also treats matching orders that grow with the host.
 
 \begin{theorem}[Sparse pattern bounds]\label{main}
 \leavevmode
@@ -266,6 +266,57 @@ For fixed $R$, all but $O_R(h)$ unordered vertex pairs have distance greater tha
                   =\frac34(1-3^{-R}).
 \]
 Summing over these pairs, then sending $h\to\infty$ and $R\to\infty$ in that order, gives $\liminf_h b_h^2\ge3/16$. Lemma~\ref{dipole} gives the matching upper limit. Dividing $\sqrt h/(4b_h)$ by $\sqrt{3h}$ gives the asserted coefficient.
+\end{proof}
+
+\subsection{When the matching order grows with the host}\label{growing-matchings}
+The fixed-order exponent $\beta_F(m)$ allows the threshold in $n$ to depend on $m$.
+To let $m$ grow with $n$, we keep the number of terms and the error in the price estimate explicit.
+
+\begin{corollary}[Growing matching orders]\label{growing-bound}
+Fix a field $F$ of characteristic different from two. On $K_{n,n}$ let
+$P_n=\sum_{j=0}^n a_{n,j}\Match_{n,j}$ with $a_{n,j}\in F$ and $\Match_{n,0}=1$.
+Write $m=m(n)$ for the largest $j$ with $a_{n,j}\ne0$, taking $m=0$ if $P_n=0$.
+If $m\to\infty$ and $m\sqrt{\log(2m)}=o(\log n)$, then
+\[
+ \liminf_{n\to\infty}\frac{\log(2+\sizeF(P_n))}{\sqrt m\,\log n}\ \ge\ \frac13 .
+\]
+There are absolute constants $c,C>0$ such that, for all sufficiently large $n$ and every $0\le m\le n$,
+\[
+ \log_n(2+\sizeF(P_n))\ \ge\ c\min\{\sqrt m,B(n)\}-C,\qquad
+ B(n)=\frac{\sqrt{\log(n+2)}}{(\log\log(n+4))^{1/4}} .
+\]
+In this subsection $\log=\log_2$.
+\end{corollary}
+
+\begin{proof}
+First consider $\Match_{n,m}$ alone. Take $h=\lfloor m/3\rfloor\ge5$, a graph $G$ attaining $b_h$ in Proposition~\ref{sharpdipole}, and $q=2^w$ with $w\ge1$. Write $s=\sizeF(Z_{G,q})$.
+
+To make Lemma~\ref{wire} quantitative, group products by their three sets of rows.
+At each gate retain the components of degree one in each row of a subset and zero in all other rows. At a product, summing over disjoint child subsets takes at most $3^h$ operations up to a constant factor, so the resulting circuit has size $3^{O(h)}(s+1)$. From the full set of rows expand additions and follow the child containing more than $h/2$ rows at each product, carrying the other factor in the context. Stop at a product with both children of size at most $h/2$. If the full set splits into two equal halves, follow one fixed half through additions and scalar factors to its first product with two nonempty children, and stop there. In each case the two children and the remaining rows form three nonempty parts, each of size at most $h/2$. For a given stopping product, its child polynomials multiply the sum of all contexts reaching it. Thus the coefficient tensor is a sum over at most $3^h$ ordered partitions, each of rank at most $3^{O(h)}(s+1)$ across its three parts.
+
+Use the edge potentials of Lemma~\ref{matchingtransfer}. For each such partition the proof of Lemma~\ref{centroid} gives three sites $p_j$ of half-perimeter one with score at least $\sqrt h/(2b_h)$. Translate one site to the origin, so $\|p_j\|\le1$. As in Lemma~\ref{wire}, the $2h$ equality wires have price $2hw$. Supplying the rank label at $t p_j$ costs at most $t\log(3^{O(h)}(s+1))$. For a wire end at a unit direction $u$ scaled by $1/2$, the tangent bound for the square root gives
+\[
+ \|u/2-tp_j\|\le \tfrac12-t\langle u,p_j\rangle+t^2\|p_j\|^2 .
+\]
+The $4h$ ends therefore contribute a quadratic error of at most $4hwt^2$.
+The price of adding the partition tensors is at most the logarithm of their number times the normalized Gaussian mean width of the end sites~\cite{euclid}. This width is $O(\sqrt{\log(2h)})$ by the Gaussian maximum bound for $4h$ vectors of norm $1/2$. Comparing prices and dividing by $t>0$ gives
+\[
+ \log(s+1)\ge \frac{w\sqrt h}{2b_h}
+       -O\!\left(h+hwt+\frac{h\sqrt{\log(2h)}}{t}\right).
+\]
+Set $t=(\log(2h))^{1/4}/\sqrt w$. The cubic encoding uses $2h$ positions with $q^2$ states apiece, so Lemmas~\ref{encoding} and~\ref{split} use at most $5^{2h}2^m$ matching evaluations. Charging for these and their linear combination gives, whenever $6hq^2+m\le n$,
+\begin{equation}\label{finite-matching}
+ \log(2+\sizeF(\Match_{n,m}))\ge \frac{w\sqrt h}{2b_h}
+           -O\!\left(m+h\sqrt w\,(\log(2h))^{1/4}\right).
+\end{equation}
+
+Choose the largest admissible power of two $q$. For $m\le B(n)^2$ and large $n$ this gives $w=\tfrac12\log n-O(\log(2m))$. The error in~\eqref{finite-matching}, divided by $w\sqrt h$, is
+$O(\sqrt{m\sqrt{\log(2m)}/\log n})$.
+It tends to zero in the stated little-$o$ regime, where $m\le B(n)^2$ eventually. Since $h/m\to1/3$ and $b_h\to\sqrt3/4$, the leading coefficient after division by $\sqrt m\log n$ tends to $1/(4\sqrt3\,(\sqrt3/4))=1/3$. For $m\le c_0 B(n)^2$, taking an absolute $c_0>0$ sufficiently small keeps the error below half the leading term for large $m,n$. This gives $\log_n(2+\sizeF(\Match_{n,m}))=\Omega(\sqrt m)$ in that range.
+
+For $P_n$, retain the homogeneous components through degree $m$ at each gate. Convolution costs $O((m+1)^2(\sizeF(P_n)+1))$ gates in total and recovers the top component $a_{n,m}\Match_{n,m}$. Removing the nonzero scalar proves the first assertion, since the extra logarithmic cost is $O(\log(2m))$.
+
+For the uniform bound suppose first that $1\le m\le n/2$. Put $d=\min\{m,\lfloor c_1 B(n)^2\rfloor\}$ and reserve $m-d$ disjoint unit edges on private rows and columns. Retain an $n'\times n'$ variable array on the remaining rows and columns, where $n'=n-m+d\ge n/2$, and set all other entries to zero. Degree $d$ in the array forces every reserved edge, so this component of $\Match_{n,m}$ is exactly $\Match_{n',d}$. Choose $c_1$ small enough that $d\le c_0 B(n')^2$. The two degree extractions cost a polynomial factor in $n$, hence an additive constant in the base-$n$ exponent. Bounded orders and $P_n=0$ are covered by increasing $C$. Finally, for $m>n/2$, restricting $\Match_{n,m}$ to an $m\times m$ array gives the permanent. The permanent lower bound in characteristic different from two~\cite{circuits} gives a base-$n$ exponent of $\Omega(\log n/(\log\log n)^2)$, which eventually exceeds $B(n)$ even after the extraction cost.
 \end{proof}
 
 \section{Sublinear upper exponent}\label{upper}
