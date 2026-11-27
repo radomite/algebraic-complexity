@@ -10,7 +10,7 @@ OpenAI’s flatness theorem assigns each binary tensor wire a cost equal to the 
 
 ### Computing Euclidean tensor prices
 
-A single bit shared among rational sites costs the mean width of their convex hull. Moving one site recovers the number of linear extensions of a poset from two price evaluations. High-precision evaluation is therefore $\#\mathrm P$-hard in growing dimension, and one counting-oracle call suffices. The paper also gives deterministic algorithms in fixed dimension and for explicit tensors on three collinear sites. [Paper](vp-vnp/computing-euclidean-tensor-prices.pdf)
+A single bit shared among rational sites costs the mean width of their convex hull. Moving one site recovers the number of linear extensions of a poset from two price evaluations. High-precision evaluation is therefore #P-hard in growing dimension, and one counting-oracle call suffices. The paper also gives deterministic algorithms in fixed dimension and for explicit tensors on three collinear sites. [Paper](vp-vnp/computing-euclidean-tensor-prices.pdf)
 
 ### When does a field have ports?
 
