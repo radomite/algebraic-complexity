@@ -37,6 +37,7 @@
 An introduction to tensor wire prices}
 \author{}
 
+\input{../page-notice.tex}
 \begin{document}
 \maketitle
 
@@ -73,7 +74,7 @@ comparison can inspect every pair of attachment sites. Its sparse
 replacement can inspect only edges. We want the latter average to control
 the former, with a factor independent of the number of sites.
 This is the use of ports in the network compression argument of
-\cite{geometry}.
+\cite{euclid}.
 
 There is a second reason to ask which fields have ports. Suppose we want
 to count copies of a \(k\)-vertex expander in a weighted graph on \(n\)
@@ -137,7 +138,7 @@ tensor on these sites over \(F\) according to the rules
 Here \(1\) is the one-entry array \((1)\). A direct sum \(S\oplus T\) puts
 the two arrays in disjoint coordinate blocks at every site and fills the
 mixed blocks with zeros. For matrices this is the familiar block diagonal
-sum. These rules define Strassen's asymptotic spectrum \cite{strassen}.
+sum. These rules define Strassen's asymptotic spectrum \cite{strassen-spectrum}.
 
 Every nonzero tensor supplies \(1\) by selecting a nonzero entry and
 rescaling. Fix a unit \(s>0\). Its \emph{price}
@@ -150,7 +151,7 @@ finitely many labelled terminals gives such a table of distances, using
 one spectral point and one unit for all pairs. A placement that puts all
 terminals at the same site gives the zero table. This
 finite-table description suffices for the definition of ports
-\cite{geometry}.
+\cite{euclid}.
 
 \paragraph{The circle's prices really exist.}
 For a nontrivial cut \(S\mid S^c\), put all the indices from \(S\) on the
@@ -194,7 +195,7 @@ the same vertex twice. The second starts at a uniform vertex and takes
 one step. Both quantities have the same units, so rescaling a placement
 preserves their ratio.
 
-\begin{definition}[Ports {\cite{geometry}}]\label{def:ports}
+\begin{definition}[Ports {\cite{euclid}}]\label{def:ports}
 A field \(F\) \emph{has ports} if there are constants \(D<\infty\) and
 \(\gamma<\infty\) and regular undirected multigraphs of unbounded order,
 each of degree at most \(D\), such that
@@ -243,7 +244,7 @@ positive constant is an ordinary \emph{expander family}.
 
 Every finite Euclidean placement is spectral up to scale over every
 coefficient field. This is a substantial theorem about tensors
-\cite{geometry}. Thus every port family is an ordinary expander family.
+\cite{euclid}. Thus every port family is an ordinary expander family.
 It also gives a second way to test our cycle. Put its \(n\) vertices at
 the vertices of a regular Euclidean \(n\)-gon of radius one. Their mean
 is zero, so \(\Var=2\), and the squared length of each side is
@@ -259,7 +260,7 @@ spectral placements. The same paper proves that a finite field would
 have ports if there were a largest Euclidean dimension realizable with
 wire distances. Its Euclidean theorem realizes every finite dimension, so
 that condition gives no example. A field-extension theorem in
-\cite{geometry} also identifies the possible joint values on binary wires
+\cite{euclid} also identifies the possible joint values on binary wires
 before and after scalar extension. The classification therefore depends only on
 \emph{characteristic}. In particular \(\mathbb Q,\R,\mathbb C\) stand or fall together,
 as do \(\F_p\) and all its extensions for each prime \(p\).
@@ -330,7 +331,7 @@ What needs proof is that the hexagons from \emph{different} bases agree
 on their common terminals. There is no fixed basis containing all 21
 points among its three coordinate axes. Appendix~\ref{app:plane} derives
 the simultaneous placement from the Grassmannian argument of
-\cite{geometry}. We can already use the table to design an experiment.
+\cite{euclid}. We can already use the table to design an experiment.
 
 Put one binary wire on each incident point--line pair and call the
 resulting tensor \(\src\). Put one wire on each nonincident point--line
@@ -533,7 +534,7 @@ all candidate graphs would prove a no. The open part of this proposal
 is to produce the spectral prices witnessing those distances.
 
 There is a geometric reason a no would be consequential. Spectral
-distances extend to \emph{Hadamard spaces} \cite{geometry}. These are
+distances extend to \emph{Hadamard spaces} \cite{euclid}. These are
 complete metric spaces with shortest segments in which every midpoint
 \(m\) of \(a,b\) satisfies the Euclidean midpoint inequality
 \begin{equation}
@@ -729,7 +730,7 @@ positions take exactly one choice from each class. Their
 missing edges then contribute \(1-(1-Y_{ij})=Y_{ij}\), exactly the
 colorful clique factors. This uses at most \(2^r\) evaluations on a
 host growing linearly with the clique host. Substituting \(d=3k/5\)
-therefore preserves the order of the clique exponent \cite{patterns}.
+therefore preserves the order of the clique exponent \cite{sparse-patterns}.
 
 For the dense non-induced family a different reduction retains a clique
 on \((k-O(\log k))/2\) positions \cite{pairtables}. For the bounded-degree
@@ -762,7 +763,7 @@ bounded-degree expander family whose ordinary non-induced exponent is
 at least \((1/\sqrt{2}-\varepsilon)\sqrt{k}\). There is also an
 all-fields upper bound \(O(k/\sqrt{\log k})\) on the upper limiting
 exponent for every ordinary non-induced family with \(O(k)\) edges
-\cite{patterns}. Dividing by \(k\) shows that these sparse counts
+\cite{sparse-patterns}. Dividing by \(k\) shows that these sparse counts
 rule out \emph{every} fixed \(c>0\), whichever answer their field gives
 to the ports question.
 
@@ -780,7 +781,7 @@ computes the induced count by using \(X_{ij}\) or \(1-X_{ij}\) on
 each pair of positions, forbidding repeated labels and dividing by
 the number of automorphisms. A colorful clique sum is itself an ordinary
 clique sum on a multipartite host with independent classes, since every
-contributing clique takes one vertex per class \cite{pairtables,patterns}.
+contributing clique takes one vertex per class \cite{pairtables,sparse-patterns}.
 Thus even for induced
 cubic expanders in characteristic zero, proving an exponent \(ck\)
 amounts to proving that rate for \(k\)-clique.
@@ -791,7 +792,7 @@ per group records all its vertex choices. After absorbing within-group
 weights into the three pair tables \(A,B,C\), the clique sum is
 \(\operatorname{tr}(ABC)\). The tables have side at most
 \(n^{\lceil k/3\rceil}\), so square matrix multiplication bounds the
-asymptotic coefficient by \(\omega_F/3=3/4\) \cite{mm}. Whether even
+asymptotic coefficient by \(\omega_F/3=3/4\) \cite{matrix-exponent}. Whether even
 one positive constant is attainable remains open here. No step in the
 no-ports transfer assumes that the permanent needs \(2^{(1-o(1))t}\)
 gates. Curticapean's algorithm rules out that premise for the generic
@@ -811,7 +812,7 @@ In particular \(B_1\) measures the cost of changing one direction and
 \(B_m\) measures the cost of changing all of them.
 
 \paragraph{The Grassmannian input.}
-The proof in \cite{geometry} gives \(B_{r+s}\le B_r+B_s\) for
+The proof in \cite{euclid} gives \(B_{r+s}\le B_r+B_s\) for
 \(r+s\le m\). A uniform strict improvement \(B_m\le(m-\eta)B_1\) for any
 \(\eta>0\) and this fixed \(m\) implies ports. To see the role of strictness,
 the Grassmannian construction in that proof uses the gain to produce
@@ -841,7 +842,7 @@ If \(F\) lacks ports, there are placements with \(B_1=1\) and \(B_m\)
 arbitrarily close to \(m\). All their entries are bounded since the set
 of pairs is finite. The closure theorem for spectral distance tables
 realizes a subsequential limit, up to a common change of scale
-\cite{geometry}. At equality \(B_r=r\), because
+\cite{euclid}. At equality \(B_r=r\), because
 \(B_m\le B_r+B_{m-r}\). We use the equality statement proved in the
 Grassmannian argument, which gives squared distance \(r\) for every
 \emph{individual} pair at \(r<m\) steps. Each quadrilateral deficit is
@@ -876,7 +877,7 @@ We obtain a single spectral placement of all subspaces with
 A basis of \(V\) picks out the eight subspaces spanned by subsets of that
 basis. In \eqref{eq:lattice} their squared distances count differing
 coordinates, exactly as on the corners of a Euclidean unit cube. The
-cube-filling theorem of \cite{geometry} identifies their convex hull in
+cube-filling theorem of \cite{euclid} identifies their convex hull in
 the spectral space with that cube. All cubes have the same corners \(0,V\)
 at the ends of their long diagonal. Write \(o=\one/2\) for its midpoint
 in cube coordinates.
@@ -935,7 +936,7 @@ above the uniform bound and \(n\) is sufficiently large.
 
 \paragraph{A strict inequality on a compact set.}
 Put \(z_{ij}=\phi(W_{ij})\in[1,2]\), since \(1\oplus1\res W_{ij}\res1\).
-The possible \(z\)-tables form a compact set \cite{geometry}. Indeed the
+The possible \(z\)-tables form a compact set \cite{euclid}. Indeed the
 prime field's algebraic closure is countable, so its finite tensors can
 be enumerated. Each \(\phi(T)\) is bounded by the number of nonzero
 entries of \(T\), since that many units in direct sum supply \(T\).
@@ -972,7 +973,7 @@ They have integer entries and are nonzero. The inequality
 \(f(z)\le-\epsilon\). Conversely, if \(\max_\phi f<0\), sufficiently small
 \(\epsilon\) gives \(\phi(X)<\phi(Y)\) for every spectral point.
 
-The last step uses strict spectral comparison \cite{strassen,geometry}.
+The last step uses strict spectral comparison \cite{strassen-spectrum,euclid}.
 If \(A,B\ne0\) and \(\phi(A)<\phi(B)\) everywhere, there is an integer
 \(K\) such that \(K B^{\otimes m}\res A^{\otimes m}\) for every \(m\).
 Here \(K B\) denotes \(K\) copies in direct sum. In our strictly separated
@@ -1022,69 +1023,7 @@ bases changes the divided distance by \(O(1/t)\). With finitely many
 pairs the errors tend to zero simultaneously, as required.
 
 \begingroup\small
-\begin{thebibliography}{10}
-\setlength{\itemsep}{1pt}
-\bibitem{strassen}
-V.~Strassen.
-\href{https://doi.org/10.1515/crll.1988.384.102}{The asymptotic spectrum of tensors}.
-\emph{J. reine angew. Math.} 384 (1988), 102--152.
-
-\bibitem{geometry}
-OpenAI.
-\href{https://github.com/openai/math/blob/92b516ef8e2abf66c3db7aa31438d3010bc7956f/preprints/Euclidean-geometry-in-the-asymptotic-spectrum-of-tensors-November-24-2026/paper.pdf}{Euclidean geometry in the asymptotic spectrum of tensors}.
-Preprint, 24 November 2026. See the sections on prices, nonpositive
-curvature, and port graphs from cube exclusion.
-
-\bibitem{circuits}
-OpenAI.
-\href{https://github.com/openai/math/blob/92b516ef8e2abf66c3db7aa31438d3010bc7956f/preprints/Circuit-lower-bounds-for-Hamiltonian-cycle-and-the-permanent-November-24-2026/paper.pdf}{Circuit lower bounds for Hamiltonian cycle and the permanent}.
-Preprint, 24 November 2026. See the logarithmic Poincar\'e obstruction
-and the construction of threshold ranks and exterior flags.
-
-\bibitem{mendel}
-M.~Mendel and A.~Naor.
-\href{https://arxiv.org/abs/1306.5434}{Expanders with respect to Hadamard spaces and random graphs}.
-\emph{Duke Math. J.} 164 (2015), 1471--1548.
-
-\bibitem{ann}
-A.~Andoni, A.~Naor and O.~Neiman.
-\href{https://arxiv.org/abs/1509.08677}{Snowflake universality of Wasserstein spaces}.
-\emph{Ann. Sci. \'Ec. Norm. Sup\'er.} 51 (2018), 657--700.
-
-\bibitem{izeki}
-H.~Izeki and S.~Nayatani.
-\href{https://arxiv.org/abs/math/0410019}{Combinatorial harmonic maps and discrete-group actions on Hadamard spaces}.
-\emph{Geom. Dedicata} 114 (2005), 147--188.
-
-\bibitem{cornut}
-C.~Cornut.
-\href{https://arxiv.org/abs/1411.5567}{Filtrations and buildings}.
-\emph{Mem. Amer. Math. Soc.} 266 (2020), no.~1296.
-
-\bibitem{patterns}
-\href{../patterns/sparse-patterns.pdf}{Arithmetic circuits for counting sparse patterns}.
-Companion manuscript, November 2026. See the sparse pattern bounds and
-the reduction from colorful clique to induced expanders.
-
-\bibitem{pairtables}
-\href{../vp-vnp/research-diary/vandermonde-pair-tables-for-patterns.md}{Pair tables for the exterior tensor in the Hamiltonian-cycle proof}.
-Project proof note, 26 November 2026. Includes the clique host-size
-estimate and the transfers to dense ordinary and sparse induced patterns.
-
-\bibitem{sparserouting}
-\href{../vp-vnp/research-diary/sparse-ordinary-vandermonde-expanders.md}{Bounded-degree expanders for ordinary non-induced counting}.
-Project proof note, 26 November 2026. Includes the count of vertices for
-exterior evaluation and routing.
-
-\bibitem{mm}
-OpenAI.
-\href{https://github.com/openai/math/blob/92b516ef8e2abf66c3db7aa31438d3010bc7956f/preprints/The-matrix-multiplication-exponent-is-nine-fourths-November-24-2026/paper.pdf}{The matrix multiplication exponent is nine fourths}.
-Preprint, 24 November 2026.
-
-\bibitem{stars}
-R.~Curticapean.
-\href{https://arxiv.org/abs/2611.03636}{Get permanent results faster by counting stars}.
-Preprint, November 2026, Theorem~1.1.
-\end{thebibliography}
+\bibliographystyle{../linkedtitles}
+\bibliography{../references}
 \endgroup
 \end{document}

@@ -1,0 +1,269 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,microtype,xcolor}
+\usepackage[left=1.05in,right=1.05in,top=0.95in,bottom=0.95in]{geometry}
+\usepackage{hyperref}
+\definecolor{inkblue}{RGB}{25,65,100}
+\hypersetup{colorlinks=true,allcolors=inkblue,pdftitle={VP versus VNP by separating tensor orbit closures}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\Cl}{\operatorname{Clique}}
+\newcommand{\bal}{\mathcal B}
+\newcommand{\rk}{\operatorname{rank}}
+\title{VP versus VNP by separating tensor orbit closures}
+\author{}\date{November 27, 2026}
+\input{../page-notice.tex}
+\begin{document}
+\maketitle
+
+\section{The polynomial and its orbit-closure witness}
+Work with formal polynomials over a field $F$. Size counts the gates of
+a binary arithmetic circuit with variables and field constants, allowing
+reuse of every gate. For a host with $N$ vertices set
+\[
+ \Cl_{N,k}=\sum_{\substack{U\subseteq[N]\\|U|=k}}
+      \prod_{i\in U}X_i\prod_{\{i,j\}\subseteq U}E_{ij},
+ \qquad \Cl_N=\sum_{k=0}^N\Cl_{N,k}.
+\]
+We recover the clique bound of the wire argument in
+\cite[Appendix E]{anthropic}. All orbit closures below are taken over
+$K=\overline F$. Extending scalars preserves every circuit over $F$.
+
+\begin{theorem}\label{main}
+For each fixed $k\ge2$ the circuit size $C_F$ satisfies
+\[
+ \liminf_{N\to\infty}\frac{\log C_F(\Cl_{N,k})}{\log N}
+                  \ \ge\ \frac{k^{3/2}}{3(k-1)} .
+\]
+The witness is a noncontainment of tensor orbits: for $q=2^\ell$ and
+every fixed $\epsilon>0$, a clique tensor lies outside the orbit closure
+for rank budget $r$ whenever $1\le r\le q^{k^{3/2}/3-\epsilon}$ and
+$\ell$ is sufficiently large. The separating equation can be chosen
+over the prime field, of degree at most $q^{k(k-1)}$.
+\end{theorem}
+
+Give each edge of $K_k$ an independent label in $[q]$. A label assignment
+$\sigma$ supplies vertex $i$ with its incident tuple $\sigma_i\in[q]^{k-1}$.
+Consider the polynomial $\sum_\sigma\prod_i x_{i,\sigma_i}$.
+It is a projection of $\Cl_{N,k}$ at $N=kq^{k-1}$. Make one host palette
+for each $i$, with one vertex of weight $x_{i,\rho}$ for each tuple $\rho$.
+Give intrapalette edges weight zero. Across palettes $i,j$, set the edge
+weight to one exactly when the two tuples agree on label $ij$, and to
+zero otherwise. Every surviving clique picks one vertex per palette and
+each consistent choice is counted once, in every characteristic.
+
+Let $W_i=(K^q)^{\otimes(k-1)}$ have its tuple basis and
+$W=\bigotimes_i W_i$. The coefficient of one variable from each palette
+is an entry of a tensor in $W$. For our projected polynomial the tensor is
+\[
+               T=\mathop{\boxtimes}\limits_{\{i,j\}\in E(K_k)}
+                        \sum_{a=1}^q e_a^{(i,j)}\otimes e_a^{(j,i)} .
+\]
+Here $(i,j)$ denotes the end of edge $ij$ owned by $i$, and $\boxtimes$
+groups factors at the same site. The displayed factor is an equality
+wire. On a triangle, for instance, the monomials have the form
+$x_{1,(a,b)}x_{2,(a,c)}x_{3,(b,c)}$: the three wires carry $a,b,c$.
+
+\section{One source orbit for all balanced cuts}
+Write $W_S=\bigotimes_{i\in S}W_i$. A cut $S\mid S^c$ is balanced if
+$k/3\le |S|\le2k/3$. Take one representative per unordered cut in
+$\bal$. For $r\ge1$ let $\Phi_r$ take arbitrary pairs of tables to their sum
+\[
+    \Phi_r(a,b)=\sum_{S\in\bal}\sum_{j=1}^r a_{S,j}\otimes b_{S,j},
+       \qquad a_{S,j}\in W_S,\quad b_{S,j}\in W_{S^c}.
+       \tag{1}\label{join}
+\]
+For one cut the inner sum is a matrix of rank at most $r$, with rows
+indexed by $S$ and columns by $S^c$. Write $J_r=\overline{\mathrm{im}\,\Phi_r}$.
+It is the affine join of these matrix rank varieties.
+For a tensor on several spaces, its orbit consists of its images under
+independent invertible linear maps on those spaces. Its Zariski closure
+is the common zero set of all polynomials in the entries that vanish on
+the orbit. Thus one polynomial that vanishes there and is nonzero at the
+clique suffices to distinguish the two.
+
+\begin{lemma}\label{cut}
+The coefficient tensor of a size-$s$ circuit on the $k$ palettes lies
+in $\mathrm{im}\,\Phi_{2s}$.
+\end{lemma}
+\begin{proof}
+At gate $g$, denote by $[g]_U$ the component using one variable from
+each palette in $U$ and none from the others. At a product,
+$[gh]_U=\sum_{A\sqcup B=U}[g]_A[h]_B$ with ordered splits. Expand from
+the output on $[k]$. Expand both summands at an addition. At a product
+split follow the larger child (ties go left), saving the other factor.
+Stop the first time the followed set has size at most $2k/3$. Its parent
+had size greater than $2k/3$, so the stopping set $S$ has size greater
+than $k/3$. An input with a larger-than-allowed support contributes zero.
+For each stopping pair $(g,S)$ the factor is always $[g]_S$.
+All saved contexts use exactly the complementary palettes and can be
+added together. Even if a gate occurs along many paths this gives one
+product per pair. There are at most $s$ gates for each oriented side and
+two orientations per cut.
+\end{proof}
+
+\begin{lemma}\label{orbit}
+There is an explicit tensor $Q_r$ on a larger space, with product maps
+$\iota,\pi$ satisfying $\pi\iota=1_W$, for which
+\[
+                 A\in J_r\quad\Longleftrightarrow\quad
+                 \iota A\in\overline{G\cdot Q_r}.
+\]
+Here $G$ is the product of the general linear groups of the source factors.
+\end{lemma}
+\begin{proof}
+Keep one terminal per ordered edge end and add two private hubs for each
+cut. For a fixed cut $S$, connect every terminal by a $q$-wire to the hub
+on its side, and connect the two hubs by an $r$-wire. Let $Q_S$ be the
+product of these wires, grouping all indices incident at each party.
+Other hubs have dimension one in this tensor. Form $Q_r=\bigoplus_S Q_S$
+by taking the direct sum of the local spaces at every party and putting
+each $Q_S$ in its own diagonal block.
+
+Apply arbitrary linear maps from terminal spaces to $K^q$ and from
+hub spaces to $K$. These restrictions of $Q_r$ give exactly
+\eqref{join}. Indeed, the middle index selects $j$, and each hub
+functional supplies a table on all end labels on its side and $j$.
+The terminal maps can be absorbed in those tables. Conversely choosing
+identity terminal maps on each block and prescribing the hub entries
+realizes every list of tables independently.
+
+Embed these output spaces factorwise into coordinate subspaces of the
+corresponding source spaces by $\iota$, and use the coordinate
+projections as a factorwise left inverse $\pi$.
+Composing any restriction with $\iota$ gives a product endomorphism.
+Such maps lie in the closure of $G$ since invertible matrices are dense.
+Thus $\iota(\mathrm{im}\,\Phi_r)\subseteq\overline{G\cdot Q_r}$.
+Conversely, $\pi$ takes every orbit point to a restriction, and hence
+takes its closure into $J_r$. Taking closures gives both implications.
+\end{proof}
+
+\section{An equation separating the two tensors}
+A spectral point $\phi$ assigns a positive real number to every nonzero
+tensor on a fixed finite site set, and zero to the zero tensor. It is
+multiplicative on grouped tensor products, additive on block direct sums,
+and monotone under restrictions. In particular
+$\phi(\sum_{j=1}^L A_j)\le L\max_j\phi(A_j)$: the sum is a restriction
+of the direct sum. A nonzero scalar factor preserves $\phi$ by invertible
+rescaling. We use the following result from \cite{euclid}.
+
+\begin{quote}
+\textbf{Euclidean binary-wire theorem.}
+For any fixed finite Euclidean site configuration with at least two
+distinct sites there are a spectral point $\phi$ over $K$ and $c>0$
+such that $c\log_2\phi(\text{binary wire from }u\text{ to }v)=\|u-v\|$
+simultaneously for all pairs.
+\end{quote}
+
+Write $H=c\log_2\phi$, with $H(0)=-\infty$. A $2^\ell$-wire costs
+$\ell$ times its length. The following elementary observation lets this
+exact-restriction theorem produce an equation on a Zariski closure.
+
+\begin{lemma}\label{equation}
+Let $X$ be a set of tensors in a $v$-dimensional tensor space, all on
+the same sites as $T$. If $H(T)>\sup_X H+2c$, there is a homogeneous
+polynomial $E$ of degree $v$ with $E(X)=0$ and $E(T)=1$.
+\end{lemma}
+\begin{proof}
+Set $d=v$. Up to regrouping, the coordinates of $A^{\boxtimes d}$ are
+monomials of degree $d$ in $v$ entries. Thus the span of all such powers
+has dimension at most $\binom{v+d-1}{d}<4^d$. If $T^{\boxtimes d}$ lay
+in the span of powers from $X$, it would be a sum of fewer than $4^d$
+scaled powers from $X$, by choosing a basis from the spanning set.
+The sum inequality and multiplicativity would give
+$dH(T)\le d\sup_X H+2cd$. A linear functional zero on that span and
+one at $T^{\boxtimes d}$ therefore exists. Evaluate it on
+$A^{\boxtimes d}$ to obtain $E(A)$. The argument uses ordinary tensor
+coordinates and works in positive characteristic as well.
+\end{proof}
+
+We now price $X=\mathrm{im}\,\Phi_r$. Fix $k$ and put $M=\binom k2$.
+Place terminal $(i,j)$ at $u_{ij}=(e_i-e_j)/\sqrt2$ in $\mathbb R^k$.
+The two ends of each target wire are distance two apart, giving
+$H(T)=2M\ell$. The vector sum on the $S$ side is
+\[
+ v_S=\frac{k{\bf1}_S-|S|{\bf1}}{\sqrt2},
+ \qquad \|v_S\|^2=\frac{k|S|(k-|S|)}2,\qquad
+ b:=\min_{S\in\bal}\|v_S\|\ge k^{3/2}/3 .
+\]
+Indeed the two ends of each internal edge cancel; the last inequality
+uses balance. Fix $0<t<1$. Place the two hubs for $S$ at
+$\pm t v_S/\|v_S\|$, the positive one serving $S$. Apply the import
+once to the terminals and all these hubs. The scale $c=c_{k,t}$ is
+independent of $q,r$. At unused hubs adjoin scalar factors to the output.
+
+For unit vectors $u,w$, the tangent bound for the square root gives
+$\|u-tw\|\le1-t\langle u,w\rangle+t^2/2$.
+Since the terminal sums on the two sides are $v_S$ and $-v_S$, the
+total length of the $2M$ spokes is at most $2M-2tb+Mt^2$.
+The middle wire costs at most $2t\lceil\log_2 r\rceil$, by restricting
+a power-of-two wire. Sum the restrictions of the cut networks on the
+common sites. The resulting inequality is
+\[
+ H(T)-\sup_{A\in X}H(A)
+ \ \ge\ 2t\bigl(b\ell-\lceil\log_2 r\rceil\bigr)
+                -Mt^2\ell-c\log_2|\bal| .
+ \tag{2}\label{gap}
+\]
+If $r\le q^{b-\epsilon}$, choose $0<t<\min(1,\epsilon/M)$.
+The right side grows linearly in $\ell$ and eventually exceeds $2c$.
+Lemma~\ref{equation} supplies $E$ on $W$, where $v=q^{k(k-1)}$.
+It vanishes on $J_r$ because its zero set is closed. In the common
+ambient space of Lemma~\ref{orbit}, $E\circ\pi$ vanishes on
+$\overline{G\cdot Q_r}$ and takes value one at $\iota T$.
+The translates of this equation span a $G$-stable space of equations.
+This is the promised orbit-closure separation.
+
+The equation also has a finite coefficient prescription. Give a
+degree-$v$ polynomial $E$ unknown coefficients, equate all coefficients
+of $E(\Phi_r(a,b))$ to zero in the independent table parameters, and
+impose $E(T)=1$. These linear equations have entries in the prime
+field. Consistency over $K$ implies consistency there by row reduction.
+This specifies a separator at each stated budget without an assumption
+on the cost of evaluating it.
+
+\section{From noncontainment to the two class separations}
+At $N_\ell=k2^{(k-1)\ell}$, Lemma~\ref{cut} and the clique projection
+put $T$ in $J_{2s}$ whenever $\Cl_{N_\ell,k}$ has size $s$.
+Inequality~\eqref{gap} and the separating equation exclude this for
+$2s\le 2^{(b-\epsilon)\ell}$ and all sufficiently large $\ell$.
+For $N_\ell\le N<N_{\ell+1}$ zero the extra vertex weights. This gives
+the same lower bound and $\log_2 N<\log_2 k+(k-1)(\ell+1)$.
+Dividing and letting $\epsilon$ decrease to zero proves Theorem~\ref{main}.
+
+\begin{corollary}
+Over every field $F$, $\mathrm{VFPT}_F\subsetneq\mathrm{VW}[1]_F$
+and $\mathrm{VP}_F\subsetneq\mathrm{VNP}_F$.
+\end{corollary}
+\begin{proof}
+An FPT circuit family has size $f(k)N^a$ for a common exponent $a$.
+Choose $k$ with $k^{3/2}/(3(k-1))>a$ and then let $N$ grow.
+The fixed factor $f(k)$ disappears in the exponent, contradicting
+Theorem~\ref{main}.
+
+For membership, take Boolean selectors $y_i$ and form
+\[
+  \prod_i(1+y_i(X_i-1))
+      \prod_{i<j}(1+y_i y_j(E_{ij}-1)).
+\]
+Each assignment contributes precisely the weight of its selected set.
+Summing over assignments of Hamming weight $k$ gives $\Cl_{N,k}$.
+Each factor has constant bounded-fan-in depth, with a single unbounded
+product above them. This is a weight-$k$ sum of a weft-one circuit as
+in the definition of $\mathrm{VW}[1]$ \cite{be}. That class contains
+$\mathrm{VFPT}$ by its allowed fixed-parameter substitutions: the sum
+of $z$ over the weight-one assignments to a single selector equals $z$.
+
+Summing over all selectors gives $\Cl_N$ as a Boolean sum of a
+polynomial-size, polynomial-degree circuit, hence a VNP family.
+If it had polynomial-size circuits, replace each $X_i$ by $uX_i$ and
+keep the coefficients of $u^0,\ldots,u^k$ at each gate. Truncated
+convolution costs $O((k+1)^2)$ per product. The $u^k$ coefficient is
+$\Cl_{N,k}$, which would give the forbidden FPT circuit family.
+\end{proof}
+
+\bibliographystyle{../linkedtitles}
+\bibliography{../references}
+\end{document}

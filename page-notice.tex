@@ -1,0 +1,8 @@
+% The shipout hook also covers title pages, float pages, and bibliographies.
+\AddToHook{shipout/foreground}{%
+  \put(0pt,-24pt){\makebox[\paperwidth][c]{%
+    \normalfont\sffamily\fontsize{8}{10}\selectfont\color[gray]{0.42}%
+    AI-generated text. Read at your own risk. Comments and pull requests on
+    \href{https://github.com/radomite/algebraic-complexity/tree/main}{\textcolor[gray]{0.42}{GitHub}}
+    welcome.}}%
+}

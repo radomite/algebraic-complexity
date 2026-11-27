@@ -1,12 +1,16 @@
 # Algebraic complexity
 
-This slop dump collects results in algebraic complexity found with the help of AI agents. Lean formalizations are planned. **The notes are AI-written and barely post-processed. Read at your own risk.** 
+<sub>AI-generated text. Read at your own risk. Comments and pull requests are welcome.</sub>
+
+This slop dump collects results in algebraic complexity found with the help of AI agents.
 
 ## Tensor prices
 
 ### VP versus VNP from Euclidean flatness
 
-OpenAI’s flatness theorem assigns each binary tensor wire a cost equal to the Euclidean distance between its endpoints. A 5-page argument shows how this geometry implies a lower bound for the clique polynomial. For cliques of size $k$ on $N$ vertices, the circuit-size exponent in $N$ grows as $\Omega(\sqrt{k})$. This implies $\mathrm{VP}\ne\mathrm{VNP}$ over every field. This is not a new result, merely a self-contained presentation. [Paper](vp-vnp/vp-vnp.pdf)
+OpenAI’s flatness theorem assigns each binary tensor wire a cost equal to the Euclidean distance between its endpoints. A 5-page argument shows how this geometry implies a lower bound for the clique polynomial. For cliques of size $k$ on $N$ vertices, the circuit-size exponent in $N$ grows as $\Omega(\sqrt{k})$. This implies $\mathrm{VP}\ne\mathrm{VNP}$ over every field. This is not a new result, merely a self-contained presentation. [Elementary version](vp-vnp/vp-vnp.pdf)
+
+An additional companion paper uses the same import and obtains the same result, but in GCT language, by constructing a polynomial equation that separates the clique tensor from an orbit closure containing all the balanced decompositions of a small circuit. [GCT version](vp-vnp/vp-vnp-gct.pdf)
 
 ### Computing Euclidean tensor prices
 
@@ -29,7 +33,7 @@ For undirected Hamiltonian cycles, let $\rho$ be the exponential rank growth per
 
 ## Small patterns
 
-### Fixed-pattern catalogue 
+### Fixed-pattern catalogue
 
 Over every field, the unrestricted circuit exponent for the colorful four-clique lies between $9/4$ and $25/8$. For the colorful five-clique the bounds are $9/4$ and $4-1/300$. For $K_{3,3}$, the colorful homomorphism polynomial has circuit lower exponent at least $4/\sqrt{3}$ over every field. In characteristic zero, an ordinary weighted seven-edge path has the same circuit complexity as the colorful four-clique. At eleven edges the lower exponent is already strictly above the matrix multiplication exponent $9/4$. This is pretty open-ended. [Paper](patterns/small-patterns.pdf)
 

@@ -14,6 +14,7 @@
 \newcommand{\sizeF}{\operatorname{size}_F}
 \title{Arithmetic circuits for counting sparse patterns}
 \author{}
+\input{../page-notice.tex}
 \begin{document}
 \maketitle
 
@@ -43,7 +44,7 @@ The same bound holds with host $K_{n,n}$. In terms of the $k=2m$ pattern vertice
 \end{theorem}
 Section~\ref{expanders} proves the expander bound by placing an exterior tensor on each neighborhood. For matchings, Curticapean and Marx reduced counting color-prescribed copies of cubic bipartite graphs to counting bipartite matchings~\cite[Section~4]{cm}. In Section~\ref{matchsec} we use the vertex-fracture version~\cite{fractures} of the homomorphism-basis method of Curticapean, Dell and Marx~\cite{cdm}. Our source is the edge-labelled tensor of a four-regular expander on $h$ vertices. For $q$ wire labels its encoding uses a cubic bipartite graph with $3h$ edges and $q^2$ states per position. Together with the edge potential on the four-regular tree this gives the coefficient $1/3$. The fracture coefficient is a power of two up to sign, so the bound includes characteristic three.
 
-In characteristic two the classical polynomial-size construction uses a Pfaffian on an even host with upper entries $1+zX_{ij}$. Each matching has an odd number of perfect completions, so the coefficient of $z^m$ is the ordinary matching sum. For odd host order one adds a vertex whose incident edges have weight zero. Section~\ref{upper} applies the grid contraction of the counting-ETH refutation~\cite{eth} to unlabelled copies, using orders on the pattern vertices to account for automorphisms over every field.
+In characteristic two the classical polynomial-size construction uses a Pfaffian on an even host with upper entries $1+zX_{ij}$. Each matching has an odd number of perfect completions, so the coefficient of $z^m$ is the ordinary matching sum. For odd host order one adds a vertex whose incident edges have weight zero. Section~\ref{upper} applies the grid contraction of the counting-ETH refutation~\cite{grid-sat} to unlabelled copies, using orders on the pattern vertices to account for automorphisms over every field.
 
 \paragraph{Open questions.}
 Can the lower exponent grow faster than $\sqrt{k}$ for an ordinary sparse family, or for matchings in one specified odd characteristic? How large can the matching coefficient be if the growth is of square-root order?
@@ -58,7 +59,7 @@ For a fixed graph $G$ with $h\ge3$ vertices, let $Z_{G,q}$ sum over assignments 
 For every field, $\liminf_{\ell\to\infty}\ell^{-1}\log_2(1+\sizeF(Z_{G,2^\ell}))$ is at least the minimum, over binary trees on the $h$ labelled leaves, of the maximum of $D(b_{S_1},b_{S_2},b_{S_3})$ at the trivalent junctions. Here $S_1,S_2,S_3$ partition the leaves at a junction.
 \end{lemma}
 \begin{proof}
-Apply the Euclidean price theorem~\cite{euclid} over an algebraically closed extension of $F$ and use the three-factor circuit decomposition of~\cite{width}. Retaining the squarefree vertex degrees costs a factor depending only on $G$. Group the resulting terms by their binary multiplication tree on the labelled rows and choose a junction for each tree. At each gate realizing that junction the two descendant sums and the sum of contexts above the gate factor. Thus each of the $O_G(1)$ trees contributes at most $C_G(s+1)$ products on its three parts for a circuit of size $s$.
+Apply the Euclidean price theorem~\cite{euclid} over an algebraically closed extension of $F$ and use the three-factor circuit decomposition of~\cite{sharp-width-bases}. Retaining the squarefree vertex degrees costs a factor depending only on $G$. Group the resulting terms by their binary multiplication tree on the labelled rows and choose a junction for each tree. At each gate realizing that junction the two descendant sums and the sum of contexts above the gate factor. Thus each of the $O_G(1)$ trees contributes at most $C_G(s+1)$ products on its three parts for a circuit of size $s$.
 
 Extend each $u_e$ to a unit vector with its own extra orthogonal coordinate. At sites $\pm u_e/2$ the target coefficient tensor is a product of equality wires of price $\ell |E(G)|$. To supply a tree's three factors at $t p_j$ costs at most $t\log_2(C_G(s+1))$, since the normalized Gaussian mean width of three points is their half-perimeter. Take the $p_j$ in the original subspace and translate one to zero. Moving each endpoint label from its supplier to its site costs its Euclidean distance times $\ell$. At $t=0$ these costs total $\ell|E(G)|$, and their first derivative is $-\ell\sum_j\langle b_{S_j},p_j\rangle$. The total error is $O_G(\ell t^2)$. Adding the finitely many trees on the fixed sites costs $O_G(1)$ beyond the largest price. Comparing with the target, dividing by $t\ell$, taking $\ell\to\infty$ and then $t\downarrow0$ proves the claim.
 \end{proof}
@@ -85,7 +86,7 @@ For each neighborhood $B_v=N_G(v)$, place its rows at the $r$ centered unit vect
 \[
  x_{i,v}=\sqrt{\frac r{r-1}}(e_i-\mathbf1_{B_v}/r),\quad i\in B_v .
 \]
-Work over an uncountable algebraically closed extension of $F$. At these sites take the exterior tensor $U$ of~\cite{exterior} with an even number $q$ of slots per row, $M=100\log(rq)$, and evenly spaced midpoint biases $\theta_j$ in $[-M,M]$. The tensor has one occupation word $v\in\{0,1\}^q$ per row. Its coefficient on exactly $rq/2$ occupied slots is the corresponding maximal Vandermonde minor and its other coefficients vanish. Give $v$ the weight $t(v)=\sum_j(\theta_jv_j-\max(\theta_j,0))$. In natural logarithms the cost of supplying one row at distance $s$ is bounded by
+Work over an uncountable algebraically closed extension of $F$. At these sites take the exterior tensor $U$ of~\cite{circuits} with an even number $q$ of slots per row, $M=100\log(rq)$, and evenly spaced midpoint biases $\theta_j$ in $[-M,M]$. The tensor has one occupation word $v\in\{0,1\}^q$ per row. Its coefficient on exactly $rq/2$ occupied slots is the corresponding maximal Vandermonde minor and its other coefficients vanish. Give $v$ the weight $t(v)=\sum_j(\theta_jv_j-\max(\theta_j,0))$. In natural logarithms the cost of supplying one row at distance $s$ is bounded by
 \[
  \Phi(s)=s\log\sum_v e^{t(v)/s}
         =s\sum_j\log(1+e^{-|\theta_j|/s}).
@@ -96,7 +97,7 @@ Write $w=q/M$ and $H_q=\Phi'(1)$.
 Fix $r$ and a sufficiently small $\rho>0$. For all sufficiently large even $q$ and then all sufficiently large $h$, one can restrict $U^{\otimes h}$ to at most $e^{h(H_q+\rho w)}$ words per row while retaining weighted price at least $h(r\Phi(1)-E_q)-O_r(1)$, where $E_q=O_r(\log^2(rq))$. Here $H_q=\Theta(w)$ and $\sup_{1/2\le s\le2}|\Phi''(s)|=O(w)$.
 \end{lemma}
 \begin{proof}
-The exterior near-star estimate and the parity correction for ordinary tensor powers in~\cite{exterior} give weighted price at least $r\Phi(1)-E_q$ for one copy. The correction sends one parity bit per row per copy and contributes at most $r\log 2$ to the deficit. For the estimates on $\Phi$, biases of magnitude at most one contribute a constant each to $H_q$, and the upper tails of both derivative sums are $O(e^{-|\theta_j|/4})$ per slot. Summing over the equally spaced biases gives the stated bounds.
+The exterior near-star estimate and the parity correction for ordinary tensor powers in~\cite{circuits} give weighted price at least $r\Phi(1)-E_q$ for one copy. The correction sends one parity bit per row per copy and contributes at most $r\log 2$ to the deficit. For the estimates on $\Phi$, biases of magnitude at most one contribute a constant each to $H_q$, and the upper tails of both derivative sums are $O(e^{-|\theta_j|/4})$ per slot. Summing over the equally spaced biases gives the stated bounds.
 
 Retain the row words whose total weight is at least $h(\mathbb E_\mu t-\rho w)$, where $\mu(v)=e^{t(v)-\Phi(1)}$. Their number is at most $e^{h(H_q+\rho w)}$ since $H_q$ is the entropy of $\mu$. The discarded probability is at most $e^{-c h\rho^2 w}$ because the second derivative of $\log\sum_v e^{\beta t(v)}$ is $O(w)$ near $\beta=1$. Split the tensor according to the first discarded row. Supplying such a term at zero and moving all rows outward costs at most $hr\Phi(1)-ch\rho^2 w$. Take $q$ large enough that $c\rho^2 w>E_q$. Additivity under powers and the bounded cost of summing $r+1$ terms give the claimed price for the fully retained tensor.
 \end{proof}
@@ -134,7 +135,7 @@ It tends to $1/\sqrt2$ as the fixed degree is increased. With $p=17$ it is $64/(
 The bounds of Theorem~\ref{expbound} and Theorem~\ref{main}(\ref{main:expanders}) hold for degree-component border size, defined using the Zariski closure of the degree-$m$ components of circuit outputs.
 \end{corollary}
 \begin{proof}
-At fixed $H,n$, keeping the output component of degree $m$ costs $O_H(1)$ per gate. After the substitutions, extraction of one variable per row is linear on the coefficient vector. The price upper bound in the proof of Theorem~\ref{expbound} holds for the image of all size-bounded circuits, and the weighted-price sublevel sets at the fixed sites are Zariski closed~\cite{exterior}. It therefore holds on the image of their closure. The same LPS substitution gives the explicit families.
+At fixed $H,n$, keeping the output component of degree $m$ costs $O_H(1)$ per gate. After the substitutions, extraction of one variable per row is linear on the coefficient vector. The price upper bound in the proof of Theorem~\ref{expbound} holds for the image of all size-bounded circuits, and the weighted-price sublevel sets at the fixed sites are Zariski closed~\cite{circuits}. It therefore holds on the image of their closure. The same LPS substitution gives the explicit families.
 \end{proof}
 
 \subsection{Two related expander bounds}
@@ -151,7 +152,7 @@ We use projected shifted partial derivatives~\cite{klss}. Give each position a h
 Taking the degree-$m$ component keeps only products of that total degree, since all factors are homogeneous. Each such product has at most $m$ nonconstant factors. Group the Leibniz expansion by which ones are differentiated. The untouched product is fixed, and the differentiated part has degree at most $b=(k/2)(B-1)$. For each group the dimension after shifting and discarding repeated variables is at most $\sum_{j\le\ell+b}\binom Vj\le\binom V\ell N^{\sigma b+o(1)}$. Indeed square-containing monomials can be discarded before multiplication by the untouched factors. The numbers of groups and color deletions depend only on $H$. Comparing the dimensions gives $R_n\ge N^{k-\sigma b-o(1)}$. The edges within the pairs of $J[K_2]$ form a perfect matching, so the degree-$613$ family gives the stated example.
 \end{proof}
 
-For induced copies one also multiplies $1-X_{ij}$ on each nonedge of the copy. The following application uses the independent-set case of the induced-pattern reduction of Bl\"aser, Komarath and Sreenivasaiah~\cite[Theorem~6.1]{patterns}. Floderus et al.\ gave the corresponding detection reduction for patterns with a unique maximum independent set~\cite{induced}.
+For induced copies one also multiplies $1-X_{ij}$ on each nonedge of the copy. The following application uses the independent-set case of the induced-pattern reduction of Bl\"aser, Komarath and Sreenivasaiah~\cite[Theorem~6.1]{graph-pattern-polynomials}. Floderus et al.\ gave the corresponding detection reduction for patterns with a unique maximum independent set~\cite{induced}.
 
 \begin{proposition}[Induced expanders and colorful cliques]\label{inducedclique}
 Let $G$ range over a $d$-regular expander family, $d\ge3$. For a member on $r$ vertices, retain its $t=dr/2$ edges and add one vertex adjacent to the ends of each edge. The resulting patterns $H$ are expanders on $k=r+t$ vertices with $3t$ edges and maximum degree $2d$. Over every field the colorful $t$-clique polynomial $\sum_{a\in[n]^t}\prod_{i<j}Y^{ij}_{a_i,a_j}$ is a signed sum of at most $2^r$ evaluations of the induced-copy polynomial of $H$ on at most $r+tn$ host vertices. At maximum degree six, $t=3k/5$.
@@ -282,22 +283,22 @@ The embeddings onto any fixed copy form a free automorphism orbit. Ordering the 
 For bipartite matchings one can equivalently sort the occupied labels on each shore and sum over their $m!$ possible bijections.
 
 \begin{proof}[Proof of Theorem~\ref{main}(\ref{main:upper})]
-The empty pattern has polynomial $1$. For $k\ge1$, Lemma~\ref{orders} reduces the proof to one contraction, since the number of orders is fixed in the host limit. Put $T=k+m$. We apply the grouping lemma and Theorem~A of the counting-ETH refutation~\cite{eth}. Encode a label in $L=\lceil\log_2 n\rceil$ bits and reject unused bit strings. Choose the largest level $K\le T^{1/9}$ from that theorem for sufficiently large $T$. Its growth bound gives $K\ge T^{1/90}$, so $\log K=\Theta(\log T)$. Enumeration covers the finitely many smaller $T$. Distribute the tables evenly among $g=3K^8\le T$ sites. For each label, run a path of $L$-bit equality wires through the sites that use it. A site sums over its private labels and multiplies its assigned factors and consistency tests. The choices that survive implement precisely one copy of each assignment. The total directed width is $U=O(TL)$, counting both ends of each equality wire. The maximum incident width of a site is $P=O((T/g+1)L)$. Computing a site entry costs $O_T(1)2^{O((T/g+1)L)}$ arithmetic operations, by enumerating even all its local labels.
+The empty pattern has polynomial $1$. For $k\ge1$, Lemma~\ref{orders} reduces the proof to one contraction, since the number of orders is fixed in the host limit. Put $T=k+m$. We apply the grouping lemma and Theorem~A of the counting-ETH refutation~\cite{grid-sat}. Encode a label in $L=\lceil\log_2 n\rceil$ bits and reject unused bit strings. Choose the largest level $K\le T^{1/9}$ from that theorem for sufficiently large $T$. Its growth bound gives $K\ge T^{1/90}$, so $\log K=\Theta(\log T)$. Enumeration covers the finitely many smaller $T$. Distribute the tables evenly among $g=3K^8\le T$ sites. For each label, run a path of $L$-bit equality wires through the sites that use it. A site sums over its private labels and multiplies its assigned factors and consistency tests. The choices that survive implement precisely one copy of each assignment. The total directed width is $U=O(TL)$, counting both ends of each equality wire. The maximum incident width of a site is $P=O((T/g+1)L)$. Computing a site entry costs $O_T(1)2^{O((T/g+1)L)}$ arithmetic operations, by enumerating even all its local labels.
 
-Lemma~8(i) of~\cite{eth}, with $\zeta=1/(2K)$, groups the network as a $K$-clique with pair width $\lambda=\lceil(U+2\zeta gP)/K^2\rceil=O(1+TL/K^2)$. Computing a group entry adds $O(gP/K)=O(TL/K)$ to the base-two logarithm of the query cost. A crossing on $a$-bit words with polynomially many pieces and row and column log ranks summing to $2\sqrt2\,a+O(\log(2+a))$ gives $\rho=1/\sqrt2$ in Theorem~A. Parts (a) and (b) then give a clique exponent $e_K=O(1/\sqrt{\log K})$. Including the costs of the queries, the arithmetic gate count is at most
+Lemma~8(i) of~\cite{grid-sat}, with $\zeta=1/(2K)$, groups the network as a $K$-clique with pair width $\lambda=\lceil(U+2\zeta gP)/K^2\rceil=O(1+TL/K^2)$. Computing a group entry adds $O(gP/K)=O(TL/K)$ to the base-two logarithm of the query cost. A crossing on $a$-bit words with polynomially many pieces and row and column log ranks summing to $2\sqrt2\,a+O(\log(2+a))$ gives $\rho=1/\sqrt2$ in Theorem~A. Parts (a) and (b) then give a clique exponent $e_K=O(1/\sqrt{\log K})$. Including the costs of the queries, the arithmetic gate count is at most
 \[
  2^{e_K K^2\lambda+O(TL/K)}(1+L)^{O_T(1)}
    \le 2^{O(TL/\sqrt{\log(2+T)})+o_T(L)} .
 \]
 For each fixed $T$, $o_T(L)/L$ tends to zero. The constants in the leading exponent are absolute.
 
-For formal edge weights, unroll the recursion with groupings, orientations and index ranges fixed by the dimensions and indices. Each query computes a sum of products in $F[X]$. In characteristic zero the crossing from Theorem~B of~\cite{eth} applies directly after division by its scalar $h!$, where $h$ is the partition weight in that construction. In characteristic $p$ this scalar vanishes for $h\ge p$. Lemma~\ref{crossing} in Appendix~\ref{integral} supplies both width bounds with normalization one over $\mathbb Z$. Its entries are nonuniform field constants. Dividing the logarithm of the gate bound by $\log_2 n$ and taking the upper limit gives $\bar a_F(H)\le CT/\sqrt{\log(2+T)}$ in every characteristic.
+For formal edge weights, unroll the recursion with groupings, orientations and index ranges fixed by the dimensions and indices. Each query computes a sum of products in $F[X]$. In characteristic zero the crossing from Theorem~B of~\cite{grid-sat} applies directly after division by its scalar $h!$, where $h$ is the partition weight in that construction. In characteristic $p$ this scalar vanishes for $h\ge p$. Lemma~\ref{crossing} in Appendix~\ref{integral} supplies both width bounds with normalization one over $\mathbb Z$. Its entries are nonuniform field constants. Dividing the logarithm of the gate bound by $\log_2 n$ and taking the upper limit gives $\bar a_F(H)\le CT/\sqrt{\log(2+T)}$ in every characteristic.
 \end{proof}
 
 \appendix
 \numberwithin{equation}{section}
 \section{An integral crossing for the grid recurrence}\label{integral}
-The grid recurrence of~\cite[Appendix~A]{eth} uses two ways of grouping the four indices of a crossing. For a matrix factorization with inner dimension \(d\ge1\), call \(\lceil\log_2 d\rceil\) its width.
+The grid recurrence of~\cite[Appendix~A]{grid-sat} uses two ways of grouping the four indices of a crossing. For a matrix factorization with inner dimension \(d\ge1\), call \(\lceil\log_2 d\rceil\) its width.
 
 \begin{lemma}[Integral crossing]\label{crossing}
 For every word length \(\lambda\ge1\), the tensor \([I=J][A=A']\) on four \(\lambda\)-bit indices is a sum of \(O((1+\lambda)^2)\) integer tensors. Each summand has integral matrix factorizations across \((I,A')\mid(J,A)\) and \((I,A)\mid(J,A')\) with respective widths \(w_1,w_2\) satisfying
@@ -359,25 +360,6 @@ Since \(h(A)=h(A')\), the polynomial is homogeneous of degree zero. Take its coe
 Taking ceilings adds at most two. An identity matrix on a full pair of indices caps either width at \(2\lambda\). At fixed energies every intermediate-state sum is finite, and the Hasse coefficients and basis changes are integral, so both factorizations have integer entries.
 \end{proof}
 
-\begin{thebibliography}{10}
-\bibitem{biharmonic} M.~Black, L.~Lin, W.-K.~Wong and A.~Nayyeri, \href{https://proceedings.mlr.press/v235/black24a.html}{Biharmonic distance of graphs and its higher-order variants: Theoretical properties with applications to centrality and clustering}, ICML 2024.
-\bibitem{bc} M.~Bl\"aser and R.~Curticapean, \href{https://doi.org/10.1007/978-3-642-33293-7_17}{Weighted counting of $k$-matchings is $\#\mathrm{W}[1]$-hard}, IPEC 2012.
-\bibitem{patterns} M.~Bl\"aser, B.~Komarath and K.~Sreenivasaiah, \href{https://doi.org/10.4230/LIPIcs.FSTTCS.2018.18}{Graph pattern polynomials}, FSTTCS 2018.
-\bibitem{partitions} W.~Bridges, J.~Franke and T.~Garnowski, \href{https://doi.org/10.1007/s40687-022-00355-x}{Asymptotics for the twisted eta-product and applications to sign changes in partitions}, Remark 3.3.
-\bibitem{eth} Claude (Anthropic), \href{https://github.com/anthropics/formal-math/blob/16a5ce41304fcdaea4e0be7c132e1c361dc26da5/eth/paper.pdf}{A \(2^{o(n)}\) time algorithm for 3-SAT}, Appendices A and B, Definition 7, Lemma 8 and Theorems A and B.
-\bibitem{cdh} R.~Curticapean, H.~Dell and T.~Husfeldt, \href{https://arxiv.org/abs/2107.00629}{Modular counting of subgraphs: Matchings, matching-splittable graphs, and paths}, ESA 2021.
-\bibitem{cdm} R.~Curticapean, H.~Dell and D.~Marx, \href{https://doi.org/10.1145/3055399.3055502}{Homomorphisms are a good basis for counting small subgraphs}, STOC 2017.
-\bibitem{cm} R.~Curticapean and D.~Marx, \href{https://arxiv.org/abs/1407.2929}{Complexity of counting subgraphs: Only the boundedness of the vertex-cover number counts}, FOCS 2014.
-\bibitem{induced} P.~Floderus, M.~Kowaluk, A.~Lingas and E.-M.~Lundell, \href{https://doi.org/10.1016/j.tcs.2015.09.001}{Induced subgraph isomorphism: Are some patterns substantially easier than others?}, Theoret. Comput. Sci. 605 (2015), 119--128.
-\bibitem{friedman} J.~Friedman, \href{https://arxiv.org/abs/cs/0405020}{A proof of Alon's second eigenvalue conjecture and related problems}, 2004.
-\bibitem{klss} N.~Kayal, N.~Limaye, C.~Saha and S.~Srinivasan, \href{https://doi.org/10.1137/151002423}{An exponential lower bound for homogeneous depth four arithmetic formulas}, SIAM J. Comput. 46 (2017).
-\bibitem{lps} A.~Lubotzky, R.~Phillips and P.~Sarnak, \href{https://doi.org/10.1007/BF02126799}{Ramanujan graphs}, Combinatorica 8 (1988), 261--277.
-\bibitem{cycles} B.~McKay, N.~Wormald and B.~Wysocka, \href{https://www.kurims.kyoto-u.ac.jp/EMIS/journals/EJC/Volume_11/PDF/v11i1r66.pdf}{Short cycles in random regular graphs}, Electron. J. Combin. 11 (2004), R66.
-\bibitem{nash} C.~St.~J.~A.~Nash-Williams, \href{https://doi.org/10.1017/S0305004100033879}{Random walk and electric currents in networks}, Proc. Cambridge Philos. Soc. 55 (1959), 181--194.
-\bibitem{exterior} OpenAI, \href{https://github.com/openai/math/tree/92b516ef8e2abf66c3db7aa31438d3010bc7956f/preprints/Circuit-lower-bounds-for-Hamiltonian-cycle-and-the-permanent-November-24-2026}{Circuit lower bounds for Hamiltonian cycle and the permanent}, exterior near-star theorem and the section on packing the exterior tensor.
-\bibitem{euclid} OpenAI, \href{https://github.com/openai/math/tree/92b516ef8e2abf66c3db7aa31438d3010bc7956f/preprints/Euclidean-geometry-in-the-asymptotic-spectrum-of-tensors-November-24-2026}{Euclidean geometry in the asymptotic spectrum of tensors}, Theorem 1.1.
-\bibitem{fractures} N.~Peyerimhoff, M.~Roth, J.~Schmitt, J.~Stix, A.~Vdovina and P.~Wellnitz, \href{https://doi.org/10.1137/22M1479804}{Parameterized counting and Cayley graph expanders}, SIAM J. Discrete Math. 37 (2023), 405--486.
-\bibitem{width} \href{../pathwidth/sharp-pathwidth-bases.pdf}{Sharp width bounds for counting polynomials}, sections on the cost of separating tables and on charging the changes of part in a circuit product.
-\bibitem{wick} G.~C.~Wick, \href{https://doi.org/10.1103/PhysRev.80.268}{The evaluation of the collision matrix}, Phys. Rev. 80 (1950), 268--272.
-\end{thebibliography}
+\bibliographystyle{../linkedtitles}
+\bibliography{../references}
 \end{document}

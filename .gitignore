@@ -7,3 +7,5 @@ research-diary/
 *.fls
 *.log
 *.out
+*.synctex.gz
+*.toc
