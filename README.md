@@ -27,4 +27,4 @@ For the triangular prism and $K_{3,3}$, the colorful homomorphism polynomial has
 
 ### Parameterized sparse patterns
 
-For the ordinary weighted count of a fixed $k$-vertex pattern on an $n$-vertex host, explicit bounded-degree expanders have circuit-size exponent at least $(1/\sqrt{2}-\varepsilon)\sqrt{k}$ over every field. For a matching of $m$ edges the lower exponent is at least $(1/3-o(1))\sqrt{m}$ in characteristic zero and every odd characteristic. The grid contraction from the counting-ETH refutation gives an upper exponent of $O(k/\sqrt{\log k})$ for every pattern with $O(k)$ edges. [Paper](patterns/sparse-patterns.pdf)
+For the ordinary weighted count of a fixed $k$-vertex pattern on an $n$-vertex host, explicit bounded-degree expanders have circuit-size exponent at least $(1/\sqrt{2}-\varepsilon)\sqrt{k}$ over every field. For a matching of $m$ edges the lower exponent is $(1/3-o(1))\sqrt{m}$ in characteristic zero and every odd characteristic. The grid contraction from the counting-ETH refutation gives an upper exponent of $O(k/\sqrt{\log k})$ for every pattern with $O(k)$ edges. [Paper](patterns/sparse-patterns.pdf)
