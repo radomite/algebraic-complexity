@@ -2,7 +2,7 @@
 
 This slop dump collects results in algebraic complexity found with the help of AI agents. Lean formalizations are planned. **The notes are AI-written and barely post-processed. Read at your own risk.** 
 
-## Expositions of known results
+## Tensor prices
 
 ### VP versus VNP from Euclidean flatness
 
