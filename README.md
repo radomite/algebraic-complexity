@@ -27,7 +27,7 @@ For undirected Hamiltonian cycles, let $\rho$ be the exponential rank growth per
 
 ### Fixed-pattern catalogue 
 
-For the triangular prism and $K_{3,3}$, the colorful homomorphism polynomial has circuit lower exponent at least $4/\sqrt{3}$ over every field. In characteristic zero, an ordinary weighted seven-edge path has the same circuit complexity as the colorful four-clique. At eleven edges the lower exponent is already strictly above the matrix multiplication exponent $9/4$. Whether seven edges suffice for this separation remains open. [Paper](patterns/small-patterns.pdf)
+Over every field, the unrestricted circuit exponent for the colorful four-clique lies between $9/4$ and $25/8$. For the colorful five-clique the bounds are $9/4$ and $4-1/300$. For $K_{3,3}$, the colorful homomorphism polynomial has circuit lower exponent at least $4/\sqrt{3}$ over every field. In characteristic zero, an ordinary weighted seven-edge path has the same circuit complexity as the colorful four-clique. At eleven edges the lower exponent is already strictly above the matrix multiplication exponent $9/4$. This is pretty open-ended. [Paper](patterns/small-patterns.pdf)
 
 ### Parameterized sparse patterns
 

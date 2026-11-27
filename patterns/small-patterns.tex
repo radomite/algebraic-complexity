@@ -34,7 +34,7 @@ A wheel \(W_r\) has \(r\) rim vertices and one hub.
 Forest with an edge & \(2\) & \(2\)\\
 Triangle, cycle, or any cyclic partial 2-tree & \(9/4\) & \(9/4\)\\
 \(K_4,\ W_4,\ K_5-e\) & \(9/4\) & \(25/8\)\\
-\(K_5\) & \(9/4\) & \(4\)\\
+\(K_5\) & \(9/4\) & \(4-1/300\)\\
 Triangular prism and \(K_{3,3}\) & \(4/\sqrt3\) & \(25/8\)\\
 \(W_5\) and \(W_6\) & \(17173/7500\) & \(25/8\)\\
 Two copies of \(K_{2,3}\) joined by a $3+3$ matching & \(4/\sqrt3\) & \(25/8\)\\
@@ -48,7 +48,12 @@ This gives the exact cyclic partial 2-tree exponent. Every simple pattern with a
 seven edges and a \(K_4\) minor has cost \(\Theta_H(C_F(K_4,n))\).
 Grouping the four-clique vertices into parts of sizes \(2,1,1\) gives
 the upper exponent \(\omega(2,1,1)=25/8\) by the rectangular exponent formula~\cite{matrix-exponent}.
-For \(K_7\) and \(K_8\), the weighted swap of Vassilevska Williams and Zamir~\cite[Section~3]{vw-zamir}
+For \(K_5\), combining equal terms in a signed expansion of two label equalities
+gives upper exponent \(4-1/300\). The fractional triangle-cover method with one
+dense residual contraction tree has optimal costs \(25/8\) and \(4\) for these
+two patterns. The five-clique circuit uses a different contraction for each of
+two families of terms. Both unrestricted exponents remain open
+(Appendix~\ref{five-clique-saving}). For \(K_7\) and \(K_8\), the weighted swap of Vassilevska Williams and Zamir~\cite[Section~3]{vw-zamir}
 gives upper exponents \(16/3-1/1200\) and \(49/8-1/12000\), respectively.
 
 \subsection{What three variable edges detect}
@@ -282,7 +287,313 @@ For the upper bound, pad the symmetric zero-diagonal host matrix \(X\) to even o
 \]
 Pfaffian signs agree, and each chosen \(m\)-matching has an odd number of perfect completions on the remaining even number of vertices (one completion for an empty remainder). Compute in \(F[X][t]/(t^{m+1})\). Split into nearly equal even blocks. Block triangular congruence of determinant one gives the product of \(\operatorname{Pf}(A)\) and \(\operatorname{Pf}(C+B^\top A^{-1}B)\) for diagonal blocks \(A,C\) and off-diagonal block \(B\). At constant order \(A_0=J_a\) satisfies \(J_a^2=I\). The constant cross block is all ones and \(\mathbf1^\top J_a\mathbf1=0\). The Schur complement again has constant term \(J\), and is alternating. Each inverse is a fixed-length geometric series about \(J_a\) since \(t^{m+1}=0\). The order-two case is a single entry. All matrix operations are therefore bounded by a fixed number of matrix products per recursive node, with \(O_m(1)\) field operations per ring operation. Summation over the recursion gives upper exponent \(9/4\).
 
-\subsection{The two clique savings}\label{the-two-clique-savings}
+\subsection{The four- and five-clique bounds}\label{five-clique-saving}
+
+\textbf{Proposition.} Over every field, the upper circuit exponent of the colorful
+\(K_5\) is at most \(4-1/300\).
+
+\emph{Proof.} Absorb unaries into incident edges. Write the vertices as
+\(a,b,c,d,e\), and denote each edge factor by its endpoint names.
+Split the occurrences of \(a,b\) into unprimed and primed copies. The factors
+\(ab,ac,bd\) use the unprimed copies, and \(a'd,b'c,a'e,b'e\) use the primed
+copies. The remaining factors are \(cd,ce,de\). Insert equality on the two
+copies of the ordered pair. All ten tables remain independent.
+
+Take \(q=128\) and pad each palette to \(n=q^m\). Use
+\(\ell=\lfloor m/7\rfloor\) digit positions. On one position write
+\(I=P+K\), where \(P\) exchanges the two symbols and
+\[
+ K(a,b;a',b')=\sum_{g<h} u_{gh}(a,b)u_{gh}(a',b'),\qquad
+ u_{gh}(a,b)=[(a,b)=(g,h)]-[(a,b)=(h,g)] .
+\]
+This is the integral identity of Jabal Ameli, Mohrin and
+Nederlof~\cite[Lemma~3]{amn-six}.
+
+\emph{Combining identical terms.}
+Put \(D=\lceil\ell/12\rceil\) and \(H=\ell-D+1\), for \(\ell\ge1\).
+Expand \((P+K)^{\otimes\ell}\). In terms with at least \(D\) swaps
+replace every remaining \(K\) by \(I-P\). In all other terms there
+are at least \(H\) copies of \(K\), and we replace every \(P\) by \(I-K\).
+Collect equal tensor products before contracting any tables.
+For a subset \(S\) write \(P_S\) and \(K_S\) for the tensor products
+with the indicated factor on \(S\) and identity everywhere else. The result is
+\[
+ I^{\otimes m}=
+ \sum_{\substack{S\subseteq[\ell]\\|S|\ge D}}
+   (-1)^{|S|-D}\binom{|S|-1}{D-1}P_S+
+ \sum_{\substack{S\subseteq[\ell]\\|S|\ge H}}
+   (-1)^{|S|-H}\binom{|S|-1}{H-1}K_S .
+\]
+Indeed the coefficient for a fixed swap set of size \(j\) is
+\(\sum_{i=D}^j(-1)^{j-i}\binom ji=(-1)^{j-D}\binom{j-1}{D-1}\).
+Interchanging \(P,K\) gives the other coefficient. This identity uses
+integer coefficients and holds over every field, including characteristic two.
+Each subset in either sum requires only one evaluation and one scalar weight.
+
+\emph{Evaluation of \(K_S\).} Write \(h=|S|,\ y=h/m\).
+Choose the \(h\) unordered pairs in \(\bigl(\binom q2\bigr)^h\) ways. Off \(S\) the two free words \(A,B\) of length
+\(m-h\) agree across their respective primed and unprimed copies.
+On \(S\) one orientation word \(L\) determines both unprimed symbols and
+another word \(R\) determines both primed symbols. Each has \(2^h=n^{y/7}\)
+choices. The two signs depend on \(L\) and \(R\) separately.
+
+For fixed \(A,B\), contract \(ab,ac,bd\) over \(L\) to a table on \(c,d\).
+Absorb the unprimed sign and \(ab\) into one matrix. The dimensions have
+exponents \((1,y/7,1)\), with cost exponent two. Multiply by \(cd\).
+Preparing this table for all \(A,B\) costs exponent \(4-2y\).
+The remaining factors form the tables \(b'c\, b'e\,ce\) and \(a'd\, a'e\,de\),
+with the primed sign on either table. Each has at most \(n^3\) entries.
+Together with the prepared table they form a rectangular triangle on
+\((B,c),(A,d),(e,R)\), of exponent
+\[
+ \omega(2-y,2-y,1+y/7)=4-2y+C(y),\qquad
+ C(y)=\frac{81y^2}{196(1+y/7)} .
+\]
+Including all unordered pairs gives cost exponent
+\(4+C(y)+y\log_{128}(127/256)\) for this subset.
+
+\emph{Evaluation of \(P_S\).} Put \(r=|S|/m\).
+Write \(a=(A,x), b=(B,z)\) with \(x,z\) on the swapped positions.
+Then \(a'=(A,z), b'=(B,x)\). First compute
+\[
+ M_{A,B,x,d,e}=\sum_c (ac)(b'c)(cd)(ce).
+\]
+The first two factors give the matrix on \((A,B,x),c\), and the last two
+give the matrix on \(c,(d,e)\). Table preparation costs at most exponent
+three, and the product costs
+\[
+ \omega(2-r,1,2)=4-r+\frac{r^2}{8(2-r)} .
+\]
+Multiply by \(de\). For each fixed \(A,B\), sum over \(d\) against
+\((a'd)(bd)\) by multiplying on dimensions with exponents \((r,1,1+r)\).
+As \(r\le1/7\), their exponent is \(2+r\) by the rectangular formula
+(including \(r=0\)). There are \(n^{2-2r}\) choices of \(A,B\).
+Multiply by \(ab,a'e,b'e\) and sum the remaining at most \(n^3\) entries.
+The cost exponent for this subset is \(4-r+C_d(r)\), where
+\(C_d(r)=r^2/(8(2-r))\).
+
+\emph{Summing over subsets.} Write \(p=|S|/\ell\) and
+\(H_2(p)=-p\log_2 p-(1-p)\log_2(1-p)\), with \(0\log 0=0\).
+The number of subsets of this size is at most \(2^{\ell H_2(p)}\).
+There are only \(O(m)\) sizes. Up to vanishing rounding errors, set
+\(r=p/7\) or \(y=p/7\). The two excess exponents above four are bounded by
+\[
+\begin{aligned}
+ &H_2(p)/49-r+C_d(r) &&(p\ge1/12),\\
+ &H_2(p)/49+y\log_{128}(127/256)+C(y) &&(p\ge11/12).
+\end{aligned}
+\]
+Both bounds decrease on their indicated intervals. For the first, the
+derivative in \(r\) is at most
+\(\log_{128}(11)-1+C_d'(r)<0\), since \(11^2<128\) and
+\(C_d'(r)=r(4-r)/(8(2-r)^2)<1/8\) for \(0\le r\le1/7\).
+For the second, the entropy is decreasing and \(C'(y)\le81y/98<1/7\),
+whereas \(\log_{128}(127/256)<-1/7\).
+At both endpoints the entropy is \(H_2(1/12)<83/200\), as verified by
+\(12^{600}<2^{249}11^{550}\). Also
+\(\log_{128}(127/256)\le-129/896\) by \(\ln(1-x)\le-x\) and \(\ln 2<1\).
+The two respective upper bounds on the excess are therefore
+\[
+ \frac{83}{9800}-\frac1{84}+\frac1{8\cdot84\cdot167}
+ \quad\text{and}\quad
+ \frac{83}{9800}-\frac{11}{84}\frac{129}{896}+C(11/84).
+\]
+Each is less than \(-1/300\). For uniform rectangular estimates, round
+dimension exponents up on a fixed mesh and use the finitely many padded
+algorithms. Continuity then allows arbitrarily small slack. Padding the
+original palette to a power of \(q\) increases it by a constant factor.
+This proves the bound. \hfill\(\square\)
+
+\paragraph{What the fractional triangle-cover program certifies.}
+Brand et al.~\cite[Theorem~5 and Lemma~39]{beyond-bilinear} pay asymptotic
+rank for fractionally covered wires and handle the residual graph by a
+contraction tree. Their graph tensor puts an input at each vertex and a wire
+on each edge. The catalogue tensor has an input at each edge and one shared
+label across the inputs incident to each vertex. The following cut bound
+also applies after realizing those shared labels by local restrictions.
+
+Suppose the edge coefficient tensor is a local restriction of a tensor
+product of a resource of asymptotic rank exponent \(u\) and a residual
+wire network charged exponent \(v\) by one dense contraction tree.
+At any trivalent node of that tree group the input sites into its three
+branches. Regrouping preserves the restriction and can only decrease rank.
+The residual's grouped tensor consists of the wires crossing between the
+three branches, up to nonzero internal factors on individual branches.
+Its asymptotic rank exponent is at most its dense join charge. More
+generally a label crossing all three branches supplies a common diagonal,
+one independent product per label. Thus the grouped target at each node
+has asymptotic rank exponent at most \(u+v\).
+
+For a clique the subtrees spanned by the incidences of its individual
+vertices meet pairwise at edge leaves, hence have a common node by the
+Helly property of subtrees. For \(K_4,K_5\) this node is internal.
+If \(s\) vertex labels occur on all three branches and \(x,y,z\) on the
+three different pairs of branches, the grouped target there is a direct sum
+of \(n^s\) identical rectangular multiplication tensors. Its asymptotic
+rank exponent is \(s+\omega(x,y,z)\) by additivity of spectral points
+and Strassen's rank characterization~\cite{strassen-spectrum}. All four
+or five labels have been counted. Assigning the \(s\) common labels to
+the rectangle dimensions can increase \(\omega\) by at most \(s\) by
+blocking. Symmetry and convexity of \(\omega\) then minimize the cost
+among integer triples of this sum at the balanced triple. Consequently a
+single rank charge plus one residual dense tree costs at least \(25/8\)
+for \(K_4\) and \(4\) for \(K_5\). For a fractional cover this is a dual certificate. The three-site spectral
+point maximizing the grouped target assigns each available fractional
+triangle a log price at most its rank budget and the residual at most its
+join budget. At the balanced joins the supporting wire prices are
+\((15/16,5/8,5/8)\) and \((1,1,0)\), respectively, in decreasing dimension
+order. These are the gradients of the rectangular exponent at
+\((2,1,1)\) and \((2,2,1)\). Their dot products with those dimension triples
+are \(25/8\) and \(4\).
+The ordinary rectangular trees attain
+these benchmarks when rectangular joins are allowed. In the proposition
+the equality expansion produces a sum and the circuit chooses a tree
+separately for each summand. The unrestricted lower bound for both cliques
+remains the triangle-minor bound.
+
+\paragraph{A ceiling for the three-edge test in a Euclidean flat.}
+For either clique, every choice of three variable edge tables and every
+normalized Euclidean terminal triangle have contracted log price at most
+\(\sqrt5<9/4\), in units of \(\log_2 n\). This bounds this family of
+spectral witnesses for the unrestricted lower exponent.
+
+Indeed, among three edges on at most five vertices two meet. Write \(A,B\)
+for their sites and \(C\) for the third. The terminal triangle has perimeter
+two, since a Euclidean three-site shared bit costs half its perimeter.
+Place all frozen sites at a common point \(p\) of the terminal hull.
+The common endpoint of the first two edges costs at most the half-perimeter
+of \(A,B,p\), with any further incidences charged individually. The other
+four terminal incidences can be supplied by wires from \(p\). If endpoints
+also coincide, enforce equality of their copies at \(p\) and discard unused
+legs. Vertices with only frozen incidences cost zero at this placement.
+The source price at this extension is therefore at most
+\[
+ \tfrac12|A-B|+\tfrac32(|A-p|+|B-p|)+2|C-p| .
+\]
+The contraction identity bounds the best frozen price by the cost at any
+such extension.
+
+Here is a uniform bound on the minimum over \(p\). Minimize the last three
+weighted distances over the plane. Projection allows a minimizer in the
+terminal hull. The optimality condition for a sum of norms gives vectors
+\(u_A,u_B,u_C\) of lengths at most \(3/2,3/2,2\) with sum zero and with
+the weighted distance sum equal to \(u_A\cdot A+u_B\cdot B+u_C\cdot C\).
+This also holds at a coincident site by using a subgradient in its closed
+ball. Set \(b=\sqrt5/2\) and \(h=b-1/2\). There is a vector \(z\) with
+\[
+ |z|\le h,\qquad |u_A-z|\le b,\qquad |u_B+z|\le b .
+\]
+To see this, map the reference points \((0,0),(b,1),(b,-1)\) to
+\(0,u_A,-u_B\). All pairwise distances weakly decrease since the reference
+lengths are \(3/2,3/2,2\). The point \((h,0)\) has reference distances
+\(h,b,b\). For completeness, write \(v_i,w_i\) for the reference and
+image points and \(r_i=|v_i-(h,0)|\). Minimize
+\(\max_i(|z-w_i|^2-r_i^2)\). Its minimizer is a convex combination of active
+centers with weights \(\lambda_i\). The minimum equals
+\(\frac12\sum_{ij}\lambda_i\lambda_j|w_i-w_j|^2-\sum_i\lambda_i r_i^2\).
+Replacing images by reference points increases this to at most zero by the
+variance identity. This proves the three ball constraints.
+
+Now send vector \(z\) along \(AB\), \(u_A-z\) along \(AC\), and \(u_B+z\)
+along \(BC\). Taking scalar products with the corresponding differences
+of terminal positions bounds the weighted sum by
+\(h|A-B|+b(|A-C|+|B-C|)\).
+Restoring the half-edge term gives \(b\) times the perimeter, hence
+\(\sqrt5\). The matrix-multiplication lower bound uses a spectral point
+outside this Euclidean family.
+
+\paragraph{Nested scalar clique queries at three Euclidean terminals.}
+Let \(G\) be a normalized three-terminal Euclidean spectral point. Suppose a
+division-free circuit for a trilinear form \(T(X_1,X_2,X_3)\) uses \(s\) ordinary
+binary gates and scalar colorful \(K_4\) or \(K_5\) gates of palette sizes
+\(n_g\). Queries may be nested and intermediate values reused. Then
+\[
+                     G(T)\ \le\ O\left(s+\sum_g n_g^{\sqrt5}\right).
+\]
+In particular, allowing arithmetic around the queries preserves the preceding
+Euclidean bound per query, up to the additive cost of the ordinary gates.
+
+\emph{Proof.} First absorb unary inputs into edge tables using \(O(n_g^2)\)
+binary gates per query. Substitute \(\epsilon_i X_i\) for each input block and
+calculate modulo \(\epsilon_1^2,\epsilon_2^2,\epsilon_3^2\). The constant
+component of each wire is a field scalar, and its singleton components are
+linear forms. For a gate \(g\) with \(m_g\) scalar inputs, let \(B_{g,ij}\)
+denote the part of its \(\epsilon_i\epsilon_j\) coefficient formed from two
+singleton components. Its matrix rank is at most \(m_g\), since it is a
+bilinear form on two lists of \(m_g\) linear forms. The rest of this
+coefficient is a scalar linear combination of the input pair components.
+Inductively, each pair component is a scalar linear combination of earlier
+\(B_{g,ij}\), including the gate's own term.
+
+In the coefficient of \(\epsilon_1\epsilon_2\epsilon_3\), the gate propagates
+input triple components with scalar coefficients. New terms use either an
+input pair and an input singleton, or three singletons. Write \(T_g^0\) for
+the latter contribution. Collecting all linear multipliers of each
+\(B_{g,ij}\) at the output gives
+\[
+ T=\sum_g c_gT_g^0+
+   \sum_g\sum_{i<j} B_{g,ij} L_{g,k},\qquad \{i,j,k\}=\{1,2,3\},
+\]
+with \(L_{g,k}\) linear in \(X_k\). This coefficient argument also holds in
+small characteristic. Each product \(B_{g,ij}L_{g,k}\) has tensor rank at
+most \(m_g\). An ordinary gate has \(m_g\le2\) and \(T_g^0=0\).
+For a clique query \(m_g=O(n_g^2)\). Its \(T_g^0\) is a sum over ordered
+triples of distinct edge tables, since the query is multilinear in its
+tables. Each of these constantly many summands is a local linear image of
+a three-edge test with all other tables frozen at their constant components.
+It has \(G\)-value at most \(n_g^{\sqrt5}\) by the preceding paragraph.
+A spectral point is bounded by rank and subadditive under ordinary sums,
+since a sum is a restriction of the direct sum. Summing the bounds proves
+the claim. \hfill\(\square\)
+
+\paragraph{A four-clique fold and its residual rank.}
+A tempting modification keeps \(ab,ad\) on the unprimed side, puts
+\(a'c,b'c,b'd\) on the primed side, and keeps \(cd\).
+On two \(q\)-ary words of length \(m\), let \(P_S\) swap just the positions
+in \(S\), leaving the other positions fixed. For \(|S|=rm\), the direct
+rectangle has dimensions \((2-r,1,1)\). Indeed, with the notation
+\(a=(A,x), b=(B,z), a'=(A,z), b'=(B,x)\), the factors at \(d\) use
+only \((A,B,x),d\). Sum over \(z\) in the remaining factors at \((A,B,x),c\)
+and close the rectangle against \(cd\). Its dense multiplication charge
+has exponent
+\[
+ 3-r+\frac{1}{4(2-r)}\ \ge\ \frac{25}{8}-\frac{15r}{16}.
+\]
+
+Suppose we approximate \(I\) by \(D=\sum_i c_iP_{S_i}\) and try to compress
+the residual \(R=I-D\) in the central rectangle. For fixed \(b'\), treat
+\(R(a,b;a',b')\) as a matrix with rows \((a,b)\) and columns \(a'\).
+The right-side factors at \(c\) use \(a',b'\), and the extra right-side
+factor at \(d\) retains \(b'\). Separate rank factorizations for each \(b'\)
+would give a rectangle dimension equal to the sum of these slice ranks.
+Write \(L=\sum_i q^{-|S_i|}\). Restrict the rows to \(b=b'\). In summand
+\(i\) a nonzero row must satisfy \(a=b'\) on \(S_i\), leaving at most
+\(nq^{-|S_i|}\) rows. On all uncovered rows \(R\) agrees with the identity
+in \(a,a'\). The summed slice rank is therefore at least \(n^2(1-L)\).
+If \(L<1/2\), this dimension still has exponent two. If \(L\ge1/2\),
+charging each direct rectangle gives total benchmark at least
+\(n^{25/8}\sum_i q^{-15|S_i|/16}\ge n^{25/8}/2\).
+This covers arbitrary scalar coefficients and choices of swap sets for
+this split and these two charges.
+
+There is also a joint rank test at the same middle index. Specialize the
+left table \(X^{ab}\) to all ones. For any two-wire operator \(Q\), the
+matrix between the \(d\)-side index \((a,b')\) and the \(c\)-side index
+\((a',t)\) is
+\[
+ M_Q[(a,b'),(a',t)]=[b'=t]\sum_b Q(a,b;a',b').
+\]
+For \(Q=I\) this is the identity of order \(n^2\).
+For \(P_S\), a nonzero row requires \(a=b'\) on \(S\).
+If the union of direct row supports has size \(w\), \(M_R\) therefore
+contains an identity submatrix of order \(n^2-w\). Any exact joint
+factorization of this middle matrix has rank at least \(n^2-w\), even if
+it mixes different \(b'\) slices. The independent \(ad,b'd\) and \(a'c,b'c\)
+tables can select any row and column by pinning one \(c,d\) pair, so the
+specialization tests every entry. This leaves open algorithms that share
+arithmetic across summands or use a different middle index.
+
+\subsection{The seven- and eight-clique savings}\label{the-two-clique-savings}
 
 For completeness, the two clique bounds use one folded wedge from the weighted swap of Vassilevska Williams and Zamir~\cite[Lemmas~3.1--3.3]{vw-zamir}. Write \(k=7,8\), \(h=k-2\), and \(n=2^\ell\), using padding for other sizes. A noncomplete pattern on \(k\) vertices has two nonadjacent vertices. Given the other \(h\) labels, each of their sums is a table of the form \(\sum_i\prod_j A^j_{i,a_j}\). Split the \(h\) labels into groups of sizes \(u,v\ge2\). One rectangular product of dimensions \(n^u,n,n^v\) forms this table at exponent \(u+v=h\), since \(uv\ge u+v\). Its two matrices, the second vertex's table, and all remaining factors fit this bound.
 
