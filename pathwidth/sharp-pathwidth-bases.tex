@@ -42,7 +42,7 @@
 \maketitle
 \vspace{-2.8em}
 \begin{abstract}
-For the bipartite permanent outside characteristic two and for bipartite independent sets over every field, we construct graphs of pathwidth \(p\) on which unrestricted arithmetic circuits require \(2^{p-O(E(p))}\) gates, where \(E(x)=x^{3/4}(\log_2(2+x))^{3/8}\). Their size \(n\) satisfies \(\log_2 n=O(E(p))\). For the multivariate Tutte polynomial and its chromatic specializations the reference exponent is the logarithm of the number of partitions of a bag into at most the effective number of colors. We first prove the fixed-base bounds from a family of ordered tables and then sharpen the loss in the exponent. The same subcubic witnesses attain the quantitative bounds in cutwidth and bandwidth. For a linear sweep even a factor \(2^{\sqrt p}\) saving can be excluded on polynomial-size graphs.
+For the bipartite permanent outside characteristic two and for bipartite independent sets over every field, we construct graphs of minimum pathwidth \(p\) and size \(2^{o(p)}\) whose generating polynomials require \(2^{p-o(p)}\) unrestricted arithmetic gates. The proof uses a rectangular grid with \(d\) columns. Its table polynomial has lower exponent at least \(d\) in the edge alphabet, and a sweep crosses at most \(d+1\) wires. Encoding these wires in a path decomposition also gives the leading bounds for the multivariate Tutte polynomial and its chromatic specializations. For a linear sweep, even a factor \(2^{\sqrt p}\) saving can be excluded on polynomial-size graphs. The same graph encodings yield cutwidth and bandwidth witnesses. A separate \href{sharper-additive-bound.md}{proof of the sharper additive bound} gives the loss \(O(p^{3/4}(\log p)^{3/8})\) for matchings and independent sets.
 \end{abstract}
 
 \section{Introduction}
@@ -51,21 +51,23 @@ A perfect matching meets every vertex exactly once. To compute its generating po
 
 Write \(s_{\F}(f)\) for the minimum number of binary \(+,-,\times\) gates needed to compute the formal polynomial \(f\) over the field \(\F\). Variables and arbitrary field constants are free inputs. The circuit may have arbitrary depth and reuse any gate output. A path decomposition of a graph is a sequence of vertex sets, called bags, in which each vertex occurs on a nonempty interval and the ends of every edge occur together in some bag. The pathwidth \(\pw(G)\) is the minimum, over such decompositions, of the largest bag size minus one.
 
-For a bipartite graph \(G=(V,E)\), give each edge its own indeterminate \(x_e\). Its permanent is \(\per(G)=\sum_M\prod_{e\in M}x_e\), summed over all perfect matchings \(M\). Put \(p=\pw(G)\) and \(n=1+|V|+|E|\).
+For a bipartite graph \(G=(V,E)\), give each edge its own indeterminate \(x_e\). Its permanent is \(\per(G)=\sum_M\prod_{e\in M}x_e\), summed over all perfect matchings \(M\). Write \(n=|V|\), \(m=|E|\), and \(\|G\|=n+m\) for total graph size. Put \(p=\pw(G)\).
 
 \begin{theorem}[Permanent]\label{thm:permanent}
-Over every field \(\F\) of characteristic different from two, for every \(0<\varepsilon<1\) and \(C\ge0\), there are bipartite graphs of maximum degree three and arbitrarily large \(p\) for which
+Over every field \(\F\) of characteristic different from two there is a sequence of bipartite graphs of maximum degree three and minimum pathwidth \(p\to\infty\) with
 \[
-                     s_{\F}(\per(G))>n^C(2-\varepsilon)^p .
+               s_{\F}(\per(G))\ge 2^{p-o(p)},\qquad \log_2 \|G\|=o(p).
 \]
-For every bipartite graph, \(n^{O(1)}2^p\) gates suffice. In characteristic two, \(n^{O(1)}\) gates suffice for every bipartite graph.
+More precisely, the rectangle construction gives
+\(\log_2 s_{\F}(\per(G))\ge p-O(p^{6/7}(\log_2(2+p))^{1/14})\).
+For every bipartite graph, \(\|G\|^{O(1)}2^p\) gates suffice. In characteristic two, \(\|G\|^{O(1)}\) gates suffice for every bipartite graph.
 \end{theorem}
 
-The hard graphs can be chosen with \(\log n=o(p)\). A fixed saving in the exponential base therefore outweighs any fixed polynomial factor in graph size. The path decomposition can be supplied with the graph.
+Consequently, for each fixed \(0<\varepsilon<1\) and \(C\ge0\), every sufficiently large graph on this sequence satisfies \(s_{\F}(\per(G))>\|G\|^C(2-\varepsilon)^p\). The path decomposition can be supplied with the graph.
 
 The multivariate Tutte polynomial records the connected components of every spanning subgraph~\cite{sokal}. Its width dependence changes when the cluster parameter is specialized to an integer.
 
-Let \(G=(V,E)\) be a loopless undirected graph, \(p=\pw(G)\), and \(n=1+|V|+|E|\). With \(Q\) and the edge weights \(w_e\) independent indeterminates, set
+Let \(G=(V,E)\) be a loopless undirected graph of pathwidth \(p\). With \(Q\) and the edge weights \(w_e\) independent indeterminates, set
 \begin{equation}\label{eq:cluster}
  Z_G(Q,\mathbf w)=\sum_{A\subseteq E}Q^{\kappa(V,A)}\prod_{e\in A}w_e ,
 \end{equation}
@@ -74,101 +76,58 @@ where \(\kappa(V,A)\) counts the connected components of \((V,A)\), including is
 \begin{theorem}[Tutte cluster polynomial]\label{thm:cluster}
 Over every field \(\F\), for every \(0<\varepsilon<1\) and \(C\ge0\), there are graphs of arbitrarily large \(p\) for which
 \[
-             s_{\F}\bigl(Z_G(Q,\mathbf w)\bigr)>n^C\,2^{(1-\varepsilon)p\log_2 p}.
+             s_{\F}\bigl(Z_G(Q,\mathbf w)\bigr)>\|G\|^C\,2^{(1-\varepsilon)p\log_2 p}.
 \]
-For every graph a circuit of size \(n^{O(1)}\operatorname{Bell}(p+1)\) suffices, where \(\operatorname{Bell}(k)\) counts the partitions of a \(k\)-element set.
+For every graph a circuit of size \(\|G\|^{O(1)}\operatorname{Bell}(p+1)\) suffices, where \(\operatorname{Bell}(k)\) counts the partitions of a \(k\)-element set.
 \end{theorem}
 
-Fix an integer \(q\ge1\) and a field \(\F\). For a loopless undirected graph \(G=(V,E)\), the specialization \(Z_G(q,-\mathbf y)\) is the unique polynomial multilinear in the edge indicators \(y_e\) whose value at \(\mathbf1_A\) is the number of proper \(q\)-colorings of \((V,A)\), evaluated in \(\F\). Put \(p=\pw(G)\) and \(n=1+|V|+|E|\).
+Fix an integer \(q\ge1\) and a field \(\F\). For a loopless undirected graph \(G=(V,E)\), the specialization \(Z_G(q,-\mathbf y)\) is the unique polynomial multilinear in the edge indicators \(y_e\) whose value at \(\mathbf1_A\) is the number of proper \(q\)-colorings of \((V,A)\), evaluated in \(\F\). Put \(p=\pw(G)\).
 
 \begin{theorem}[Fixed number of colors]\label{thm:color}
 Let \(r=q\) in characteristic zero and let \(r\) be the least nonnegative residue of \(q\) modulo the characteristic otherwise. If \(r\ge2\), then for every \(0<\varepsilon<r-1\) and \(C\ge0\) there are graphs of arbitrarily large \(p\) for which
 \[
-                      s_{\F}\bigl(Z_G(q,-\mathbf y)\bigr)>n^C(r-\varepsilon)^p .
+                      s_{\F}\bigl(Z_G(q,-\mathbf y)\bigr)>\|G\|^C(r-\varepsilon)^p .
 \]
-Every graph admits a circuit of size \(n^{O(1)}r^p\) in this case. For \(r=0\) the polynomial vanishes on every graph with at least one vertex. For \(r=1\) it equals \(\prod_{e\in E}(1-y_e)\). The empty graph gives one in all cases.
+Every graph admits a circuit of size \(\|G\|^{O(1)}r^p\) in this case. For \(r=0\) the polynomial vanishes on every graph with at least one vertex. For \(r=1\) it equals \(\prod_{e\in E}(1-y_e)\). The empty graph gives one in all cases.
 \end{theorem}
 
-The preceding circuit lower bounds follow from the Euclidean price theorem of OpenAI~\cite{euclid}. They also hold for border circuits in the sense of Section~\ref{sec:tables}. In the proofs, \(\OO\) suppresses a fixed polynomial in \(n\).
+The preceding circuit lower bounds follow from the Euclidean price theorem of OpenAI~\cite{euclid}. They also hold for border circuits in the sense of Section~\ref{sec:tables}. In the proofs, \(\OO\) suppresses a fixed polynomial in \(\|G\|\).
 
 \paragraph{Where the bases come from.}
-Suppose a table on each vertex of a graph reads the labels on its incident edges. We construct an ordered graph for which summing the product of the tables needs nearly \(2^A\) gates, where \(A\) is the largest number of bits crossing a cut in the order. The price theorem of OpenAI~\cite{euclid} supplies the circuit lower bound. A power of a path supplies demands for which \emph{every} balanced cut is as expensive as the most expensive prefix. Routing these demands on a strip makes individual tables small. We give the construction in Section~\ref{sec:tables}.
+Put independent tables at the vertices of a rectangle with \(d\) columns and \(4d^2\) rows. Each table reads the labels on its incident edges. Section~\ref{sec:tables} uses the three-part circuit inequality to show that an alphabet of \(2^w\) labels costs nearly \(dw\) bits in the logarithm of circuit size. A row-by-row sweep crosses at most \(d+1\) wires. The resulting upper and lower estimates on the required boundary agree to first order as \(d\) grows.
 
-For the permanent the covered vertices of a bag encode a half-size subset. For independent sets a table is read through the activities of its row vertices. For the cluster polynomial the boundary stores a partition, and the field determines how many distinct classes survive specialization. These encodings turn a source lower bound into sharp bases for different polynomials. We use the balanced circuit cuts and local graph gadgets of OpenAI~\cite{circuits}, the encoding of choices by bits used by Molter~\cite{molter}, and the relation between routings and graph cuts in Curticapean, Döring, Neuen, and Wang~\cite{linkup}. The companion paper \href{matching-connectivity-width.pdf}{\emph{The Matchings Connectivity Matrix and the Width of Hamiltonian Cycles}} applies the same transfer to path ends whose compatibility is tested by matrix rank.
+For the permanent the covered vertices of a bag encode a half-size subset. For independent sets a table is read through the activities of its row vertices. For the cluster polynomial the boundary stores a partition, and the field determines how many distinct classes survive specialization. These encodings turn a source lower bound into sharp bases for different polynomials. We use the balanced circuit cuts and local graph gadgets of OpenAI~\cite{circuits}, the encoding of choices by bits used by Molter~\cite{molter}, and the relation between routings and graph cuts in Curticapean, Döring, Neuen, and Wang~\cite{linkup}. The companion paper \href{matching-connectivity-width.pdf}{\emph{Complexity of Hamiltonian Cycles via Connectivity Rank}} applies the same transfer to path ends whose compatibility is tested by matrix rank.
 
 For a graph \(G\), its independence polynomial is \(I_G(\mathbf x)=\sum_{A\text{ independent}}\prod_{v\in A}x_v\). Its boundary stores one occupancy bit per vertex.
 
-\paragraph{How much can be saved in the exponent?}
-Write \(B_r(k)\) for the number of partitions of \(k\) labelled sites into at most \(r\) nonempty blocks and \(B_\infty(k)=\operatorname{Bell}(k)\). For a cluster scalar \(q\), its \emph{effective palette} \(r\) is the least nonnegative integer equal to \(q\) in the field, or \(\infty\) if there is no such integer. An indeterminate has effective palette \(\infty\). In particular \(q=-1\) has the full Bell scale in characteristic zero. All logarithms in the quantitative bounds are binary.
-
-\begin{theorem}[Additive lower bound]\label{thm:additive}
-Put \(E(x)=x^{3/4}(\log_2(2+x))^{3/8}\). Each row below has instances of minimum pathwidth \(p\to\infty\) and size \(n\) satisfying
-\[
-                 \log_2 s_{\F}(f_G)\ge L-O(E(L)),
-                 \qquad \log_2 n=O(E(L)).
-\]
-\begin{center}
-\normalfont\begin{tabular}{@{}lll@{}}
-\hline
-Polynomial \(f_G\) & Field characteristic & Reference exponent \(L\)\\
-\hline
-Perfect matching on subcubic bipartite graphs & different from \(2\) & \(p\)\\
-Independent sets on bipartite graphs & any & \(p\)\\
-Chromatic edge indicators and multivariate Tutte & any, \(2\le r\le\infty\) & \(\log_2 B_r(p+1)\)\\
-\hline
-\end{tabular}
-\end{center}
-Each row has an upper bound \(n^{O(1)}2^L\). The constants in the palette row are uniform in the effective palette, which may vary between graphs.
-\end{theorem}
-
-For each fixed \(C\), these witnesses exclude \(n^C2^{L-g}\) as soon as \(g\ge K_C E(L)\) for a sufficiently large constant \(K_C\). For example, a factor \(2^{p^{0.76}}\) is excluded in every row, including the full Bell case where \(L=\Theta(p\log p)\). The lower bound allows circuit gates to combine inputs from anywhere in the instance. At a specified chronological cut, a linear table must already store \(2^L/p^{O(1)}\) scalars on a polynomial-size graph (Section~\ref{sec:frontiers}). This latter estimate excludes a \(2^{\sqrt p}\) saving for that table. The same exclusion holds for sums of \(2^{o(\sqrt p)}\) linear sweeps with independently chosen variable orders or binary variable trees (Theorem~\ref{thm:orders}).
-
-\paragraph{Edge cuts and bandwidth.}
-
-A vertex order has cutwidth \(k\) if its largest prefix cut has \(k\) crossing edges. Its bandwidth is the largest difference between the positions of adjacent vertices. Write \(\operatorname{cw}(G)\) and \(\operatorname{bw}(G)\) for the respective minima. Both are at least \(\pw(G)\).
-
-\begin{theorem}[Cutwidth and bandwidth]\label{thm:layouts}
-
-For the permanent, bipartite independent sets and both partition polynomials in Theorem~\ref{thm:additive}, the same field conditions, reference exponents, upper bounds and additive lower estimates hold with \(p\) replaced by \(k=\operatorname{cw}(G)\) or \(k=\operatorname{bw}(G)\). For each row the same subcubic witnesses work for both parameters.
-
-\end{theorem}
-
-Sections~\ref{sec:tables} and~\ref{sec:transfer} give the source and the fixed-base transfer. Section~\ref{sec:quant-source} sharpens the exponent. Section~\ref{sec:layouts} puts the same hard counts on subcubic layouts. The appendices treat variable trees, SAT parameters, and cancellation in permanent circuits.
+For the permanent and independent sets the rectangle gives an additive loss of
+\(O(p^{6/7}(\log_2(2+p))^{1/14})\) in the exponent. Write \(L=p\) for these two problems and \(L=\log_2 B_r(p+1)\) for the partition polynomials, where \(B_r(k)\) counts the partitions of \(k\) sites into at most \(r\) classes. Use \(r=\infty\) for the free cluster parameter. The companion note \href{sharper-additive-bound.md}{\emph{The sharper additive width bound}} proves the sharper loss \(O(E(L))\), where \(E(x)=x^{3/4}(\log_2(2+x))^{3/8}\), uniformly in the effective palette. Appendix~\ref{sec:layouts} transfers pathwidth witnesses to cutwidth and bandwidth.
 
 \paragraph{Open questions.}
 \begin{enumerate}[leftmargin=*,label=\textnormal{(\arabic*)}]
-\item For a row of Theorem~\ref{thm:additive}, can unrestricted circuits achieve size \(n^{O(1)}2^{L-\sqrt p}\) on every graph, or can this saving be ruled out? The analogous question for any row of Theorem~\ref{thm:layouts} uses its width \(k\). More generally, what is the threshold between \(\log p\) and \(E(L)\)? A saving of \(O(\log p)\) bits can always be absorbed in the allowed polynomial factor since \(p<n\).
-\item For exact weighted perfect matching on an arbitrary \(N\)-vertex graph of pathwidth \(p\), can every vertex introduction be handled in \(O(2^p\sqrt{p+1})\) scalar gates, or can this bound be attained by amortizing over introductions? Section~\ref{sec:frontiers} proves the exact square-root factor for bipartite graphs, and the exponent \(1/2+\eta\) for every fixed \(\eta>0\) on general graphs outside characteristic two.
+\item For these polynomials, can unrestricted circuits achieve size \(\|G\|^{O(1)}2^{L-\sqrt p}\) on every graph, or can this saving be ruled out? The analogous question for any row of Theorem~\ref{thm:layouts} uses its width \(k\). More generally, what is the threshold between \(\log p\) and \(E(L)\)? A saving of \(O(\log p)\) bits can always be absorbed in the allowed polynomial factor since \(p<n\).
+\item For exact weighted perfect matching on an arbitrary \(n\)-vertex graph of pathwidth \(p\), can every vertex introduction be handled in \(O(2^p\sqrt{p+1})\) scalar gates, or can this bound be attained by amortizing over introductions? Section~\ref{sec:frontiers} proves the exact square-root factor for bipartite graphs, and the exponent \(1/2+\eta\) for every fixed \(\eta>0\) on general graphs outside characteristic two.
 
-\item Can the permanent outside characteristic two require \(2^{\Omega(m)}\) arithmetic gates as a function of matrix order \(m\) alone? OpenAI prove a superpolynomial lower bound in this parameter~\cite{circuits}. The counting-stars algorithm gives the permanent an upper base strictly below two in matrix order~\cite{stars}. A pathwidth lower bound at the square-root scale for the bipartite permanent would already imply \(\limsup_m\log s_{\F}(\per_m)/(\log m)^2=\infty\) (Section~\ref{sec:cancellation}).
+\item Can the permanent outside characteristic two require \(2^{\Omega(r)}\) arithmetic gates as a function of matrix order \(r\) alone? OpenAI prove a superpolynomial lower bound in this parameter~\cite{circuits}. The counting-stars algorithm gives the permanent an upper base strictly below two in matrix order~\cite{stars}. A pathwidth lower bound at the square-root scale for the bipartite permanent would already imply \(\limsup_r\log s_{\F}(\per_r)/(\log r)^2=\infty\) (Appendix~\ref{sec:cancellation}).
 
 \end{enumerate}
 
-\section{A family of hard tables}\label{sec:tables}
+\section{Hard tables on a rectangular grid}\label{sec:tables}
 
 For a graph \(H\), give edge \(e\) a label of \(c_e\) bits. At vertex \(v\), introduce a separate indeterminate \(X_{v,\alpha}\) for every possible joint label \(\alpha\) on its incident edges \(\delta(v)\). Define
 \begin{equation}\label{eq:source}
  F_H=\sum_{\sigma\in\prod_e\bits^{c_e}}\ \prod_{v\in V(H)}X_{v,\sigma|_{\delta(v)}}.
 \end{equation}
-Given an order on \(V(H)\), let \(A\) be the largest total \(c_e\) crossing a prefix, and \(T=\max_v\sum_{e\ni v}c_e\). Reading the tables in order computes \(F_H\) with \(2^A\) times a polynomial in the input-table length many operations. We shall use the following converse on a particular family.
-
-\begin{proposition}\label{prop:hard}
-For every \(\eta>0\) there are ordered graphs \(H\) and numbers \(D\to\infty\) with
-\[
- A\le(1+\eta)D,\qquad T=o(D),\qquad
- \log_2(\circuit(F_H)+1)\ge (1-o(1))D.
-\]
-The size here can be degree-component border size over any field. The graphs have polynomially many vertices and edges in \(D\). The maximum unweighted degree and the maximum number of edges crossing a prefix are both \(o(D)\).
-\end{proposition}
+Given an order on \(V(H)\), let \(A\) be the largest total \(c_e\) crossing a prefix, and \(T=\max_v\sum_{e\ni v}c_e\). Reading the tables in order computes \(F_H\) with \(2^A\) times a polynomial in the input-table length many operations. All logarithms below are binary.
 
 For a homogeneous polynomial of degree \(d\), its \emph{degree-component border size} is the least \(s\) such that it lies in the Zariski closure, over \(\olF\), of the degree-\(d\) parts of outputs of size-\(s\) circuits. A Zariski closure consists of the common zeros of all polynomial identities satisfied by the points in question. For an inhomogeneous polynomial we use ordinary border size, taking the closure of circuit outputs of bounded degree. The degree-component lower bounds also apply to the usual homogenizations of the cluster polynomials, since setting the homogenizing variable to one recovers them.
 
-\subsection{The cost of separating tables}
+\subsection{Prices and a rectangular placement}
 
-Here is the external theorem we use, in the form needed below. A tensor is an array with one index in each of finitely many vector spaces. Place each index at a point of a real Euclidean space. An equality wire of dimension \(a\) is the array \(\sum_{j=1}^a e_j\otimes e_j\).
+A tensor is an array with one index in each of finitely many vector spaces. Place each index at a point of a real Euclidean space. An equality wire of dimension \(a\) is the array \(\sum_{j=1}^a e_j\otimes e_j\).
 
 \begin{theorem}[Euclidean prices, OpenAI~\cite{euclid}]\label{thm:price}
-Over an algebraically closed field there is a price for placed tensors. Independent tensor products add prices. Local linear operations, including contractions at a site, cannot increase price. Nonzero local tensors at one site have price zero, and an equality wire of dimension \(a\) between \(x,y\) has price \(\|x-y\|\log_2 a\). For tensors on a fixed set \(P\) of output sites,
+Over an algebraically closed field there is a price for placed tensors. Independent tensor products add prices. Local linear operations, including contractions at a site, cannot increase price. Nonzero local tensors at one site have price zero, and an equality wire of dimension \(a\) between \(x,y\) has price \(\|x-y\|\log_2 a\). Sharing one \(a\)-valued label among sites \(P\) costs \(W(P)\log_2 a\). For three sites this normalized Gaussian width is half their perimeter. For tensors on a fixed set \(P\) of output sites,
 \[
   \operatorname{price}\Big(\sum_{i=1}^L U_i\Big)
        \le \max_i\operatorname{price}(U_i)+W(P)\log_2 L,\qquad
@@ -177,112 +136,80 @@ Over an algebraically closed field there is a price for placed tensors. Independ
 where \(g\) is a standard Gaussian in their span. Prices agree upon adjoining unused sites. A fixed-format price upper bound survives Zariski closure at nonzero tensors.
 \end{theorem}
 
-Call a subset \(S\) of the \(k=|V(H)|\) tables balanced if \(k/3\le|S|\le2k/3\). A tensor on the tables has rank at most \(R\) across \(S\) if it is a sum of \(R\) products of an array on \(S\) and one on its complement.
-
-\begin{lemma}\label{lem:balanced}
-The coefficient tensor of the part of a size-\(s\) circuit linear in each of \(k\ge3\) separate variable groups is a sum of at most \(2^k\) tensors. Each has rank at most \(2^{O(k)}(s+1)\) across some balanced subset of the groups.
-\end{lemma}
+\begin{proposition}[Rectangle]\label{prop:hard}
+Let \(H\) have \(h=4d^2\) rows and \(d\ge2\) columns, and give each edge \(w\) bits. At fixed \(d\), over every field,
+\[
+ \liminf_{w\to\infty}\frac{\log_2(1+\circuit(F_H))}{w}\ \ge\ d .
+\]
+The estimate holds for degree-component border size. In row order
+\(A\le(d+1)w\) and \(T\le4w\).
+\end{proposition}
 \begin{proof}
-At each gate keep, for every subset \(I\subseteq[k]\), its part of degree one in the groups of \(I\) and zero elsewhere. At a multiplication distribute \(I\) among the children in all disjoint ways. This gives \(O(3^k(s+1))\) gates, each with a fixed set of groups. Expand the output into parse trees, duplicating a shared gate at each use. In each tree follow the chosen input at a sum, and a child with the larger set of groups at a product, with fixed tie breaking. Stop when the set first has size at most \(2k/3\). It has size at least \(k/3\), since its parent had more than \(2k/3\). For each possible stopping gate the sum of these trees factors into the polynomial at that gate times a polynomial on the remaining groups. Indeed a tree above the stop allows every expansion below it, and the choices on the followed path use only group sizes. Subtraction signs go into the complementary factor. Group these products by their stopping set.
+Mark the first site of each row. Set \(b_i=e_i-\one/h\) in \(\mathbb R^h\) and \(s_i=\sum_{a=1}^i b_a\).
+Orient edges down and right. Give each downward edge leaving row \(i\) the vector \(s_i/d\), and each rightward edge leaving column \(j\) of row \(i\) the vector \((1-j/d)b_i\). These vectors have norm at most one because
+\[
+ \|b_i\|\le1,\qquad \|s_i\|^2=i(h-i)/h\le h/4=d^2 .
+\]
+The outgoing sum minus the incoming sum at a site is \(b_i\) in the first column and zero elsewhere. This holds at the top and bottom as \(s_0=s_h=0\).
+
+Apply the three-part circuit inequality and centroid lemma for sparse patterns~\cite[Section~2]{sparse-patterns}.
+In any binary tree on the sites, keep the marked leaves and suppress degree-two vertices. A centroid of this tree divides the marks into three sets \(S_j\) of size at most \(h/2\). At the corresponding junction of the original tree the branch divergences are
+\(\one_{S_j}-(|S_j|/h)\one\). The centroid lemma supplies three points \(p_j\) of half-perimeter one with
+\[
+ \sum_j\langle \one_{S_j}-(|S_j|/h)\one,p_j\rangle\ge \sqrt h/2=d.
+\]
+The circuit inequality takes the best junction in each tree, then the minimum over trees. This proves the asserted alphabet exponent for exact circuits.
+
+For degree-component border size, the same circuit argument applies to the coefficient array obtained by extracting one entry per slot. Extraction and reshaping are linear on degree-\(k\) coefficients, where \(k=hd\), and the price sublevels used in the proof are closed at the target. Appendix~\ref{sec:rectangle-error} gives the finite inequality. A row prefix crosses at most one vertical wire per column and one horizontal wire. Every table reads at most four words.
 \end{proof}
 
-Orient the edges of \(H\) and choose a unit vector \(u_e\) on each. At the tail place its label index at \(u_e/2\) and at the head at \(-u_e/2\). Write \(P\) for these sites, \(B_0=\sum_e c_e\), and \(w_v\) for the sum of the signed \(c_eu_e\) at \(v\). Set \(\gamma=\min_{S\ \mathrm{balanced}}\|\sum_{v\in S} w_v\|\).
-
-For the complete graph with the same number of bits on every edge, the
-companion note derives the estimate directly by moving two hubs across a
-balanced cut~\cite{vp-vnp-prices}. Here the edge capacities and directions
-may vary independently.
-
-\begin{lemma}\label{lem:cost}
-For every \(t>0\), degree-component border size \(s\) of \(F_H\) satisfies
-\[
- \log_2(s+1)\ \ge\ \gamma-B_0t-\frac{kW(P)}{2t}-O(k).
-\]
-\end{lemma}
-\begin{proof}
-Identify the coefficient space of one table with the tensor product of its incident label spaces, using the joint label as a basis index. Under this fixed reshaping, the coefficient array of \eqref{eq:source} is the tensor product of independent equality wires. Its price is \(B_0\).
-
-Consider a cut term of Lemma~\ref{lem:balanced} of rank \(R\). Place its two factors at \(o\) and \(-o\), where \(o\) has length \(t\) and points along \(\sum_{v\in S}w_v\) (any direction suffices if the sum vanishes). Join them by a dimension-\(R\) wire, and send each label index from its factor to its assigned output site. The arbitrary arrays held at the two sites cost zero. For a unit vector \(u\),
-\[
- \|u/2-o\|\le\tfrac12-\angles{u,o}+\|o\|^2,
-\]
-by the tangent bound for the square root at \(1/4\). Summing the prices of these spokes uses \(\sum_v w_v=0\). The result, including the joining wire, is at most \(B_0-2t\gamma+2B_0t^2+2t\log_2 R\). The ordinary sum costs at most another \(kW(P)\), regardless of the different auxiliary sites of its terms. Extracting the multidegree \((1,\ldots,1)\) from a degree-\(k\) component and reshaping are linear maps on coefficients. Their images of a closure lie in the closure of their images. Theorem~\ref{thm:price} thus gives the same inequality for the target at border size \(s\). Compare with \(B_0\), divide by \(2t\), and substitute the rank bound.
-\end{proof}
-
-\subsection{A demand across every balanced cut}
-
-Fix an integer \(J\), to be chosen large, and take \(k=Jd^2\) tables and \(h=\lfloor k/3\rfloor\), with \(d\to\infty\). Join indices in \([k]\) at distance at most \(h\) to form a \emph{demand graph}. Give each demand edge its own orthogonal unit coordinate and let \(b_v\) be the signed incidence vector at \(v\). For any \(S\), \(\|\sum_{v\in S}b_v\|^2\) counts its crossing demand edges. Put \(\Gamma=\sqrt{h(h+1)/2}\).
-
-Every balanced cut crosses at least \(\Gamma^2\) demands and every prefix crosses at most \(\Gamma^2\). To see this, arrange any \(s\) indices in increasing order. The \(i\)th and \((i+j)\)th differ by at least \(j\), so an interval maximizes the number of induced edges among sets of size \(s\). A prefix and its complement attain both maxima at once. When both sides have at least \(h\) indices, the prefix cuts \(1+2+\dots+h\) edges. At the ends there are fewer.
-
-We route these vectors on a different graph \(H\). Group consecutive tables into \(Jd\) layers of \(d\) tables each. Make a clique inside each layer and match corresponding positions in successive layers. On an oriented clique edge \(v w\) put \(f_{vw}=(b_v-b_w)/d\). On each forward lane after layer \(i\) put \(f_e=d^{-1}\sum_{v\le id}b_v\). The outward sum at \(v\) is \(b_v\). Indeed the clique contributes \(b_v\) minus its layer average and the lanes contribute that average.
-
-\begin{figure}[ht]
-\centering
-\begin{tikzpicture}[x=.81cm,y=.52cm,pt/.style={circle,draw=ink,fill=white,inner sep=1.65pt}]
-\begin{scope}
-\foreach \i in {0,...,6}{\coordinate (v\i) at (\i,0);}
-\foreach \i in {0,...,5}{\pgfmathtruncatemacro{\j}{\i+1}\draw[ink!65] (v\i)--(v\j);}
-\foreach \i in {0,...,4}{\pgfmathtruncatemacro{\j}{\i+2}\draw[sea,thick] (v\i) to[bend left=36] (v\j);}
-\draw[ochre,dashed,thick](2.5,-.55)--(2.5,1.25);
-\foreach \i in {0,...,6}{\node[pt] at (v\i) {};}
-\node[below,font=\small] at (3,-.72) {Demands of length one and two};
-\end{scope}
-\begin{scope}[xshift=7.5cm]
-\foreach \i in {0,...,3}{\foreach \j in {0,1,2}{\coordinate (p\i\j) at ({1.15*\i+.24*mod(\j,2)},{\j-.75});}}
-\foreach \i in {0,...,3}{\draw[ink!65] (p\i0)--(p\i1)--(p\i2)--(p\i0);}
-\foreach \i in {0,...,2}{\pgfmathtruncatemacro{\a}{\i+1}\foreach \j in {0,1,2}{\draw[sea,thick] (p\i\j)--(p\a\j);}}
-\draw[ochre,dashed,thick] (1.6,-1.0)--(1.6,1.65);
-\foreach \i in {0,...,3}{\foreach \j in {0,1,2}{\node[pt] at (p\i\j) {};}}
-\node[below,font=\small] at (1.8,-1.05) {The strip carrying the demands};
-\end{scope}
-\end{tikzpicture}
-\caption{On the left the three demands across the dashed cut occupy distinct coordinates. On the right all lanes across a layer cut carry the same vector, each with its share of the load.}\label{fig:strip}
-\end{figure}
-
-\begin{proof}[Proof of Proposition~\ref{prop:hard}]
-Set \(M=d^2\) and \(c_e=\lceil M\|f_e\|\rceil\), omitting zero capacities. Extend \(Mf_e/c_e\) to a unit vector \(u_e\) by adding a private orthogonal coordinate. Projecting the outward sum to the demand coordinates gives \(Mb_v\). Hence \(\gamma\ge D=M\Gamma\).
-
-A lane has vector norm at most \(\Gamma/d\), and a clique edge at most \(2\sqrt{2h}/d\). At a cut inside a layer there are at most \(d\) crossing lanes in total, some on each side of the layer, and at most \(d^2/4\) crossing clique edges. A table meets at most two lanes and \(d-1\) clique edges. Consequently
-\[
- A\le M\Gamma+O(Md\sqrt h+d^2),\qquad
- T=O(M\Gamma/d+M\sqrt h+d).
-\]
-The hidden constants are absolute. Since \(d/\sqrt h=O(J^{-1/2})\), choose \(J\) so that the first inequality gives \(A\le(1+\eta)D\) for large \(d\). With this \(J\) fixed, \(D=\Theta_J(d^4)\), \(T=O_J(d^3)\), and \(B_0\le kT/2=O_J(d^5)\). There are \(O_J(d^3)\) output sites of norm \(1/2\). For \(L\) such sites, the Gaussian exponential moment gives \(\mathbb E\max\angles{g,x}\le \log(L)/z+z/8\) for \(z>0\), using natural logarithms here. Thus \(W(P)=O_J(\sqrt{\log d})\). Apply Lemma~\ref{lem:cost} with \(t=d^{-3/2}\). Its total error is \(O_J(d^{7/2}\sqrt{\log d})=o(D)\). The unweighted degree is at most \(d+1\), and a prefix crosses \(O(d^2)\) edges.
-\end{proof}
+For each \(d\), choose \(w\) large enough that
+\begin{equation}\label{eq:rectangle-parameters}
+ D=dw,\qquad \log_2(1+\circuit(F_H))\ge(d-1)w,\qquad d\log_2(2+w)\le w .
+\end{equation}
+This is possible by Proposition~\ref{prop:hard}. The sweep crosses at most \(D+w\) bits, each table reads at most \(4w\), and \(w/D=1/d\). In Section~\ref{sec:per-encoding} these three estimates give \(2^{p-o(p)}\) on graphs of size \(2^{o(p)}\).
 
 \section{How many bits fit on the boundary?}\label{sec:transfer}
 
-We first give the boundary bookkeeping for edge-weighted graph polynomials. Fix \(m\), and suppose a block with \(m\) boundary positions can transmit \(\ell\ge1\) bits. The two tables at its ends may share \(m\) vertices, or have \(m\) edges joining the corresponding positions. To transmit a label means that after summing the private choices, the weight contributed between logical words \(i,j\in\bits^\ell\) is \(\one_{i=j}\). All graph weights may be specialized to constants, variables, or affine linear functions of single variables over \(\olF\). The original graph polynomials always have independent indeterminates over \(\F\).
+Give the two ends of each edge \(e\) separate labels \(i,j\in\bits^{c_e}\) and weight the pair by \(C_e[i,j]\). Call the resulting table polynomial \(F_H(C)\). Its coefficient at a product of one entry per table is the product of the specified matrix entries. Thus its coefficient tensor, reshaped by half-edges, is \(\bigotimes_e C_e\). Equation~\eqref{eq:source} is the case \(C_e=I\).
+
+\begin{lemma}[Full-rank boundary matrices]\label{lem:physical}
+The rectangle price bound, including \eqref{eq:rectangle} for degree-component border size, holds for \(F_H(C)\) whenever every \(C_e\) is nonsingular.
+\end{lemma}
+\begin{proof}
+A change of basis on one end takes \(C_e\) to the equality wire of the same dimension. Both maps are local, so Theorem~\ref{thm:price} gives the same price in either basis, at every placement. Prices add across edges. The cut decomposition bounds the price of any circuit output in this format. The comparison with the target uses only its price. The comparison, including its closure argument, therefore gives the same bound.
+\end{proof}
+
+A block has \(\mu\) shared vertices or \(\mu\) crossing edges. Its compatibility matrix records the total weight of its private completions for a pair of endpoint states. A nonsingular minor of order \(2^\ell\) lets each end index its selected states by \(\ell\) bits. The table gadgets must select those states independently at their own ends. Graph weights may be specialized to constants, variables or affine functions of single variables over \(\olF\). The input graph polynomial has independent variables over \(\F\).
 
 \begin{lemma}\label{lem:transfer}
-Split each edge of Proposition~\ref{prop:hard} into \(\lceil c_e/\ell\rceil\) blocks, padding its last word by zeros. Suppose the private graph for one table realizes its entries \(X_{v,\alpha}\), has size \(2^{O_m(T+d+1)}\), and can be swept with \(O_m(T+d+1)\) vertices in addition to the boundaries of unrelated blocks. Allow a constant number of additional vertices throughout the sweep. If such blocks exist with \(\liminf_{m\to\infty}\ell/m\ge\log_2 b\) along a sequence of \(m\)'s, then for each \(1<B<b\) there is a sequence of target graphs on which the circuit size \(s\) satisfies
+For the rectangle with parameters \eqref{eq:rectangle-parameters}, split each edge into \(\lceil c_e/\ell\rceil\) blocks, using a nonsingular minor of order \(2^r\) for a final block of \(r<\ell\) bits. Suppose the private graph for one table realizes its entries \(X_{v,\alpha}\), has size \(2^{O_\mu(T+d+1)}\), and can be swept with \(O_\mu(T+d+1)\) vertices in addition to the boundaries of unrelated blocks. Allow a constant number of additional vertices throughout the sweep. If such blocks exist with \(\liminf_{\mu\to\infty}\ell/\mu\ge\log_2 b\) along a sequence of \(\mu\)'s, then for each \(1<B<b\) there is a sequence of target graphs on which the circuit size \(s\) satisfies
 \[
-                    \frac{s}{n^C B^p}\longrightarrow\infty
+                    \frac{s}{\|G\|^C B^p}\longrightarrow\infty
 \]
 for every fixed \(C\ge0\). The pathwidths tend to infinity whenever the target has polynomial-size circuits on each class of bounded pathwidth.
 \end{lemma}
 \begin{proof}
-Contraction of the equalities gives \eqref{eq:source}. Sweep in table order. Between tables keep the shared vertices of each crossing block or just its earlier edge endpoints. All blocks incident to the table being swept have \(O_m(T+d+1)\) positions in total. Rounding up the number of blocks costs at most \(m\) extra positions per crossing edge. Thus the target support has
+The blocks on an edge give the tensor product of their minors, which is nonsingular. Summing the private choices gives \(F_H(C)\), to which Lemma~\ref{lem:physical} applies. Sweep in table order. Between tables keep the shared vertices of each crossing block or just its earlier edge endpoints. All blocks incident to the table being swept have \(O_\mu(T+d+1)\) positions in total. Rounding up the number of blocks costs at most \(\mu\) extra positions per crossing edge. Thus the target support has
 \begin{equation}\label{eq:layout}
- p\le(m/\ell)A+O_m(d^2+T+d+1),\qquad \log_2 n=o(D).
+ p\le(\mu/\ell)A+O_\mu(d+T+1),\qquad \log_2 \|G\|=o(D).
 \end{equation}
-The last estimate follows by summing the size bound over \(k=Jd^2\) tables for fixed \(m,J\).
+There are \(k=4d^3\) tables and \(T\le4w\), so their total size has logarithm \(O_\mu(w+\log d)=o(D)\).
 
-Here is the cost of specializing a border circuit. For a homogeneous degree-\(a\) target, keep degrees \(0,\ldots,a\) at each gate, convolving at products. This produces a circuit of size \(O((a+1)^2(s+1))\) for its degree-\(a\) part. Specialize its inputs and then take the degree-\(k\) component of the result. Coefficient specialization followed by extraction is linear on the bounded-degree coefficient spaces and hence preserves inclusion in the corresponding closures. The affine input substitutions cost \(O(n)\) gates, with constants depending on the fixed palette if present. Here \(a,k\le n^{O(1)}\). The same argument for ordinary border size simply specializes the bounded-degree outputs. Thus a target of size \(s\) yields source degree-component border size at most \(n^{O(1)}(s+1)\). This also explains why we may choose constants over \(\olF\).
+Here is the cost of specializing a border circuit. For a homogeneous degree-\(a\) target, keep degrees \(0,\ldots,a\) at each gate, convolving at products. This produces a circuit of size \(O((a+1)^2(s+1))\) for its degree-\(a\) part. Specialize its inputs and then take the degree-\(k\) component of the result. Coefficient specialization followed by extraction is linear on the bounded-degree coefficient spaces and hence preserves inclusion in the corresponding closures. The affine input substitutions cost \(O(\|G\|)\) gates, with constants depending on the fixed palette if present. Here \(a,k\le \|G\|^{O(1)}\). The same argument for ordinary border size simply specializes the bounded-degree outputs. Thus a target of size \(s\) yields source degree-component border size at most \(\|G\|^{O(1)}(s+1)\). This also explains why we may choose constants over \(\olF\).
 
-Choose \(m\) with \((m/\ell)\log_2 B<1\), then \(\eta>0\) small enough that the strict inequality survives multiplication by \(1+\eta\). For these fixed choices, \eqref{eq:layout} gives \(p\log_2 B\le(1-\delta)D\) for some \(\delta>0\) and all large \(d\). By Proposition~\ref{prop:hard} and \(\log_2 n=o(D)\), the target has \(\log_2(s+1)\ge(1-o(1))D\), even in the stated border model. Subtracting \(C\log_2 n+p\log_2 B\) from \(\log_2(s+1)\) leaves at least \((\delta-o(1))D\), proving the ratio bound. If a subsequence had bounded pathwidth and hence polynomial-size circuits, its logarithmic circuit size would be \(O(\log n)=o(D)\). In particular, a target with upper bound \(n^{O(1)}2^{O(p)}\) must have \(p=\Omega(D)\) along this sequence, so \(\log n=o(p)\).
+Choose \(\mu\) with \((\mu/\ell)\log_2 B<1\). Since \(A\le D+w\) and \(w=D/d\), the rounding and local costs are \(o(D)\). For these fixed choices, \eqref{eq:layout} gives \(p\log_2 B\le(1-\delta)D\) for some \(\delta>0\) and all large \(d\). By Lemma~\ref{lem:physical} and \(\log_2 \|G\|=o(D)\), the target has \(\log_2(s+1)\ge(1-o(1))D\), even in the stated border model. Subtracting \(C\log_2 \|G\|+p\log_2 B\) from \(\log_2(s+1)\) leaves at least \((\delta-o(1))D\), proving the ratio bound. If a subsequence had bounded pathwidth and hence polynomial-size circuits, its logarithmic circuit size would be \(O(\log \|G\|)=o(D)\). In particular, a target with upper bound \(\|G\|^{O(1)}2^{O(p)}\) must have \(p=\Omega(D)\) along this sequence, so \(\log \|G\|=o(p)\).
 \end{proof}
 
-\subsection{A table as a Boolean computation}
+\subsection{Table lookup with exactly-one clauses}\label{sec:lookup}
 
-For matchings it is convenient to implement a table once as a Boolean computation. Guess its incident label bits. In addition, one may guess a state of each incident block from a fixed finite set, check a fixed relation with its word, or give the pair a prescribed scalar weight. All the choices for one block depend only on \(m\). Check any padding and unused codewords. For each address \(\alpha\), in turn, compute the conjunction that the guessed bits spell \(\alpha\), and attach \(X_{v,\alpha}\) to the true value of this output. The weight of an accepted guess is the product of the weights of its true outputs. Exactly one address receives its variable. The address bits may stay live during the entire lookup. Testing the literals of a single address in sequence needs just a running conjunction. Even a table with \(2^T\) entries therefore has only \(O_m(T+d+1)\) simultaneously live bits. The total length, with wires counted, is \(2^{O_m(T+d+1)}\).
+Guess the \(T\) address bits \(x_i\). In their binary prefix tree let \(a_u\) indicate that the address starts with \(u\), and pin \(a_\emptyset=1\). At each internal prefix require exactly one of \((\neg a_u,a_{u0},a_{u1})\). For each child forbid its flag together with the value of \(x_{|u|+1}\) inconsistent with its last digit. To forbid two literals \(l,r\) simultaneously, require exactly one of \((l,r,s)\) with a fresh slack bit \(s\). The address uniquely determines every flag and slack bit. Give the true state of each leaf its table entry. Exactly one leaf contributes its weight.
 
-We need clauses that carry these weights into graph polynomials. For each Boolean gate, introduce one bit per row of its truth table and require exactly one row. For each incident bit \(x\) require exactly one of \(\neg x\) and the row bits in which \(x=1\). Unit clauses enforce constants and acceptance. Every guess that passes the checks has a unique extension. An exactly-one clause on literals \(z_1,\ldots,z_t\) can be replaced by ternary exactly-one clauses on \((a_{j-1},z_j,\neg a_j)\), with \(a_0=0\) and \(a_t=1\). Over Boolean values these enforce the integer identities \(a_j=a_{j-1}+z_j\). Give a weighted output a private copy \(b\) using the clause \((\neg x,b)\). Make these clauses at the time of their gate or output. Temporary row and prefix bits add constant live space per operation. In this clause order a bit is live from its first occurrence to its last. We use the same convention for a port bit whose end is attached to a block.
+Process the tree depth first. The address and the flags on the current path and its pending siblings use \(O(T+1)\) live bits; there are \(O(2^T)\) clauses. To read a port bit \(g=f(x)\), use the same procedure on \((x,g)\), pinning the leaves with \(g\ne f(x)\) to zero. Read the required bits one at a time. A bit is live from its first occurrence through its last use, including its attachment to a port.
 
-\section{Perfect matchings}
+\section{Perfect matchings}\label{sec:per-encoding}
 
-For even \(m\), a block has \(m\) possible matching edges between its two ends. We use exactly half of them. This provides \(\ell=\lfloor\log_2\binom m{m/2}\rfloor\) bits, since we may choose any \(2^\ell\) different half-sets. Although the partners of unused and used ports have different jobs, the following signed gadget lets all \(m\) ports at one end have the same bipartite color.
+For even \(\mu\), a block has \(\mu\) possible matching edges between its two ends. We use exactly half of them. This provides \(\ell=\lfloor\log_2\binom \mu{\mu/2}\rfloor\) bits, since we may choose any \(2^\ell\) different half-sets. Although the partners of unused and used ports have different jobs, the following signed gadget lets all \(\mu\) ports at one end have the same bipartite color.
 
 \begin{lemma}\label{lem:coupler}
 In characteristic different from two, two prospective matching edges can be coupled to have total weight one when both or neither are used, and zero in all other boundary states.
@@ -295,15 +222,25 @@ Use three new rows and three new columns with internal weight matrix
 For prospective edge \(i\), \(i=1,2\), join its exterior row to new column \(i\) and new row \(i\) to its exterior column, both with weight one. An internal completion is the permanent of the submatrix left by the exterior choices. Different numbers of deleted rows and columns give zero. Direct expansion gives \(\per Q=1\), all four minors deleting one of the first two rows and one of the first two columns have permanent zero, and deleting both designated rows and columns leaves the entry \(1\). This also kills a choice entering at one port and leaving at the other.
 \end{proof}
 
-An even cycle has two alternating perfect matchings, representing the values of one bit. On its cycle reserve a distinct edge for every occurrence of a literal, present precisely when that literal is true. This is possible in any occurrence order by inserting unused edges until the desired parity is reached, then closing the cycle at even length. For a clause introduce a row and a column. For each of its literals couple the corresponding cycle edge to a prospective edge between this row and column, using a fresh copy of Lemma~\ref{lem:coupler}. The clause row and column support exactly one true occurrence after the private vertices have been summed out. An ordinary edge of a private output cycle, used precisely for true, receives its output weight. This realizes exactly the weighted verifier.
+An even cycle has two alternating perfect matchings, representing the values of one bit. On its cycle reserve a distinct edge for every occurrence of a literal, present precisely when that literal is true. This is possible in any occurrence order by inserting unused edges until the desired parity is reached, then closing the cycle at even length. For a clause introduce a row and a column. For each of its literals couple the corresponding cycle edge to a prospective edge between this row and column, using a fresh copy of Lemma~\ref{lem:coupler}. The clause row and column support exactly one true occurrence after the private vertices have been summed out. An ordinary edge of each leaf cycle, used precisely for true, receives its output weight. This realizes exactly the weighted verifier.
 
 \paragraph{Completing a half-set.}
-At the earlier table of a block put \(m\) terminals on the row side, and give them private column partners. Each terminal has its possible crossing edge and a prospective edge to its partner. Couple this private edge to an edge used for false on its port-bit cycle. Thus external use represents one. Add \(m/2\) dummy rows with a full \(m/2\) by \(m\) matrix of weights to the partners. For external set \(U\), the free partner columns are precisely \(U\). If \(|U|=m/2\), the completion weight \(P_U\) is the permanent of the corresponding square minor. Each such permanent contains distinct monomials with coefficient one. Their product is a nonzero polynomial. Choose weights in the infinite field \(\olF\) such that every \(P_U\ne0\). In the local lookup, reject unused words and attach the scalar \(1/P_U\) when choosing \(U\). Do the same with colors reversed at the later table. The crossing edges force the two subsets to coincide and give total weight one to each valid common word. The normalization works even when \((m/2)!\) vanishes in the field.
+At the earlier table of a block put \(\mu\) terminals on the row side, and give them private column partners. Each terminal has its possible crossing edge and a prospective edge to its partner. Couple this private edge to an edge used for false on its port-bit cycle. Thus external use represents one. Add \(\mu/2\) dummy rows with a full \(\mu/2\) by \(\mu\) matrix of weights to the partners. For external set \(U\), the free partner columns are precisely \(U\). If \(|U|=\mu/2\), the completion weight \(P_U\) is the permanent of the corresponding square minor. Each such permanent contains distinct monomials with coefficient one. Their product is a nonzero polynomial. Choose weights in the infinite field \(\olF\) such that every \(P_U\ne0\). Use the same construction with colors reversed at the later end, with minor weights \(Q_U\). Crossing edges force the two half-sets to agree. On the chosen words the resulting matrix is diagonal with entries \(P_U Q_U\ne0\), so Lemma~\ref{lem:physical} applies. In characteristic zero all dummy weights can be one, giving \(P_U=Q_U=(\mu/2)!\).
 
-For the width bound, keep the initial vertex and the current end of the bit cycle for every live bit. Construct its occurrences in clause order. The next occurrence needs only a bounded number of new vertices, and the clause with its couplers is private to that step. All port and dummy graphs at one table together use \(O_m(T+d+1)\) vertices. A row of degree \(a>3\) can be split into two rows partitioning its neighbors, together with a new unit column adjacent to both rows. A matching uses one old edge and has a unique extension at this column. Repeat, and also split columns this way. At every clause or block the degrees to split are bounded in terms of \(m\), so the expansion preserves the local width and size estimates. Crossing terminals have degree two and need no expansion. Lemma~\ref{lem:transfer} applies because \(\binom m{m/2}\ge2^m/(m+1)\).
+Sweep the bit cycles in clause order, retaining the initial vertex and current end of each live cycle. Each occurrence and its clause couplers add only a bounded number of vertices to a bag.
+
+\paragraph{One word per block.}
+For a \(c\)-bit matching wire choose the least even \(\mu\) for which \(\binom \mu{\mu/2}\ge2^c\). The central binomial bound gives \(\mu\le c+O(\log(2+c))\). Fix a list of \(2^c\) half-sets. For each port, its membership in the listed half-set is a Boolean function of the \(c\)-bit word, read by the lookup above. This costs \(2^{O(c)}\) operations and \(O(c)\) live bits, including the terminal vertices and the dummy matrix in the half-set construction. To retain degree three for a high-degree row, make a row for each successive old incidence and insert a unit column between consecutive rows. Exactly one external edge must be used, and the remaining path has a unique completion. Use the reversed colors to split columns. Following the order of the original incidences uses a constant number of ends per active vertex. Crossing terminals have degree two. A table in the rectangle thus needs \(O(w)\) additional live vertices and \(2^{O(w)}\) vertices altogether.
+
+For the host \(G\) encoding the rectangle, a prefix between tables crosses at most \(d+1\) words. Consequently its minimum width and size satisfy
+\[
+ p\le(d+1)\bigl(w+O(\log(2+w))\bigr)+O(w)=D+O(w),
+ \qquad \log_2 \|G\|=O(w+\log d)=O(w).
+\]
+Specialization gives \(\log_2(s_{\F}(\per(G))+1)\ge D-O(w)\), since the polynomial overhead of Lemma~\ref{lem:transfer} costs \(O(\log \|G\|)\) in the exponent. The upper bound below then gives \(p\ge D-O(w)\). Hence \(p=D+O(w)\) and \(\log_2 \|G\|=O(w)=o(p)\). As \(d\to\infty\) this gives the \(2^{p-o(p)}\) gate lower bound. The explicit alphabet choice in Appendix~\ref{sec:rectangle-error} gives the loss in \eqref{eq:rect-loss}.
 
 \paragraph{The matching upper bounds.}
-Start and end a path decomposition with an empty bag, introducing or forgetting vertices one at a time. Process an edge once in a bag containing both endpoints. There are \(O(n)\) operations after removing redundant bags and scheduling the edges. Store a coverage bit at each live vertex. For an edge, either skip it or, if both ends are uncovered, cover them and multiply by its variable. Forget only covered vertices. At most \(2^{p+1}\) entries are needed. In characteristic two the signs of the determinant disappear. For completeness, a square matrix \(A\) of dimension \(a\) admits a division-free polynomial-size determinant circuit over any field. Eliminate on \(I+tA\) modulo \(t^{a+1}\) by successive diagonal pivots, all with constant term one. The coefficients of the inverse of a pivot follow successively from the product identity with \(1\). Thus all inverses use only polynomially many field operations on coefficients. The coefficient of \(t^a\) in the product of the pivots is \(\det A\). An unbalanced bipartite support has zero permanent. This proves Theorem~\ref{thm:permanent}.
+Start and end a path decomposition with an empty bag, introducing or forgetting vertices one at a time. Process an edge once in a bag containing both endpoints. There are \(O(\|G\|)\) operations after removing redundant bags and scheduling the edges. Store a coverage bit at each live vertex. For an edge, either skip it or, if both ends are uncovered, cover them and multiply by its variable. Forget only covered vertices. At most \(2^{p+1}\) entries are needed. In characteristic two the signs of the determinant disappear. For completeness, a square matrix \(A\) of dimension \(a\) admits a division-free polynomial-size determinant circuit over any field. Eliminate on \(I+tA\) modulo \(t^{a+1}\) by successive diagonal pivots, all with constant term one. The coefficients of the inverse of a pivot follow successively from the product identity with \(1\). Thus all inverses use only polynomially many field operations on coefficients. The coefficient of \(t^a\) in the product of the pivots is \(\det A\). An unbalanced bipartite support has zero permanent. This proves Theorem~\ref{thm:permanent}.
 
 \section{Bipartite independent sets}\label{sec:independent}
 \begin{lemma}\label{lem:independent}
@@ -315,7 +252,7 @@ Make a vertex \(y\) of activity one for each wire bit, with membership in an ind
 An edge implements \(r\Rightarrow\neg y\). For \(r\Rightarrow y\), make a triangle on \(y,u,z\) with activities \(1,1,-1\), and add the edge \(ru\). Conditional on \(y,u\), summing out \(z\) gives one when they differ and zero when they agree. Use fresh \(u,z\) per positive occurrence and process them in a copy of the bag containing \(r,y\). Finally replace every edge by a path of four edges, with activity \(-1\) on its three new internal vertices. With \(B=\left(\begin{smallmatrix}1&1\\1&0\end{smallmatrix}\right)\) and \(J=\operatorname{diag}(1,-1)\), the endpoint matrix is \(BJBJBJB=-B\). All old vertices now lie on one side of a bipartition. The sign per replaced edge is a field unit, and subdivision adds at most three vertices to a bag. The original row activities are still individual vertex variables.
 \end{proof}
 
-A dynamic program stores the activity sum for each assignment to the current bag, charging a variable's activity once when it is forgotten. This gives \(n^{O(1)}2^p\) gates for the independence polynomial. Lemma~\ref{lem:independent} and Proposition~\ref{prop:hard} therefore give the fixed-base bound already on the first strip. On the source of Proposition~\ref{prop:quant-source}, the lemma gives \(p\le D+O(t)\) and \(\log_2 n=O(t)\). The source lower bound and the dynamic program give \(p\ge D-O(t)\). Since \(t=\Theta(E(D))\), this proves the independent-set row of Theorem~\ref{thm:additive}.
+A dynamic program stores the activity sum for each assignment to the current bag, charging a variable's activity once when it is forgotten. This gives \(\|G\|^{O(1)}2^p\) gates for the independence polynomial. On the rectangle, Lemma~\ref{lem:independent} gives \(p\le D+O(w)\) and \(\log_2 \|G\|=O(w)\). Proposition~\ref{prop:hard} and the bag upper bound give \(p\ge D-O(w)\). Thus \(2^{p-o(p)}\) gates are needed on bipartite graphs over every field. The explicit alphabet in Appendix~\ref{sec:rectangle-error} gives the same loss \eqref{eq:rect-loss}.
 
 \section{The Tutte cluster polynomial and its coloring specializations}\label{sec:color}
 
@@ -338,14 +275,14 @@ This is a polynomial identity after clearing denominators. For a single edge the
 
 We first allow each vertex to distinguish the colors by assigning them separate variables. One boundary vertex can then carry any of \(q\) symbols.
 
-Let \(\F\) be any field and \(q\ge1\) a fixed integer. For a loopless undirected graph \(G=(V,E)\) of pathwidth \(p\), put \(n=1+|V|+|E|\) and give each vertex-color pair its own variable. The proper-coloring polynomial with these activities is
+Let \(\F\) be any field and \(q\ge1\) a fixed integer. For a loopless undirected graph \(G=(V,E)\) of pathwidth \(p\), give each vertex-color pair its own variable. The proper-coloring polynomial with these activities is
 \begin{equation}\label{eq:list}
  L_{G,q}(\mathbf x)=\sum_{\substack{\sigma:V\to[q]\\\sigma\ \mathrm{proper}}}
                       \prod_{v\in V}x_{v,\sigma(v)} .
 \end{equation}
 
 \begin{proposition}[Named vertex colors]\label{prop:named}
-If \(q\ge3\), then for every \(0<\varepsilon<q-1\) and \(C\ge0\) there are graphs of arbitrarily large \(p\) with \(s_{\F}(L_{G,q})>n^C(q-\varepsilon)^p\), and \(n^{O(1)}q^p\) gates suffice for every graph. If \(q\le2\), polynomial-size circuits suffice for every graph.
+If \(q\ge3\), then for every \(0<\varepsilon<q-1\) and \(C\ge0\) there are graphs of arbitrarily large \(p\) with \(s_{\F}(L_{G,q})>\|G\|^C(q-\varepsilon)^p\), and \(\|G\|^{O(1)}q^p\) gates suffice for every graph. If \(q\le2\), polynomial-size circuits suffice for every graph.
 \end{proposition}
 
 For example, three named colors over \(\F_2\) give base three. On the same support \(Z_G(3,\mathbf w)=\prod_e(1+w_e)\). Over \(\mathbb Q\), two named colors give a polynomial-size circuit on every graph, while the two-color cluster polynomial has base two. To prove the proposition we shall specialize \(L_{G,q}\) to an arbitrary table of boundary colors. A short path suffices to test the implication that we need.
@@ -368,11 +305,11 @@ With colors red, blue, green, a path from \(v\) to \(s\) with internal lists \(\
 \end{example}
 
 \paragraph{Reading the table.}
-Use \(m\) shared vertices per block to represent \(\ell=\lfloor m\log_2 q\rfloor\) bits by distinct words. Retain all boundary positions of the current table. If it has \(b\) positions, scan all \(\tau\in[q]^b\). Let \(Y_\tau=X_{v,\alpha}\) if the words at the positions decode to a valid joint address \(\alpha\), and \(Y_\tau=0\) otherwise. For this \(\tau\) introduce a switch of off weight one and on weight \(Y_\tau-1\). Use Lemma~\ref{lem:implication} between it and each position, prescribing the color \(\tau_i\). Given an actual boundary assignment \(z\), summing the switch gives
+Use \(\mu\) shared vertices per block to represent \(\ell=\lfloor \mu\log_2 q\rfloor\) bits by distinct words. Retain all boundary positions of the current table. If it has \(b\) positions, scan all \(\tau\in[q]^b\). Let \(Y_\tau=X_{v,\alpha}\) if the words at the positions decode to a valid joint address \(\alpha\), and \(Y_\tau=0\) otherwise. For this \(\tau\) introduce a switch of off weight one and on weight \(Y_\tau-1\). Use Lemma~\ref{lem:implication} between it and each position, prescribing the color \(\tau_i\). Given an actual boundary assignment \(z\), summing the switch gives
 \[
                       1+(Y_\tau-1)\one_{z=\tau}.
 \]
-Multiplying over all \(\tau\) leaves exactly \(Y_z\). All endpoint scalar normalizations multiply into the appropriate activities, also when a boundary vertex serves two tables. Retain one switch at a time and sweep its constant-size paths. There are \(b=O_m(T+d+1)\) positions, which proves both local bounds of Lemma~\ref{lem:transfer}. The usual dynamic program stores one color per bag vertex, multiplies its activity once, and tests each edge once. This gives \(\OO(q^p)\). For \(q=2\) each connected bipartite component has precisely the two colorings given by its bipartition. Its polynomial is a sum of two monomials, and one multiplies over components. A nonbipartite component gives zero. The case \(q=1\) follows directly from \eqref{eq:list}. This proves Proposition~\ref{prop:named}.
+Multiplying over all \(\tau\) leaves exactly \(Y_z\). All endpoint scalar normalizations multiply into the appropriate activities, also when a boundary vertex serves two tables. Retain one switch at a time and sweep its constant-size paths. There are \(b=O_\mu(T+d+1)\) positions, which proves both local bounds of Lemma~\ref{lem:transfer}. The usual dynamic program stores one color per bag vertex, multiplies its activity once, and tests each edge once. This gives \(\OO(q^p)\). For \(q=2\) each connected bipartite component has precisely the two colorings given by its bipartition. Its polynomial is a sum of two monomials, and one multiplies over components. A nonbipartite component gives zero. The case \(q=1\) follows directly from \eqref{eq:list}. This proves Proposition~\ref{prop:named}.
 
 \subsection{Fixing the cluster parameter}
 By \eqref{eq:cluster}, \(Z_G(q,\mathbf w)=Z_G(r,\mathbf w)\) with \(r\) as in Theorem~\ref{thm:color}. For nonempty \(V\) it vanishes at \(r=0\), and equals \(\prod_e(1+w_e)\) at \(r=1\). The empty graph gives one. For \(r\ge2\), keeping one of \(r\) colors per live vertex and multiplying the factors of \eqref{eq:potts} gives \(\OO(r^p)\).
@@ -387,7 +324,7 @@ The last case is \(r=2\). These same anchors allow arbitrary unary weights. An e
  =
  \begin{pmatrix}1-a^2b^2& b(1-a^2)\\ a(1-b^2)&0\end{pmatrix}.
 \]
-Choose \(a,b\in\olF\) so that the three entries outside the bottom right corner are nonzero. Row and column scalings can turn them all into ones, since their support is a tree on the two row and two column indices. A hard disequality edge to a fresh spin flips an index uniquely. We can therefore forbid any one corner and realize either implication between a switch and a prescribed bit. The preceding table lookup now works with \(m\) bits on \(m\) shared vertices. Add the two anchors only once for the whole graph. The affine substitutions and constant width overhead satisfy Lemma~\ref{lem:transfer}. Finally the change \(w_e=-y_e\) costs at most \(|E|\) gates in either direction, which the ratio bound in that lemma absorbs. This proves Theorem~\ref{thm:color}.
+Choose \(a,b\in\olF\) so that the three entries outside the bottom right corner are nonzero. Row and column scalings can turn them all into ones, since their support is a tree on the two row and two column indices. A hard disequality edge to a fresh spin flips an index uniquely. We can therefore forbid any one corner and realize either implication between a switch and a prescribed bit. The preceding table lookup now works with \(\mu\) bits on \(\mu\) shared vertices. Add the two anchors only once for the whole graph. The affine substitutions and constant width overhead satisfy Lemma~\ref{lem:transfer}. Finally the change \(w_e=-y_e\) costs at most \(|E|\) gates in either direction, which the ratio bound in that lemma absorbs. This proves Theorem~\ref{thm:color}.
 
 \subsection{An indeterminate cluster parameter}
 
@@ -398,7 +335,7 @@ Take any graph with \(a\) named colors and activities. Add \(a\) anchors with th
 \[
  F(Q)=(Q)_a U(Q),\qquad U(a)=L_{G,a} .
 \]
-The identities hold over every field. A circuit of size \(s\) for the cluster polynomial yields a circuit for \(L_{G,a}\) with \(O((a+1)^2(s+n+1))\) gates after the indicated affine substitutions.
+The identities hold over every field. A circuit of size \(s\) for the cluster polynomial yields a circuit for \(L_{G,a}\) with \(O((a+1)^2(s+\|G\|+1))\) gates after the indicated affine substitutions.
 \end{lemma}
 \begin{proof}
 Work first over the integers with independent activities. For each integer \(u\ge a\), \eqref{eq:potts} permits \((u)_a\) ordered assignments to the anchors. Given their colors, describe an extension by its vertices in each named color and by a partition of the remaining vertices into \(j\) nonempty outside color classes. These classes can be labeled in \((u-a)_j\) ways. Each description has a weight independent of \(u\). Thus \(U(Q)=\sum_j (Q-a)_j U_j\) is a polynomial over the integers in \(Q\) and the activities, and \(U_0=L_{G,a}\). Equality at all integers \(u\ge a\) proves the identity. It survives reduction and specialization.
@@ -409,161 +346,93 @@ In the coefficient field write \((a+z)_a=z^h(c+O(z))\) with \(c\ne0\). Here \(h\
 \begin{proof}[Proof of Theorem~\ref{thm:cluster}]
 For the upper bound, keep a partition of the bag according to connectivity by selected edges. Introduce a vertex as a singleton. At an edge either skip it, or merge the endpoint classes and multiply by \(w_e\). On forgetting the last vertex of a class, multiply by \(Q\). Every selected edge set then contributes precisely its term in \eqref{eq:cluster}. The number of states is at most \(\operatorname{Bell}(p+1)\le(p+1)^{p+1}\).
 
-For the lower bound use the strip of Proposition~\ref{prop:hard}, with \(J\) fixed after \(\eta\), and take \(a=\lfloor D/(\log_2 D)^3\rfloor\) named colors. Put \(\ell=\lfloor\log_2 a\rfloor\) bits on \emph{one} shared vertex of each block. At a table there are at most \(b\le T/\ell+d+1\) such positions. The lookup uses \(a^b\) switches. For each position, its paths in Lemma~\ref{lem:implication} can be processed one at a time, each with at most three internal vertices, even as \(a\) grows. Keep the \(b\) positions, the current switch, and all \(a\) anchors. Their clique edges add no more vertices to a bag. Including the \(O(d^2)\) rounding cost for crossing edges, we obtain
+For the lower bound use the rectangle with parameters \eqref{eq:rectangle-parameters}, and take \(a=\lfloor D/(\log_2 D)^3\rfloor\) named colors. Put \(\ell=\lfloor\log_2 a\rfloor\) bits on \emph{one} shared vertex of each block. At a table there are at most \(b\le T/\ell+d+1\) such positions. The lookup uses \(a^b\) switches. For each position, its paths in Lemma~\ref{lem:implication} can be processed one at a time, each with at most three internal vertices, even as \(a\) grows. Keep the \(b\) positions, the current switch, and all \(a\) anchors. Their clique edges add no more vertices to a bag. Including the \(O(d+1)\) rounding cost for crossing edges, we obtain
 \[
- p\le A/\ell+O(d^2+b+a+1)\le (1+\eta+o(1))D/\log_2 D .
+ p\le A/\ell+O(d+b+a+1)\le (1+o(1))D/\log_2 D .
 \]
-The constant in the first \(O\) is absolute. There are at most polynomially many vertices and edges in \(k,a,b\) times \(a^{\max b}\), since each switch uses \(O(ab)\) short paths and each vertex meets at most \(a\) anchors in addition to the named graph edges. Hence \(\log_2 n=O_J(T+d\log a+\log D)=o(D)\). Lemma~\ref{lem:anchors} extracts the source with a polynomial factor in \(n\), uniformly in \(a\). Proposition~\ref{prop:hard} gives \(\log_2(s+1)\ge(1-o(1))D\) for target size \(s\). In particular the pathwidth tends to infinity, by the upper bound. Given \(0<\varepsilon<1\), choose \(\eta\) so that \(\delta=1-(1-\varepsilon)(1+\eta)>0\). Since \(p\log_2 p\le(1+\eta+o(1))D\), subtracting \(C\log_2 n+(1-\varepsilon)p\log_2 p\) from \(\log_2(s+1)\) leaves at least \((\delta-o(1))D\) for every fixed \(C\). This gives the stated strict gate lower bound.
+The constant in the first \(O\) is absolute. There are at most polynomially many vertices and edges in \(k,a,b\) times \(a^{\max b}\), since each switch uses \(O(ab)\) short paths and each vertex meets at most \(a\) anchors in addition to the named graph edges. Hence \(\log_2 \|G\|=O(T+d\log a+\log D)=o(D)\). Lemma~\ref{lem:anchors} extracts the source with a polynomial factor in \(\|G\|\), uniformly in \(a\). Proposition~\ref{prop:hard} gives \(\log_2(s+1)\ge(1-o(1))D\) for target size \(s\). In particular the pathwidth tends to infinity, by the upper bound. For any \(0<\varepsilon<1\), since \(p\log_2 p\le(1+o(1))D\), subtracting \(C\log_2 \|G\|+(1-\varepsilon)p\log_2 p\) from \(\log_2(s+1)\) leaves at least \((\varepsilon-o(1))D\) for every fixed \(C\). This gives the stated strict gate lower bound.
 \end{proof}
 
-\section{A quantitative lower bound for the ordered tables}\label{sec:quant-source}
+\section{Linear information at a path cut and scalar upper bounds}\label{sec:frontiers}
 
-In Proposition~\ref{prop:hard} the permissible fractional loss is fixed before the width grows. Here both the number of graph variables and the error in the exponent have to fit the same additive budget.
+A coefficient matrix at a cut has rows indexed by monomials in the past input variables and columns by monomials in the future variables. If all dependence across the cut passes through \(d\) scalar entries and the output is linear in them, the matrix is a sum of \(d\) rank-one matrices. This gives a direct lower bound for the number of stored entries.
 
-\begin{proposition}\label{prop:quant-source}
-There are ordered graphs as in \eqref{eq:source}, over every field, with parameters \(w=4^h\), \(t=\lceil w^3(\log_2(2w))^{3/2}\rceil\), and \(D=wt\), for which
+For example, process \(K_{p,p}\), \(p\) even, one column at a time. Halfway through, the processed columns occupy exactly \(p/2\) rows. All \(\binom p{p/2}\) row sets occur and have disjoint, nonempty monomial supports on both sides, so the rank is exactly \(\binom p{p/2}\) over every field. The layout has width \(p\) and contracting \(p-1\) disjoint matching edges exhibits a \(K_{p+1}\) minor. Even for an arbitrary edge order on this graph, mark the time each matching's \(p/2\)-th edge is read. At least \(p!/p^2\) matchings mark one time. Each fixed pair of covered row and column sets accounts for at most \(((p/2)!)^2\) of them, so that cut has rank at least \(\binom p{p/2}/p^2\).
+
+For independent sets, put one of the two active fragments of Appendix~\ref{sec:orders} on each side of the chronological cut and specialize the remaining fragments to nonzero constants. Up to sign, the coefficient matrix on the two sets of marks is the identity of order \(2^k\). For the partition polynomials join every vertex of a \(k\)-clique to every vertex of a disjoint \(k\)-vertex path. Keeping the clique live gives pathwidth \(k+1\), attained by a clique of size \(k+2\). Realize each left partition by a clique forest. On the right connect one private vertex to each block and attach remaining private vertices to a shared vertex. The resulting matrix is
+
 \[
- A\le D+O(t),\qquad T=O(t),\qquad
- \log_2(\circuit(F_H)+1)\ge D-O(t).
+   \bigl(q^{|\pi\vee\sigma|}\bigr)_{\pi,\sigma}
+    =U\,\mathrm{diag}\bigl((q)_{|\tau|}\bigr)_\tau U^{\mathsf T},
+ \qquad U_{\pi,\tau}=[\pi\text{ refines }\tau].
 \]
-There are \(O(w^2)\) tables of at most six ports and at most \(w+1\) wires across each prefix. The size may be degree-component border size. In particular \(t=\Theta(E(D))\).
-\end{proposition}
+The identity counts colorings by their exact equality partition and thus holds formally. Triangularity of \(U\) gives rank \(B_r(k)\). For each of these polynomials, a fixed chronological cut on a polynomial-size host therefore needs at least \(2^L/p^{O(1)}\) coordinates. An unrestricted circuit may combine variables across this cut at any of its gates.
 
-\subsection{Keeping the total number of crossing bits small}
+\subsection{Putting the square root in the matching update}
 
-Use \(w\) parallel lanes. Each round injects a mark into each lane and ends with all lanes carrying the same vector. A switch takes two lanes in and returns two lanes. Its table in \(F_H\) has arbitrary entries. The vectors below prescribe only the capacities and endpoints for the proof.
-
-Process a dyadic interval of \(s\) lanes by processing its left half, then its right half, then merging the results. A singleton injects one marked basis vector. At the end of an interval distribute its accumulated increment equally over \(r_s=2^{\lceil(\log_2 s)/2\rceil}\) of its lanes. To merge, pair the \(r_{s/2}\) carrying lanes on either side. At each such switch divide the two increments' sum equally between the outputs if \(r_s=2r_{s/2}\), and send the sum to one output otherwise. Always retain the round's common starting vector on both outputs. After the entire interval is processed, repeatedly pair a carrying lane with an empty one to broadcast the final increment equally to all \(w\) lanes. The number of switches per round is \(O(w)\), since the number of merge switches of order \(s\) is \((w/s)r_{s/2}\), and the broadcast takes fewer than \(w\) further switches.
-
-Give each mark in one round squared weight \(\rho\). Choose the weights symmetrically around the middle, using the following prescription on each half. Let \(v=\sqrt w\), \(\kappa=2^{-8}\), and let \(z\in[0,w]\) measure the sum of round weights from the middle outwards. On \([0,v]\) take \(\rho=\kappa/v\). On each \([2^jv,2^{j+1}v]\), \(0\le j<h\), take \(\rho=\min(1,\kappa4^j/v)\). Each interval contains an integral number of rounds. The first interval takes \(w/\kappa\) rounds, and the others together take at most \(\sum_{j<h}(2^jv+(w/\kappa)2^{-j})\), giving \(O(w)\) rounds per half. Write \(k=O(w^2)\) for the number of all tables.
-
-In a space with one coordinate per mark put \(d_i=\sqrt{\rho_i}\), \(S=\|d\|^2=2w^2\), and let \(\Pi\) be orthogonal projection off \(d\). Inject \(\Pi(d_i e_i)\) at mark \(i\). The currents \(f_e\) so defined are conserved at the switches, and the lanes start and finish at zero. If the injected prefix has squared mass \(x\), the current mean on the \(w\) lanes is \(\bar f=\Pi(d\,\one_{\rm prefix})/w\).
-
-To estimate variation from the mean, first remove the common vector at the start of the round and divide increments by \(\sqrt{\rho}\), before projection. A completed interval of size \(s\) now contributes \(s/r_s\le\sqrt s\) to the sum of squared norms. In a partial merge bound the two old contributions and the new one by \(2\sqrt{s/2}+\sqrt s\). The other completed siblings on the recursion stack, at most one of each dyadic size, contribute a geometric series. Broadcasting can only decrease the sum. Hence this sum is at most \(10\sqrt w\), and every single increment has norm at most one. Projection contracts norms and the mean minimizes total squared deviations. It follows that at every prefix
+Introducing one vertex with all its edges to earlier neighbors \(i\) requires computing
 \[
- \sum_e\|f_e\|^2\le w\|\bar f\|^2+10v\rho
- =\frac{S}{4w}-\frac{(x-S/2)^2}{wS}+10v\rho .
+             (L_w f)(S)=\sum_{i\in S}w_i f(S\setminus\{i\})
 \]
-In the central interval the last term is \(10\kappa\). In interval \(j\) the absolute deviation is at least \(w\,2^jv\), so the subtracted term is at least \(4^j/2\), while \(10v\rho\le10\kappa4^j\). In all cases the bound is \(S/(4w)+10\kappa\). Each individual current has norm at most \(\sqrt{S}/(2w)+1<2\).
+on the old bag. The subset-transform update of~\cite{falco-network} already reduces the usual factor \(p\) per state to a fixed power below one. For any fixed \(\eta>0\), a Walsh transform gives size \(O_\eta(n2^p(p+1)^{1/2+\eta})\) outside characteristic two. Indeed let \(A_w f(S)=\sum_iw_i f(S\mathbin{\triangle}\{i\})\) and \(Df(S)=|S|f(S)\). Comparing coefficients of the two possible neighbor sizes gives \(2L_w=A_w+DA_w-A_wD\). Under Walsh conjugation \(A_w\) is diagonal with entries \(\sum_i(-1)^{[i\in R]}w_i\). All these signed sums take \(O(2^p+p)\) gates by subset sums. Apply the Fourier exponent theorem~\cite{fourier-exponent} to the binary group for each of the constantly many transforms. The constant in its upper bound can depend on the chosen \(\eta>0\). The factor involving the vertex count remains linear. Already a disjoint union of \(n/2\) independent weighted edges at pathwidth one needs \(n/2-1\) binary gates.
 
-Set \(\lambda=2D/\sqrt S\) and give wire \(e\) capacity \(c_e=\lceil\lambda\|f_e\|\rceil\), omitting zero-capacity wires. A cut has at most one wire per lane and, by Cauchy--Schwarz, at most
+For a bipartite past edge set, fix signs \(s_v=\pm1\) on the shores. In a matching, if \(x_v\) is the covered bit at a live site, then \(\sum_{\rm live}s_vx_v=-\sum_{\rm forgotten}s_v\). Complement the bits on the negative shore. The number of ones is now prescribed, so a \(k\)-site bag has at most \(\binom{k}{\lfloor k/2\rfloor}\) reachable entries. A bipartite future gives the same bound using \(1-x_v\). This proves exact size \(O(n2^p\sqrt{p+1})\) over any commutative ring on bipartite graphs, and \(O(\|G\|2^p/\sqrt{p+1})\) when processing edges individually. More generally either the past or the future may supply the bipartition at each event boundary. In particular an edge order consisting of two successive bipartite pieces permits the exact edge bound even if their union contains odd cycles.
+
+If both sides are bipartite, their signs may be chosen independently. Let them agree on \(a\) sites and disagree on \(b=k-a\). After the same complementation the two signed sums prescribe the sum and difference of the numbers of ones in those groups. The number of entries is at most
 \[
-        w+\lambda\sqrt{S/4+10\kappa w}=D+O(t)
+          \binom a{\lfloor a/2\rfloor}\binom b{\lfloor b/2\rfloor}.
 \]
-crossing bits. Each incident capacity is \(O(t)\). Finally join every consecutive pair of tables by one additional, independent \(t\)-bit wire. This costs at most \(t\) at each cut. Summing over wires gives total capacity \(B=O(w^2t)\).
+If both sides are bipartite and \(a,b\ge\delta k\) at large vertex introductions for a fixed \(\delta>0\), the vertex algorithm uses \(O_\delta(n2^p)\) gates. It suffices to require this at \(k>p-2\log_2(p+2)\). One can delete states using a future equation because every full matching satisfies every intermediate test.
 
-\subsection{Charging the changes of part in a circuit product}
-
-Complete \(\lambda f_e/c_e\) to a unit vector and place the original wire ends at its signed halves as in Lemma~\ref{lem:cost}. For the additional wires use signed halves of fresh orthonormal vectors, one per wire. The output sites \(P\) have Gaussian width \(W=O(\sqrt{\log(2w)})\) by the maximum estimate in the proof of Proposition~\ref{prop:hard}. The target coefficient tensor has price \(B\).
-
-Extract the component of degree one in each table as in Lemma~\ref{lem:balanced}. In each parse follow the child at a sum and the unique child with mark mass greater than \(S/2\) at a product, until there is no such child. The stop is a product, since a single mark has mass at most one. Its two input supports and the exterior support form an ordered tripartition with each mass at most \(S/2\). For fixed supports the two input polynomials and every eligible exterior context factor, because the choice above the stop uses only the supports. Grouping by tripartition expresses the output as a sum of tensors of three-way rank at most \(R=O(3^k(s+1))\) each, where \(s\) is the original circuit size. Here three-way rank is the number of products of one tensor on each of the three parts. Thus a single common label in \([R]\) suffices to contract each term.
-
-For one tripartition write \(a_1,a_2,a_3\) for its fractions of the total mark mass and \(b_i=\lambda\Pi(d\,\one_{I_i})\) for the corresponding divergences in the original mark space. These sum to zero. Draw them as three successive sides of a triangle. We claim there are hubs \(q_i\) of half-perimeter one, all at pairwise distances at least \(1/2\), such that \(\sum_i\langle b_i,q_i\rangle\ge D\).
-
-Indeed, for positive masses the squared side lengths are \(\lambda^2 S a_i(1-a_i)\). Consecutive centered vectors have inner product \(-\lambda^2 S a_i a_j\), so the triangle is acute and its squared circumdiameter is \(\lambda^2S\prod_i(1-a_i)\), by the area formula. The product is at least \(1/4\) because its logarithm is concave on \(\{0\le a_i\le1/2,\ \sum a_i=1\}\), with that minimum at a permutation of \((1/2,1/2,0)\). To realize the circumdiameter, sum \(\sum_i\langle b_i,q_i\rangle\) by parts around the three vertices. Choose the successive hub differences along the radial vectors from the circumcenter, with lengths twice its barycentric weights. Their sum is zero, and the resulting value is twice the radius. In the squared-side formula the barycentric numerator opposite side \(i\) is proportional to \(a_i(1-a_i)\,2a_j a_k\), giving weight \((1-a_i)/2\). All hub distances are therefore at least \(1/2\). For zero mass put the two positive-mass hubs one unit apart in the divergence direction and the remaining hub at their midpoint.
-
-The same argument already gives a simpler intermediate estimate with four ports. Temporarily omit the consecutive-table wires and put \(t_0=\lceil w^4\sqrt{\log_2(2w)}\rceil\), \(D_0=wt_0\) in the construction. The target price is \(B_0=O(w^2t_0)\). With the hubs at displacement \(y\), their common rank label costs \(y\log_2 R\) because the mean width of a triangle is its half-perimeter. The original sum inequality of Theorem~\ref{thm:price} charges \(O(kW)\) for all tripartitions. The tangent bound from Lemma~\ref{lem:cost} and the gain \(D_0\) give
+There is also an \(O(n2^p)\) \emph{border} algorithm on all graphs. For even \(n\) order vertices by introduction and form
 \[
- \log_2(s+1)\ge D_0-O\bigl(k+B_0y+kW/y\bigr)
-              \ge D_0-O(t_0)
+ J(z)=\sum_{x\in\bits^V}(-1)^{n-\sum_v x_v}
+       \prod_v\Bigl(1+z x_v\sum_{u<v,\,uv\in E}w_{uv}x_u\Bigr).
 \]
-on taking \(y=\sqrt{kW/B_0}\). Thus an additive error of order \(D_0^{4/5}(\log D_0)^{1/10}\) follows already from one common bound on the price of every summand.
+The Boolean sum removes terms missing any vertex. The rest are edge covers with at most one selected edge per later endpoint. Their degree is at least \(n/2\), and equality selects exactly the perfect matchings. Thus \(z^{-n/2}J(z)\) is regular at zero with matching polynomial as its constant term. At an introduction form all subset sums for the new star in \(O(2^k+k)\) gates, and multiply the old entry by the indicated factor for each assignment. Forget a vertex by subtracting the zero entry from the one entry. This proves the border bound in every characteristic. An ordinary computation of \(J(1)\) gives the matching polynomial as its degree-\(n/2\) component.
 
-Return to \(t,D\) of Proposition~\ref{prop:quant-source} and the extra consecutive-table wires. Let \(j\) count changes of part between successive tables. In the fresh space the added divergences \(g_i\) have \(\sum_i\|g_i\|^2=H^2=2t^2j\). If \(H>0\), adjoin \(xg_i/H\) to each old hub. The half-perimeter rises to at most \(1+6x^2\) by orthogonality and the distance lower bound, and the gain rises by \(xH\). Set \(x=H/(12D)\) and rescale to half-perimeter one. The gain is at least
-\[
- \frac{D+H^2/(12D)}{1+H^2/(24D^2)}
- \ \ge\ D+\gamma j,\qquad \gamma=c\,t^2/D
-\]
-for an absolute \(c>0\), since \(H^2/D^2=O(k/w^2)=O(1)\). This also holds at \(j=0\). Translate the hubs so that all their norms are at most one.
+\subsection{A vertex update for the two partition polynomials}
 
-We use two more parts of the Euclidean price theorem~\cite{euclid}. Sharing an \(R\)-valued label among sites \(Q\) has price \(W(Q)\log_2 R\). For three sites \(W(Q)\) is their half-perimeter, since for any three real numbers the sum of the pairwise absolute differences is twice their range. On the fixed sites \(P\), \(2^{\operatorname{price}/W}\) is a spectral point. Its value on an ordinary sum is at most the sum of its values, by restriction from the direct sum. For a term with \(j\) changes put its hubs at \(yq_i\), \(y>0\). The common label costs \(y\log_2 R\). Each spoke length is bounded as in Lemma~\ref{lem:cost}. Its linear gain, summed over spokes, is at least \(y(D+\gamma j)\), and all quadratic errors total at most \(2By^2\). At most \(3\binom{k-1}{j}2^j\) assignments have \(j\) changes. Divide the sum of the spectral bounds by the spectral value \(2^{B/W}\) of the target to get
-\[
- 1\le
-  2^{[y(\log_2 R-D)+2By^2]/W}
-       \,3\bigl(1+2\cdot 2^{-y\gamma/W}\bigr)^{k-1}.
-\]
-The extraction and reshaping maps are linear on the fixed coefficient space. The spectral sublevel set defined by this single upper bound is closed at the nonzero target, which extends the comparison to degree-component border limits. Take \(y=W\log_2(4k)/\gamma\). The last factor is bounded by \(3e^{1/2}\), and hence
-\[
- \log_2(s+1)\ge D-O(k+By+W/y)=D-O(t).
-\]
-Here \(By=O(w^3(\log(2w))^{3/2})\), \(W/y=O(t/(w\log(2w)))\), and \(k=O(w^2)\). Finally \(t^4/D^3=t/w^3=\Theta((\log D)^{3/2})\), proving Proposition~\ref{prop:quant-source}.
+For a bag of \(k\) vertices, keep the conditional spin sum for each exact equality partition of the live colors. When forgetting a vertex and fixing the partition of the other vertices with \(j\) classes, sum its \(j\) possible placements in an existing class and its placement in a new class with multiplicity \(q-j\). An edge contributes \(1+w_e\) when its ends agree, and one otherwise. At finite effective palette \(r\) only partitions with at most \(r\) classes occur. With a formal parameter the recurrence is a polynomial identity by evaluation at every sufficiently large integer palette, and so it specializes in every field. This gives \(O(\|G\| B_r(p+1))\) gates uniformly in \(r\).
 
-\section{The additive transfer and the permanent}\label{sec:quant-transfer}
+On a simple \(n\)-vertex graph the conditional spin sweep can compute both polynomials in \(O(n B_r(p))\) gates on a supplied decomposition. Process each edge at the introduction of its later endpoint \(v\). For the old sites \(S\) precompute \(U_v(A)=\prod_{x\in A}(1+w_{xv})\) for all subsets, setting absent edge weights to zero. This takes \(O(2^{|S|})\) gates. At size at most \(p\), introducing \(v\) multiplies an old entry by the product for the class it joins, and forgetting a vertex sums placements as before.
 
-\begin{lemma}\label{lem:quant-transfer}
-Suppose a \(c\)-bit equality wire can be implemented on
-\[
-              m(c)\le c/\log_2 b+O(\log(2+c))
-\]
-crossing vertices for a fixed \(b>1\). Suppose the at most six incident wires of each table in Proposition~\ref{prop:quant-source} can be read with \(O(t)\) additional live vertices and graph size \(2^{O(t)}\), with total specialization cost polynomial in the graph size. If the target has a general \(n^{O(1)}a^p\) upper bound for some fixed \(a>1\), the resulting graphs satisfy
-\[
-      \log_2 s\ge p\log_2 b-O(E(p)),\qquad \log_2 n=O(E(p)).
-\]
-\end{lemma}
-\begin{proof}
-Between tables at most \(w+1\) words cross. Their total number of positions is at most \((D+O(t))/\log_2 b+O(w\log(2+t))\). Processing a table costs \(O(t)\) further positions. Thus \(p\log_2 b\le D+O(t)\) and \(\log_2 n=O(t)\). Specializing to the source gives \(\log_2(s+1)\ge D-O(t)\), using the degree extraction in Lemma~\ref{lem:transfer} for homogeneous border circuits. The general upper bound gives \(p=\Omega(D)\), while the constructed decomposition gives \(p=O(D)\). Hence \(t=\Theta(E(p))\) on these graphs. If \(a=b\) the same comparison gives \(p\log_2 b=D+O(t)\).
-\end{proof}
+An introduction creating \(p+1\) sites is immediately followed by a forget. Combine these events. If \(u\ne v\) leaves, fix a partition \(\pi\) of the common \(p-1\) sites into \(j\) classes. Denote by \(f_C\) the old entry when \(u\) is in class \(C\), and by \(f_0\) its value in a new class. Compute \(H_\pi=\sum_C f_C+(q-j)f_0\) once. With \(v\) placed in class \(B\), the new entry is \(U_v(B)(H_\pi+w_{uv}f_B)\) because only the color equal to \(v\) receives the extra edge weight. For a new class use \(U_v(\varnothing)=1\) and \(f_0\) in the correction. Omit unrealizable inputs and outputs at a finite palette. Each old and new partition occurs a constant number of times in these operations.
 
-For perfect matching choose the least even \(m\) for which \(\binom m{m/2}\ge2^c\). The central binomial bound gives \(m\le c+O(\log(2+c))\). Fix a list of \(2^c\) half-sets. To compute a port bit or emit its normalization, scan this list, comparing one address at a time to the stored \(c\)-bit word. This costs \(2^{O(c)}\) operations and \(O(c)\) live bits, including the terminal vertices and the dummy matrix in the half-set construction. To retain degree three for a high-degree row, make a row for each successive old incidence and insert a unit column between consecutive rows. Exactly one external edge must be used, and the remaining path has a unique completion. Use the reversed colors to split columns. Following the order of the original incidences retains a constant number of ends per active vertex, so all expansions inside one table cost \(O(t)\) additional width. Crossing terminals already have degree two. This proves the first row of Theorem~\ref{thm:additive}.
+If \(v\) itself leaves, multiply the entry of a partition \(\pi\) of the \(p\) retained sites by \(q+\sum_{C\in\pi}(U_v(C)-1)\). Generate all multipliers by extending partitions of prefixes one site at a time. Each extension changes at most one summand, whose two subset products have already been computed. Each nonempty prefix partition admits at least two extensions for \(r\ge2\), so the total number visited is \(O(B_r(p))\). Finally \(B_r(p)\ge2^{p-1}\) for \(p\ge1\), covering the subset products, and there are \(O(n)\) events. The recurrences are formal identities at \(r=\infty\) and specialize over every field. The chromatic sign change costs \(O(|E|)\), within this bound on simple graphs.
 
-\paragraph{Edge boundaries.}
-The same transfer gives a cutwidth bound when each crossing word is carried by edges. Suppose blocks of \(m\) edges carry at least \(m\log_2 b-O(\log m)\) bits and can be processed serially with \(O(t)\) additional crossing edges per table and size \(2^{O(t)}\). Use \(m=\Theta(\sqrt t)\), rounding each word up to a whole number of blocks. Across a prefix the number of edges is at most \(D/\log_2 b+O(t+D\log(m)/m+wm)=D/\log_2 b+O(t)\) by Proposition~\ref{prop:quant-source}. With a general single-exponential upper bound in cutwidth the proof of Lemma~\ref{lem:quant-transfer} gives the same additive conclusion for minimum cutwidth. At fixed block size the corresponding fixed-base transfer follows by charging the constant cost of rounding once per crossing word as in Lemma~\ref{lem:transfer}.
+\subsection{When graph order gives a square-root saving}
 
-\section{An additive bound at the partition-table scale}\label{sec:part-bank}
+There are also graphs on which exact circuits do save \(2^{\sqrt p}\) from the full width scale. Let \(g\ge0\). For arbitrary perfect matchings, Björklund's hafnian circuit over a commutative ring takes \(2^{n/2}\operatorname{poly}(n)\) operations~\cite{hafnian-ryser}. Thus \(n\le2p-2g\) suffices for size \(\operatorname{poly}(\|G\|)2^{p-g}\). For the bipartite permanent, the fixed exponential improvement in matrix order~\cite{stars} also covers \(K_{p,p}\), where \(n=2p\).
 
-For a bag of \(k\) vertices, keep the conditional spin sum for each exact equality partition of the live colors. When forgetting a vertex and fixing the partition of the other vertices with \(j\) classes, sum its \(j\) possible placements in an existing class and its placement in a new class with multiplicity \(q-j\). An edge contributes \(1+w_e\) when its ends agree, and one otherwise. At finite effective palette \(r\) only partitions with at most \(r\) classes occur. With a formal parameter the recurrence is a polynomial identity by evaluation at every sufficiently large integer palette, and so it specializes in every field. This gives \(O(n B_r(p+1))\) gates uniformly in \(r\).
+For chromatic and Tutte the corresponding sufficient condition is \(n\le\log_2 B_r(p+1)-g\), by the vertex-exponential Tutte algorithm~\cite{vertex-tutte}. To see the arithmetic bound with independent variables, write \(A(S)=\prod_{uv\in E(S)}(1+w_{uv})\), \(C(S)\) for the weight of connected spanning subgraphs of \(S\), and \(Z(S)\) for the cluster polynomial. For a least vertex \(i\), set \(U=\{v:v>i\}\) and \(H_i(S)=H(S\cup\{i\})\) on \(S\subseteq U\). Sorting by the component containing \(i\) gives \(A_i=C_i*(A|_U)\) and \(Z_i=q\,C_i*(Z|_U)\) for subset convolution \(*\). The inverse of \(A|_U=1+f\) is \(\sum_{j=0}^{|U|}(-f)^{*j}\) since \(f(\varnothing)=0\). Process \(i\) in decreasing order. Fast subset convolution over rings~\cite{fast-subset-convolution} gives \(2^n\operatorname{poly}(\|G\|)\) gates, including for free \(q\). Taking \(g=\sqrt p\) in these order inequalities gives genuine exponent savings on the indicated hosts. Graphs of width \(p\) may have arbitrarily many vertices.
 
-The lower bound must account for the entropy lost to unnamed colors. For instance \(\log_2\operatorname{Bell}(p+1)\) and \(p\log_2 p\) differ by order \(p\log\log p\), already larger than the allowed additive error. We encode the equality partition itself.
+\appendix
 
-\paragraph{Small palettes.}
-Take \(D,t,w\) from Proposition~\ref{prop:quant-source}. For \(2\le r\le D^{2/3}\), store each \(c_e\)-bit word on \(\lceil c_e/\log_2 r\rceil\) named sites. Keep the \(r\) clique anchors from Section~\ref{sec:color} throughout. Scan the candidate tuples of the incident sites to realize a table. Each implication uses \(O(r)\) constant-length paths, processed in sequence. For \(r=2\) use the two-spin corner constructed there. Visiting \(r^b\) tuples on \(b\) incident sites costs \(2^{O(t)}\operatorname{poly}(D)\), because \(b\log_2 r=O(t+\log r)\). Thus
-\[
-    (p+1)\log_2 r\le D+O(t+(r+w)\log(2+r))=D+O(t),
-    \qquad \log_2 n=O(t).
-\]
-Only the current table's incident positions and \(O(1)\) working vertices beyond the anchors are needed. The anchor factor \(r!\) is invertible at every finite effective palette. The source bound and the conditional spin sweep give \(D-O(t)\le\log_2 B_r(p+1)\le D+O(t)\).
+\section{The error for the rectangle}\label{sec:rectangle-error}
+For \(k=4d^3\) tables in the rectangle and any \(w\ge1\), the proof of Proposition~\ref{prop:hard} gives
+\begin{equation}\label{eq:rectangle}
+ \log_2(1+\circuit(F_H))\ge dw-O\bigl(k+k\sqrt w\,(\log_2(2k))^{1/4}\bigr).
+\end{equation}
+Keep the squarefree slot components at every gate of a size-\(s\) circuit at cost \(O(3^k(s+1))\). In each parse follow the chosen child at sums and the child with more than half the marks at products, stopping when both product children have at most half. Their two supports and the exterior form a tripartition as above. For fixed supports the two input polynomials at each stopping gate factor from the sum of its exterior contexts because the choices above it depend only on supports. This gives at most \(3^k\) terms, each a sum of at most \(R=O(3^k(s+1))\) products on its three parts. The centroid estimate also holds when the exterior has no marks, by placing the two positive-mass hubs one unit apart in the divergence direction.
 
-\paragraph{Encoding a partition in consecutive pieces.}
-For \(r>D^{2/3}\) reserve \(s_0=3+s'\) distinct colors, where \(s'=2^{\lfloor(\log_2 t)/2\rfloor}\). For \(r=\infty\) use \(r-s_0=\infty\). Choose an integer \(A=D+O(t)\) at least the number of bits crossing any cut. On \(P\) ordered memory sites name the classes of a partition by first occurrence. Divide the sites into \(b=\lceil P/m\rceil\) consecutive pieces of length at most \(m=\lceil\sqrt P\rceil\). A list of integers \(h_1,\ldots,h_b\) specifies how many new names first occur in each piece. For this fixed list the words in a piece can use the earlier names and exactly its prescribed new names, in their canonical order. Their choices in different pieces are independent. If their alphabet sizes are \(a_i\), summing \(\prod_i a_i\) over all lists with \(\sum h_i\le r-s_0\) gives \(B_{r-s_0}(P)\). There are at most \((m+1)^b\) lists. Some list therefore carries at least
-\[
-         \sum_i\lfloor\log_2 a_i\rfloor
-         \ \ge\ \log_2 B_{r-s_0}(P)-b\log_2(m+1)-b
-\]
-independent bits. Fix that list and a power-of-two subalphabet in each piece.
+Choose the hubs \(p_j\) furnished by the centroid bound in Section~\ref{sec:tables}. Complete each edge vector \(u_e\) to unit length in a private orthogonal coordinate and put its ends at \(\pm u_e/2\). The target coefficient array consists of equality wires and has price \(w|E(H)|\). Translate one hub to zero and put the three suppliers at \(t p_j\), in the original subspace. Their common rank label costs \(t\log_2 R\). Sending each output index from its supplier saves at least \(tdw\) in total to first order. The quadratic error is \(O(kwt^2)\), since \(\|p_j\|\le1\) and \(\|u/2-tp\|\le\tfrac12-t\langle u,p\rangle+t^2\) for unit \(u\) and \(\|p\|\le1\). The fixed ends have Gaussian width \(O(\sqrt{\log(2k)})\) by the Gaussian maximum bound. Summing the tripartitions costs \(O(k\sqrt{\log(2k)})\) by Theorem~\ref{thm:price}. Compare with the target price, divide by \(t\), and set \(t=(\log_2(2k))^{1/4}/\sqrt w\) to obtain \eqref{eq:rectangle}. The same estimate holds on the closure because slot extraction and reshaping are linear maps on degree-\(k\) coefficients and the price sublevels are closed at the target.
 
-Choose the least \(P\) for which \(\log_2 B_{r-s_0}(P)-c\sqrt P\log_2(2+P)\ge A\), with a fixed sufficiently large \(c\). Then \(P=\Theta(D/\log D)\). Indeed \(B_{r-s_0}(P)\le P^P\), and at \(P=C D/\log D\) one can introduce \(\lfloor\sqrt P\rfloor\) distinct names first and then use those names freely. That fits the available palette, and suffices for a large constant \(C\). A further site multiplies the partition count by at most \(P+1\), so the logarithmic capacity at this \(P\) exceeds \(A\) by only \(O(\sqrt P\log P)\).
-
-Reserving scratch colors also fits the budget. For a partition using \(j>r-s_0\) names, erase its \(j-(r-s_0)\) smallest blocks by merging them into the first surviving block in canonical order. Their union has at most \(Ps_0/(r-s_0)\) sites. Recording those sites and their induced partition suffices to reconstruct the original by removing the recorded sites and restoring their blocks. Thus
-\[
- \log_2 B_r(P)-\log_2 B_{r-s_0}(P)
-      =O\bigl((1+Ps_0/(r-s_0))\log(2+P)\bigr)=O(t).
-\]
-For the last bound use \(r>D^{2/3}\), \(s_0=O(\sqrt t)\), and \(t=\Theta(E(D))\). The loss is zero if \(r-s_0\ge P\) or \(r=\infty\).
-
-\paragraph{Reading equality into a bit.}
-Reserve three anchors \(c_0,c_1,d\) and the \(s'\) scratch anchors by a clique of hard disequalities. Data avoid all reserved colors. In an integer palette of size \(q\), an edge of weight \(u\) contributes \(1+u[x=y]\). To list a spin \(x\) on a nonempty set \(T\) of anchors excluding \(d\), require \(x\ne d\). Join a fresh center to \(x\) and all of \(T\) with weight one, and to \(d\) with weight \(-q-1-|T|\). The constant terms cancel upon summing the center, and a collision with one listed anchor supplies one, giving \(\sum_{c\in T}[x=c]\). Unary activities on the list follow by edges to its anchors.
-
-Let \(x,y\) avoid \(c_0,c_1,d\), and let a listed bit \(\beta\) take \(c_0,c_1\). Set \(J=[x=y]\) and \(H=[\beta=c_1]\). A center joined to \(x,y,\beta,c_1,d\) with weights \(u,1,v,1,s\) sums to \(q+u+v+2+s+uJ+vH\). Choose \(s\) so the constant is one, and use two centers with \((u,v)=(1,-1),(-1,1)\). The resulting product \((1+J-H)(1-J+H)\) is exactly \([J=H]\) in every characteristic. This works for comparing a data position to another, or a scratch word to a scratch anchor. Comparing a position with itself returns true directly. The two-spin corner in Section~\ref{sec:color} now realizes a listed bit implication. To forbid one tuple of a constant-arity Boolean relation, introduce a switch with activities \(1,-1\). When on, implications force all the entries of that tuple. Summing the switch removes exactly the forbidden tuple. This implements deterministic Boolean gates with conditioned weight one.
-
-\paragraph{Reading and replacing the stored words.}
-Initialize the memory sites to the partition encoding the zero address by testing their required equalities and disequalities. To find the canonical name at site \(j\), locate the first equal site and count first occurrences up to it, testing each first occurrence by a scan of preceding sites. The loops use polynomially many comparisons and \(O(\log P)\) bits besides the memory. A variable address can be implemented by scanning all positions in a fixed order and selecting the requested one with a Boolean test. A whole piece has at most \(m\) names. Store its name list in \(O(m\log P)\) bits and scan its fixed subalphabet, of size at most \(P^m\), to translate to or from its binary address. To rewrite a piece keep its old sites until its replacements have been installed. Each new site must equal the old representative of its prescribed name. Test this by scanning every candidate representative and imposing the conditional equality just described. The old memory contains every name used by the list. Thus each new site has a unique actual color, and the new partition preserves the association of canonical names to colors even when a first occurrence moves inside the piece.
-
-Use these bits for the crossing labels. At an input table read its incoming labels, guess the outgoing bits, and emit its one addressed variable by a scan of the table. Close exhausted labels and write new bits in the vacated or free slots. The allocation of slots is fixed by the order of the source. All input and output bits of the table fit in \(O(t)\) ordinary bits of temporary storage, including the counters and the current piece, since \(m\log P=O(t)\). The unrolled number of operations is \(2^{O(t)}\). With an initial naming fixed, every full wire assignment contributes its table product exactly once.
-
-Pack persistent temporary bits in groups of \(\log_2 s'\) per spin, listed on the \(s'\) scratch anchors. Read a word's digits by comparing it to each possible anchor in turn. Testing the desired digits uniquely determines a replacement word. One bit instruction can be simulated with a constant number of unpacked words, \(O(\log s')\) ordinary Boolean temporaries, and polynomial overhead in \(s',t\). The width and size are consequently bounded by
-\[
- p\le P+O(m+s'+t/\log s'+\log s')=P+O(t/\log t),
- \qquad \log_2 n=O(t).
-\]
-A table entry can be attached to the true value of an exact-address test by a unary activity. Parallel factors on one pair, if present, merge into one weight by multiplying their equal-spin factors. The total arithmetic overhead of these substitutions is polynomial in the construction size. One can also keep the tested entries on separate private bits.
-
-If the chosen list uses \(a=\sum_i h_i\) names, the specialized cluster polynomial equals \((q)_{s_0+a}F_H\), where \((q)_d=q(q-1)\cdots(q-d+1)\). The factor counts the mutually distinct anchor and initial data colors. All later actual colors are either forced, summed by an exact gadget, or chosen as wire bits. This identity follows for all sufficiently large integers \(q\) from the spin sum, hence formally by polynomial identity. One may first work with formal generic constants in the two-spin corner and clear its nonzero normalizations. All coefficient identities then survive reduction to the field, and the corner constants can be chosen in its algebraic closure. The falling factorial is nonzero at every stated scalar. For free \(Q\) evaluate at a transcendental element over the ground field, where the same source lower bound applies. Dividing by the scalar gives \(\log_2 s\ge D-O(t)\), also for ordinary border size by bounded-degree specialization. Adding \(O(t/\log t)\) sites changes \(\log_2 B_r(P)\) by \(O(t)\). The upper sweep in minimum width now gives
-\[
-              \log_2 B_r(p+1)=D+O(t),\qquad t=\Theta(E(\log_2 B_r(p+1))).
-\]
-The change \(w_e=-y_e\) costs at most one gate per edge in either direction. This completes the palette row of Theorem~\ref{thm:additive} for both graph polynomials.
+For \(w=\lceil d^6\sqrt{\log_2(2d)}\rceil\) the error is \(O(w)\) and \(d\log_2(2+w)=O(w)\). Thus the estimates of Sections~\ref{sec:per-encoding} and~\ref{sec:independent} give
+\begin{equation}\label{eq:rect-loss}
+ p=dw+O(w),\qquad \log_2(1+s_{\F})\ge p-O\bigl(p^{6/7}(\log_2(2+p))^{1/14}\bigr),
+\end{equation}
+where \(s_{\F}\) denotes the circuit size of either polynomial on its corresponding graph. Here \(p\asymp d^7\sqrt{\log(2d)}\). The sharper source is developed in \href{sharper-additive-bound.md}{\emph{The sharper additive width bound}}.
 
 \section{Subcubic cutwidth and bandwidth witnesses}\label{sec:layouts}
+
+A vertex order has cutwidth \(k\) if its largest prefix cut has \(k\) crossing edges. Its bandwidth is the largest difference between the positions of adjacent vertices. Write \(\operatorname{cw}(G)\) and \(\operatorname{bw}(G)\) for the respective minima. Both are at least \(\pw(G)\).
+
+\begin{theorem}[Cutwidth and bandwidth]\label{thm:layouts}
+
+For the permanent, bipartite independent sets and both partition polynomials, the pathwidth witnesses of the introduction admit subcubic realizations whose minimum cutwidth and bandwidth are each within an additive constant of the original minimum pathwidth. The corresponding upper bounds follow from the pathwidth upper bounds. The same transfer applies to the estimates in \href{sharper-additive-bound.md}{\emph{The sharper additive width bound}}.
+
+\end{theorem}
 
 Take a path decomposition of width \(p\) of the original graph \(G\). Use one layer for each edge or clause, choosing a bag containing its variables and sorting the events in bag order. Give each isolated vertex or unused variable a layer as well. The interval from the first to the last event of a vertex lies within its original bag interval. At most \(p+1\) such intervals overlap, so a greedy assignment gives each interval one of \(p+1\) positions, reusing a position after its interval ends. Put a copy of each current vertex in its position at every layer of its interval. Join consecutive copies vertically. The only horizontal interaction is the event in that layer.
 
@@ -576,74 +445,20 @@ For independent sets use \(B,J\) from Lemma~\ref{lem:independent}. A path of len
 \paragraph{Perfect matchings and the Tutte polynomial.}
 For the permanent subdivide each vertical link once. The copies of one vertex now occupy all the odd positions of a path with an odd number of vertices. A perfect matching uses exactly one horizontal incidence on this path. With none the whole path has odd order. Between two consecutive used incidences there would be an odd number of uncovered interior vertices. For one used incidence, the two remaining even paths have unique completions. Give the horizontal edges the original weights and the vertical edges weight one. This preserves the permanent and bipartiteness.
 
-For the Tutte polynomial give every vertical edge of the forest \(A\) the same indeterminate \(z\). In \([z^{|A|}]Z_{G'}\) all forest edges are present, so their contraction gives exactly \(Z_G\) with all original edge weights and cluster parameter. Truncated convolution through degree \(|A|\) at each gate works over every field and costs a polynomial factor. This also covers the chromatic edge indicators by \(w_e=-y_e\). For every palette \(r\), adding a site to a partition of \(p+1\) sites gives at most \(p+2\) extensions. Hence changing the width by \(O(1)\) changes its reference exponent \(\log_2 B_r(p+1)\) by \(O(\log(p+2))\). On the hard instances \(\log_2 n=O(E(L))\), so polynomial increases in the instance size and the specialization cost fit the additive loss. This proves the simultaneous cutwidth and bandwidth assertions of Theorem~\ref{thm:layouts}.
+For the Tutte polynomial give every vertical edge of the forest \(A\) the same indeterminate \(z\). In \([z^{|A|}]Z_{G'}\) all forest edges are present, so their contraction gives exactly \(Z_G\) with all original edge weights and cluster parameter. Truncated convolution through degree \(|A|\) at each gate works over every field and costs a polynomial factor. This also covers the chromatic edge indicators by \(w_e=-y_e\). For every palette \(r\), adding a site to a partition of \(p+1\) sites gives at most \(p+2\) extensions. Hence changing the width by \(O(1)\) changes its reference exponent \(\log_2 B_r(p+1)\) by \(O(\log(p+2))\). On the hard instances \(\log_2 \|G\|=O(E(L))\), so polynomial increases in the instance size and the specialization cost fit the additive loss. This proves the simultaneous cutwidth and bandwidth assertions of Theorem~\ref{thm:layouts}.
 
 For these same rows the transfer also preserves the width lower bounds for sums of independently ordered sweeps in Theorem~\ref{thm:orders}. Each original input occurs at one retained leaf up to a scalar, and the other inputs are evaluated at constants. For Tutte, multilinearity identifies the forest extraction with taking the degree-one coefficient at each forest-edge leaf separately. These local linear maps preserve each summand's cut-rank bound on its tree restricted to the retained leaves. The host still has size polynomial in the old size, and both layout widths differ from the old pathwidth by \(O(1)\).
-
-\section{Linear information at a path cut and scalar upper bounds}\label{sec:frontiers}
-
-A coefficient matrix at a cut has rows indexed by monomials in the past input variables and columns by monomials in the future variables. If all dependence across the cut passes through \(d\) scalar entries and the output is linear in them, the matrix is a sum of \(d\) rank-one matrices. This gives a direct lower bound for the number of stored entries.
-
-For example, process \(K_{p,p}\), \(p\) even, one column at a time. Halfway through, the processed columns occupy exactly \(p/2\) rows. All \(\binom p{p/2}\) row sets occur and have disjoint, nonempty monomial supports on both sides, so the rank is exactly \(\binom p{p/2}\) over every field. The layout has width \(p\) and contracting \(p-1\) disjoint matching edges exhibits a \(K_{p+1}\) minor. Even for an arbitrary edge order on this graph, mark the time each matching's \(p/2\)-th edge is read. At least \(p!/p^2\) matchings mark one time. Each fixed pair of covered row and column sets accounts for at most \(((p/2)!)^2\) of them, so that cut has rank at least \(\binom p{p/2}/p^2\).
-
-For independent sets, put one of the two active fragments of Section~\ref{sec:orders} on each side of the chronological cut and specialize the remaining fragments to nonzero constants. Up to sign, the coefficient matrix on the two sets of marks is the identity of order \(2^k\). For the partition polynomials join every vertex of a \(k\)-clique to every vertex of a disjoint \(k\)-vertex path. Keeping the clique live gives pathwidth \(k+1\), attained by a clique of size \(k+2\). Realize each left partition by a clique forest. On the right connect one private vertex to each block and attach remaining private vertices to a shared vertex. The resulting matrix is
-
-\[
-   \bigl(q^{|\pi\vee\sigma|}\bigr)_{\pi,\sigma}
-    =U\,\mathrm{diag}\bigl((q)_{|\tau|}\bigr)_\tau U^{\mathsf T},
- \qquad U_{\pi,\tau}=[\pi\text{ refines }\tau].
-\]
-The identity counts colorings by their exact equality partition and thus holds formally. Triangularity of \(U\) gives rank \(B_r(k)\). In all the rows of Theorem~\ref{thm:additive}, a fixed chronological cut on a polynomial-size host therefore needs at least \(2^L/p^{O(1)}\) coordinates. An unrestricted circuit may combine variables across this cut at any of its gates.
-
-\subsection{Putting the square root in the matching update}
-
-Write \(N=|V|\). Introducing one vertex with all its edges to earlier neighbors \(i\) requires computing
-\[
-             (L_w f)(S)=\sum_{i\in S}w_i f(S\setminus\{i\})
-\]
-on the old bag. The subset-transform update of~\cite{falco-network} already reduces the usual factor \(p\) per state to a fixed power below one. For any fixed \(\eta>0\), a Walsh transform gives size \(O_\eta(N2^p(p+1)^{1/2+\eta})\) outside characteristic two. Indeed let \(A_w f(S)=\sum_iw_i f(S\mathbin{\triangle}\{i\})\) and \(Df(S)=|S|f(S)\). Comparing coefficients of the two possible neighbor sizes gives \(2L_w=A_w+DA_w-A_wD\). Under Walsh conjugation \(A_w\) is diagonal with entries \(\sum_i(-1)^{[i\in R]}w_i\). All these signed sums take \(O(2^p+p)\) gates by subset sums. Apply the Fourier exponent theorem~\cite{fourier-exponent} to the binary group for each of the constantly many transforms. The constant in its upper bound can depend on the chosen \(\eta>0\). The factor involving the vertex count remains linear. Already a disjoint union of \(N/2\) independent weighted edges at pathwidth one needs \(N/2-1\) binary gates.
-
-For a bipartite past edge set, fix signs \(s_v=\pm1\) on the shores. In a matching, if \(x_v\) is the covered bit at a live site, then \(\sum_{\rm live}s_vx_v=-\sum_{\rm forgotten}s_v\). Complement the bits on the negative shore. The number of ones is now prescribed, so a \(k\)-site bag has at most \(\binom{k}{\lfloor k/2\rfloor}\) reachable entries. A bipartite future gives the same bound using \(1-x_v\). This proves exact size \(O(N2^p\sqrt{p+1})\) over any commutative ring on bipartite graphs, and \(O(n2^p/\sqrt{p+1})\) when processing edges individually. More generally either the past or the future may supply the bipartition at each event boundary. In particular an edge order consisting of two successive bipartite pieces permits the exact edge bound even if their union contains odd cycles.
-
-If both sides are bipartite, their signs may be chosen independently. Let them agree on \(a\) sites and disagree on \(b=k-a\). After the same complementation the two signed sums prescribe the sum and difference of the numbers of ones in those groups. The number of entries is at most
-\[
-          \binom a{\lfloor a/2\rfloor}\binom b{\lfloor b/2\rfloor}.
-\]
-If both sides are bipartite and \(a,b\ge\delta k\) at large vertex introductions for a fixed \(\delta>0\), the vertex algorithm uses \(O_\delta(N2^p)\) gates. It suffices to require this at \(k>p-2\log_2(p+2)\). One can delete states using a future equation because every full matching satisfies every intermediate test.
-
-There is also an \(O(N2^p)\) \emph{border} algorithm on all graphs. For even \(N\) order vertices by introduction and form
-\[
- J(z)=\sum_{x\in\bits^V}(-1)^{N-\sum_v x_v}
-       \prod_v\Bigl(1+z x_v\sum_{u<v,\,uv\in E}w_{uv}x_u\Bigr).
-\]
-The Boolean sum removes terms missing any vertex. The rest are edge covers with at most one selected edge per later endpoint. Their degree is at least \(N/2\), and equality selects exactly the perfect matchings. Thus \(z^{-N/2}J(z)\) is regular at zero with matching polynomial as its constant term. At an introduction form all subset sums for the new star in \(O(2^k+k)\) gates, and multiply the old entry by the indicated factor for each assignment. Forget a vertex by subtracting the zero entry from the one entry. This proves the border bound in every characteristic. An ordinary computation of \(J(1)\) gives the matching polynomial as its degree-\(N/2\) component.
-
-\subsection{A vertex update for the two partition polynomials}
-
-On a simple \(N\)-vertex graph the conditional spin sweep of Section~\ref{sec:part-bank} can compute both polynomials in \(O(N B_r(p))\) gates on a supplied decomposition. Process each edge at the introduction of its later endpoint \(v\). For the old sites \(S\) precompute \(U_v(A)=\prod_{x\in A}(1+w_{xv})\) for all subsets, setting absent edge weights to zero. This takes \(O(2^{|S|})\) gates. At size at most \(p\), introducing \(v\) multiplies an old entry by the product for the class it joins, and forgetting a vertex sums placements as before.
-
-An introduction creating \(p+1\) sites is immediately followed by a forget. Combine these events. If \(u\ne v\) leaves, fix a partition \(\pi\) of the common \(p-1\) sites into \(j\) classes. Denote by \(f_C\) the old entry when \(u\) is in class \(C\), and by \(f_0\) its value in a new class. Compute \(H_\pi=\sum_C f_C+(q-j)f_0\) once. With \(v\) placed in class \(B\), the new entry is \(U_v(B)(H_\pi+w_{uv}f_B)\) because only the color equal to \(v\) receives the extra edge weight. For a new class use \(U_v(\varnothing)=1\) and \(f_0\) in the correction. Omit unrealizable inputs and outputs at a finite palette. Each old and new partition occurs a constant number of times in these operations.
-
-If \(v\) itself leaves, multiply the entry of a partition \(\pi\) of the \(p\) retained sites by \(q+\sum_{C\in\pi}(U_v(C)-1)\). Generate all multipliers by extending partitions of prefixes one site at a time. Each extension changes at most one summand, whose two subset products have already been computed. Each nonempty prefix partition admits at least two extensions for \(r\ge2\), so the total number visited is \(O(B_r(p))\). Finally \(B_r(p)\ge2^{p-1}\) for \(p\ge1\), covering the subset products, and there are \(O(N)\) events. The recurrences are formal identities at \(r=\infty\) and specialize over every field. The chromatic sign change costs \(O(|E|)\), within this bound on simple graphs.
-
-\subsection{When graph order gives a square-root saving}
-
-There are also graphs on which exact circuits do save \(2^{\sqrt p}\) from the full width scale. Write \(N=|V|\) and \(g\ge0\). For arbitrary perfect matchings, Björklund's hafnian circuit over a commutative ring takes \(2^{N/2}\operatorname{poly}(N)\) operations~\cite{hafnian-ryser}. Thus \(N\le2p-2g\) suffices for size \(\operatorname{poly}(n)2^{p-g}\). For the bipartite permanent, the fixed exponential improvement in matrix order~\cite{stars} also covers \(K_{p,p}\), where \(N=2p\).
-
-For chromatic and Tutte the corresponding sufficient condition is \(N\le\log_2 B_r(p+1)-g\), by the vertex-exponential Tutte algorithm~\cite{vertex-tutte}. To see the arithmetic bound with independent variables, write \(A(S)=\prod_{uv\in E(S)}(1+w_{uv})\), \(C(S)\) for the weight of connected spanning subgraphs of \(S\), and \(Z(S)\) for the cluster polynomial. For a least vertex \(i\), set \(U=\{v:v>i\}\) and \(H_i(S)=H(S\cup\{i\})\) on \(S\subseteq U\). Sorting by the component containing \(i\) gives \(A_i=C_i*(A|_U)\) and \(Z_i=q\,C_i*(Z|_U)\) for subset convolution \(*\). The inverse of \(A|_U=1+f\) is \(\sum_{j=0}^{|U|}(-f)^{*j}\) since \(f(\varnothing)=0\). Process \(i\) in decreasing order. Fast subset convolution over rings~\cite{fast-subset-convolution} gives \(2^N\operatorname{poly}(n)\) gates, including for free \(q\). Taking \(g=\sqrt p\) in these order inequalities gives genuine exponent savings on the indicated hosts. Graphs of width \(p\) may have arbitrarily many vertices.
-
-\appendix
 
 \section{Sums of independently ordered sweeps and binary contractions}\label{sec:orders}
 
 The preceding fixed-cut examples allow a program to choose a better variable order. The following construction permits each summand to choose its own order, or even its own binary tree on the input variables. A tensor on one such tree has \emph{width} \(w\) if its coefficient matrix at every tree-edge cut has rank at most \(w\). Binary contractions with bond dimensions at most \(w\) have this property. A read-once linear sweep of width \(w\) gives the property on the caterpillar for its order, taking the coefficient of degree zero or one at a variable leaf. The graph parameter of the following theorem is pathwidth.
 
 \begin{theorem}\label{thm:orders}
-For each row of Theorem~\ref{thm:additive}, each sufficiently large even \(k\), and \(h\ge1\), there is a graph of pathwidth \(p=k+O(1)\) and size \(\operatorname{poly}(k,h)\) such that any sum of \(h\) tensors with independently chosen binary variable trees must have
+For the permanent, bipartite independent sets, and the two partition polynomials, take the fields and reference exponents \(L\) of the introduction. For each sufficiently large even \(k\) and \(h\ge1\), there is a graph of pathwidth \(p=k+O(1)\) and size \(\operatorname{poly}(k,h)\) such that any sum of \(h\) tensors with independently chosen binary variable trees must have
 \[
                        \sum_{i=1}^h w_i\ge 2^L/k^{O(1)} .
 \]
-For the matching row the graphs here are bipartite, with unrestricted maximum degree. For any fixed \(C\) and \(h=2^{o(\sqrt k)}\) this rules out a total width \(n^C 2^{L-\sqrt p}\) on all such graphs.
+For the matching row the graphs here are bipartite, with unrestricted maximum degree. For any fixed \(C\) and \(h=2^{o(\sqrt k)}\) this rules out a total width \(\|G\|^C 2^{L-\sqrt p}\) on all such graphs.
 \end{theorem}
 
 \paragraph{The graphs used in the rank test.}
@@ -660,11 +475,11 @@ Fix \(h\ge1\), \(R\ge2\) and \(d=\lfloor\log_2 R\rfloor\). Suppose a coefficient
 \end{lemma}
 \begin{proof}
 \emph{Choosing one cut in every tree.}
-Let \(d=\lfloor\log_2 R\rfloor\), \(K=100(h+1)^2(d+1)^2\), \(m=(h+1)K\), \(\ell=(h+1)m\), and \(M=32(h+1)\ell+2\). In a binary tree restricted to its marked leaves, each fragment spans a connected subtree. An edge splits the fragment precisely when it lies in that subtree. Call a tree crowded if some edge splits at least \(\ell\) fragments. Root by subdividing an edge and choose a deepest crowded edge. Every fragment split there crosses one of the two child edges, so it splits fewer than \(2\ell\) fragments. Exclude all such fragments as candidates for the active pair, in all crowded trees.
+Let \(d=\lfloor\log_2 R\rfloor\), \(K=100(h+1)^2(d+1)^2\), \(J=(h+1)K\), \(\ell=(h+1)J\), and \(M=32(h+1)\ell+2\). In a binary tree restricted to its marked leaves, each fragment spans a connected subtree. An edge splits the fragment precisely when it lies in that subtree. Call a tree crowded if some edge splits at least \(\ell\) fragments. Root by subdividing an edge and choose a deepest crowded edge. Every fragment split there crosses one of the two child edges, so it splits fewer than \(2\ell\) fragments. Exclude all such fragments as candidates for the active pair, in all crowded trees.
 
 In any other tree fewer than \(3\ell\) subtrees contain any one vertex, by its three incident edges. For each intersecting pair the deeper of the two topmost subtree vertices belongs to both subtrees. Charging that subtree (breaking ties by index) bounds the number of intersecting pairs by \(3\ell M\). Since \(\binom{M-2h\ell}{2}>3h\ell M\), two eligible fragments have disjoint subtrees in every uncrowded tree. Choose them as the active pair and choose a separating edge in each such tree. In the crowded trees use the previously chosen edge. Each active fragment is unsplit by every chosen cut.
 
-For each crowded tree reserve \(m\) fresh neutral fragments split by its chosen cut, and in each choose two marked variables on opposite sides. This is possible since \(\ell=(h+1)m\). Repeatedly discard all separated neutral pairs at any cut separating between one and \(K-1\) remaining pairs. This empties that cut permanently, so fewer than \(hK\) pairs are lost. Every cut now either splits at least \(K\) neutral pairs or splits none and separates the two active fragments.
+For each crowded tree reserve \(J\) fresh neutral fragments split by its chosen cut, and in each choose two marked variables on opposite sides. This is possible since \(\ell=(h+1)J\). Repeatedly discard all separated neutral pairs at any cut separating between one and \(K-1\) remaining pairs. This empties that cut permanently, so fewer than \(hK\) pairs are lost. Every cut now either splits at least \(K\) neutral pairs or splits none and separates the two active fragments.
 
 \paragraph{One coefficient matrix for all the summands.}
 Use local linear maps on each entire active group to turn its rank-\(R\) matrix, restricted to a nonsingular minor of order \(2^d\), into an identity. Turn each retained neutral pair into a binary identity by maps on its individual marks. Each operation preserves the summand's own cut-rank bound since each active group is unsplit. For the Tutte degeneration apply the same fixed maps over the rational function field in the limit parameter. A nonzero minor of the limiting total matrix remains nonzero generically, even when individual summands have poles.
@@ -679,29 +494,29 @@ Applying Lemma~\ref{lem:fragments} to the graphs above proves Theorem~\ref{thm:o
 
 Lampis compares SAT running times in terms of a path decomposition, a single set of variables whose deletion simplifies the formula, and the number or Hamming weight of guessed bits~\cite{lampis-shades}. For arithmetic circuits a bound in the total number of variables can differ from a bound in pathwidth. We use conflict graphs to study the weighted count, then interpolate the exact Max-2-SAT optimum on Boolean clause flags. All circuits in this section allow subtraction over an arbitrary field.
 
-For a fixed formula \(\varphi\) on \(N\) variables write \(W_\varphi(\mathbf U)=\sum_{a\models\varphi}\prod_i U_{i,a_i}\). Its primal graph joins variables that share a clause. We take \(n\) to be one plus the number of variables and literal occurrences.
+For a fixed formula \(\varphi\) on \(N\) variables write \(W_\varphi(\mathbf U)=\sum_{a\models\varphi}\prod_i U_{i,a_i}\). Its primal graph joins variables that share a clause. We take \(\|\varphi\|\) to be one plus the number of variables and literal occurrences.
 
 \subsection{The complete-graph table source}
 
-Put \(\ell\) bits on each edge of \(K_h\), with \(h\ge3\) fixed, and write \(Z_{h,2^\ell}=F_{K_h}\). The complete-graph estimate~\cite{vp-vnp-prices} follows here from Lemma~\ref{lem:cost}. Give edge \(ij\) direction \((e_i-e_j)/\sqrt2\) in its outward sum at \(i\). For a balanced set of \(a\in[h/3,2h/3]\) tables, its sum of outward vectors has norm \(\ell\sqrt{ha(h-a)/2}\ge\ell h^{3/2}/3\). The total capacity is \(\binom h2\ell\) and the output sites are fixed as \(\ell\) varies. Divide the lemma by \(\ell\), take the lower limit and then send its displacement parameter to zero. Thus
+Put \(\ell\) bits on each edge of \(K_h\), with \(h\ge3\) fixed, and write \(Z_{h,2^\ell}=F_{K_h}\). The complete-graph wire bound~\cite{vp-vnp-prices}, with \(h\) tables and alphabet \(2^\ell\), gives
 \begin{equation}\label{eq:clique-rate}
  \liminf_{\ell\to\infty}\ell^{-1}\log_2\bigl(s_\F(Z_{h,2^\ell})+1\bigr)\ \ge\ h^{3/2}/3 .
 \end{equation}
 
 \paragraph{Deleting the global bits.}
-The same complete-graph table polynomial has a fixed formula with a supplied set of \(b=\binom h2\ell\) global bits whose deletion leaves disjoint paths. For each possible row start a fresh chain at true. For each required address literal \(L\), impose \(z'=z\land L\) on the next state with the three clauses for this gate. Give the last true state the row activity. Every assignment of the global bits extends uniquely, and at each table precisely its addressed row contributes. After fixing the global assignment each chain has only adjacent binary constraints. There are \(h2^{(h-1)\ell}\) chains of length \((h-1)\ell\). For each fixed \(C\), choosing \(h\) so that \(h^{3/2}/3>\max(1,C)(h-1)\) in \eqref{eq:clique-rate} excludes a size bound \(n^C2^{o(b)}\) for these counts.
+The same complete-graph table polynomial has a fixed formula with a supplied set of \(b=\binom h2\ell\) global bits whose deletion leaves disjoint paths. For each possible row start a fresh chain at true. For each required address literal \(L\), impose \(z'=z\land L\) on the next state with the three clauses for this gate. Give the last true state the row activity. Every assignment of the global bits extends uniquely, and at each table precisely its addressed row contributes. After fixing the global assignment each chain has only adjacent binary constraints. There are \(h2^{(h-1)\ell}\) chains of length \((h-1)\ell\). For each fixed \(C\), choosing \(h\) so that \(h^{3/2}/3>\max(1,C)(h-1)\) in \eqref{eq:clique-rate} excludes a size bound \(\|\varphi\|^C2^{o(b)}\) for these counts.
 
 \subsection{Hamming weight and total number of variables}
 
 For the source of \eqref{eq:clique-rate}, make one vertex for each of the \(V=h2^{(h-1)\ell}\) table rows. Join distinct rows of one table and rows of different tables that disagree on their shared word. A size-\(h\) independent set chooses one consistent row at each table. Hence the homogeneous degree-\(h\) part of the independence polynomial of this conflict graph equals \(Z_{h,2^\ell}\). Its arithmetic size is at least \(V^{\,h^{3/2}/(3(h-1))-o(1)}\) for each fixed \(h\), as \(\ell\to\infty\). Negative binary clauses forbid precisely these conflicts. This gives the same bound for counting assignments of Hamming weight \(h\).
 
 \begin{theorem}\label{thm:total-vars}
-For fixed clause width \(r\), the unary-weight polynomial of every fixed \(r\)-CNF on \(N\) variables has division-free circuits of size \(2^{o(N)}\operatorname{poly}(n)\) over every field. There are explicit CNFs consisting entirely of negative binary clauses whose unary-weight polynomials require \(\exp(\Omega((\log N)^2/(\log\log N)^2))\) gates.
+For fixed clause width \(r\), the unary-weight polynomial of every fixed \(r\)-CNF on \(N\) variables has division-free circuits of size \(2^{o(N)}\operatorname{poly}(\|\varphi\|)\) over every field. There are explicit CNFs consisting entirely of negative binary clauses whose unary-weight polynomials require \(\exp(\Omega((\log N)^2/(\log\log N)^2))\) gates.
 \end{theorem}
 \begin{proof}
-For the lower bound, encode a directed Hamiltonian cycle on \(m\) vertices by \(m\) successive arcs starting at vertex \(1\). Make one row \((i,u,v)\) for arc \(u\to v\) at step \(i\), allowing only \(u=1\) at the first step. Forbid pairs of rows in one step, equal tails in distinct steps, and different heads and next tails at cyclically consecutive steps. In the independence polynomial of this graph, the degree-\(m\) part chooses one row of each step and visits every tail once. Identifying its row activities with \(X_{uv}\) gives every directed Hamiltonian cycle with coefficient one. There are \(N\le m^3\) rows. Extracting degrees through \(m\) at a circuit gate costs \(O((m+1)^2)\) gates by truncated convolution. The Hamiltonian cycle lower bound~\cite[Theorem~1.1]{circuits} survives this polynomial overhead and gives the claimed exponent in \(N\).
+For the lower bound, encode a directed Hamiltonian cycle on \(q\) vertices by \(q\) successive arcs starting at vertex \(1\). Make one row \((i,u,v)\) for arc \(u\to v\) at step \(i\), allowing only \(u=1\) at the first step. Forbid pairs of rows in one step, equal tails in distinct steps, and different heads and next tails at cyclically consecutive steps. In the independence polynomial of this graph, the degree-\(q\) part chooses one row of each step and visits every tail once. Identifying its row activities with \(X_{uv}\) gives every directed Hamiltonian cycle with coefficient one. There are \(N\le q^3\) rows. Extracting degrees through \(q\) at a circuit gate costs \(O((q+1)^2)\) gates by truncated convolution. The Hamiltonian cycle lower bound~\cite[Theorem~1.1]{circuits} survives this polynomial overhead and gives the claimed exponent in \(N\).
 
-For the upper bound, fix \(\epsilon>0\). Counting sparsification partitions the assignments into at most \(2^{\epsilon N}\operatorname{poly}(n)\) disjoint solution sets of \(r\)-CNFs with \(O_{r,\epsilon}(N)\) literal occurrences~\cite[Lemma~A.1]{dell-sparsification}. The partition depends only on the formula, so it preserves arbitrary unary activities. Replace each long clause by a binary OR tree encoded in \(3\)-CNF with uniquely determined internal bits. Charge each original activity at one occurrence. A variable absent from a leaf contributes \(U_{i,0}+U_{i,1}\).
+For the upper bound, fix \(\epsilon>0\). Counting sparsification partitions the assignments into at most \(2^{\epsilon N}\operatorname{poly}(\|\varphi\|)\) disjoint solution sets of \(r\)-CNFs with \(O_{r,\epsilon}(N)\) literal occurrences~\cite[Lemma~A.1]{dell-sparsification}. The partition depends only on the formula, so it preserves arbitrary unary activities. Replace each long clause by a binary OR tree encoded in \(3\)-CNF with uniquely determined internal bits. Charge each original activity at one occurrence. A variable absent from a leaf contributes \(U_{i,0}+U_{i,1}\).
 
 It remains to contract a \(3\)-CNF with \(M\) literal occurrences in \(2^{o(M)}\) field gates. Cluster its clauses and impose equality along a path through the occurrences of each variable, as in the grid recursion for counting \(3\)-SAT~\cite[Sections~3--6]{grid-sat}. We give the modification needed for symbolic activities and small characteristic. Write \(I(x,y,u,v)=[x=u][y=v]\) and \(X(x,y,u,v)=[x=v][y=u]\) for one-bit indices. For a rectangle carrying \(\lambda\)-bit indices use the integer expansion
 \[
@@ -720,15 +535,15 @@ For clarity, each term in the rectangle expansion uses the cheaper of the row an
 
 \subsection{Multilinear satisfiability and the exact optimum}
 
-Let \(x_i\) be Boolean flags governing the presence of individual clauses of a fixed template. For an integer-valued answer \(f\) on flags, its unique multilinear extension over \(\F\) is
+Let \(x_1,\ldots,x_c\) be Boolean flags governing the presence of individual clauses of a fixed template. For an integer-valued answer \(f\) on flags, its unique multilinear extension over \(\F\) is
 \[
- \widetilde f(\mathbf x)=\sum_{A\subseteq[m]} f(\mathbf1_A)
+ \widetilde f(\mathbf x)=\sum_{A\subseteq[c]} f(\mathbf1_A)
                  \prod_{i\in A}x_i\prod_{i\notin A}(1-x_i).
 \]
 For an optimum, first take the ordinary integer maximum and then map its value into the field. Here circuit size measures the displayed formal polynomial.
 
 \begin{theorem}\label{thm:maxsat}
-Over every field, the multilinear optimum of unweighted Max-2-SAT admits a lower bound \(2^{p-O(E(p))}\) on families with \(\log_2 n=O(E(p))\). There are also Max-2-SAT templates of primal pathwidth \(O(\log n)\) whose multilinear optimum requires \(\exp(\Omega((\log n)^2/(\log\log n)^2))\) gates.
+Over every field, the multilinear optimum of unweighted Max-2-SAT admits a lower bound \(2^{p-O(E(p))}\) on families with \(\log_2 \|\varphi\|=O(E(p))\). There are also Max-2-SAT templates of primal pathwidth \(O(\log \|\varphi\|)\) whose multilinear optimum requires \(\exp(\Omega((\log \|\varphi\|)^2/(\log\log \|\varphi\|)^2))\) gates.
 \end{theorem}
 \begin{proof}
 For any graph \(J\), let \(P_J\) be the multilinear extension of the predicate that the enabled vertices are independent. Boolean interpolation gives the identity
@@ -737,9 +552,9 @@ For any graph \(J\), let \(P_J\) be the multilinear extension of the predicate t
 \end{equation}
 Indeed the summand for a set \(A\) in the interpolation becomes precisely \(\prod_{i\in A}y_i\) after clearing denominators. To extract degree \(d\), substitute the first \(d\) terms of \(y/(1+y)=y-y^2+\cdots\) and truncate after every gate. This uses \(\operatorname{poly}(d)(s_\F(P_J)+|V(J)|+1)\) field gates.
 
-To realize \(P_J\) on the table rows, keep the wire bits and introduce one bit per row. A fixed binary implication from that bit enforces each literal of its address. An optional unit forces an enabled row true. The resulting clauses are satisfiable exactly when the enabled rows are compatible. With conflicting rows adjacent in \(J\), the degree-\(|V(H)|\) part of \(I_J\) is \(F_H\). Processing the rows serially uses width \(A+T+O(1)\). Applying \eqref{eq:independence-flags} to Proposition~\ref{prop:quant-source} gives the required lower bound for this intermediate predicate.
+To realize \(P_J\) on the table rows, keep the wire bits and introduce one bit per row. A fixed binary implication from that bit enforces each literal of its address. An optional unit forces an enabled row true. The resulting clauses are satisfiable exactly when the enabled rows are compatible. With conflicting rows adjacent in \(J\), the degree-\(|V(H)|\) part of \(I_J\) is \(F_H\). Processing the rows serially uses width \(A+T+O(1)\). Applying \eqref{eq:independence-flags} to the ordered source in \href{sharper-additive-bound.md}{the companion note} gives the required lower bound for this intermediate predicate.
 
-For the logarithmic-width bound, take the anchored-cycle conflict graph \(J\) in Theorem~\ref{thm:total-vars}, now writing \(V=|V(J)|\). With \(d=m\), the same degree extraction proves the quantitative superpolynomial bound for \(1-P_J\). To express this bit as satisfiability, guess an edge of \(J\) using \(O(\log V)\) address bits, duplicating a valid edge at unused addresses. For each vertex \(i\), a private bit \(y_i\) is forbidden by one optional unit when \(x_i=0\). Complementing an input flag is an affine substitution if flags conventionally indicate clause presence. For every incident edge test its address by a private chain of binary AND gates with each gate enforced by its three standard clauses, and require that a match implies \(y_i\). The template is satisfiable precisely when both endpoints of some edge are enabled. Keep all address bits in the bag and, for one vertex at a time, keep \(y_i\) and two consecutive chain states. This gives size \(V^{O(1)}\) and primal pathwidth \(O(\log V)\). The underlying Boolean function is just an OR of two-input conjunctions. It is also the existence bit for a Hamming-weight-two assignment to the negative binary clauses forbidding \emph{nonedges} and the units forbidding disabled vertices. For each fixed larger Hamming weight, append the required number of variables forced true. The weight-two count is the quadratic \(\sum_{ij\in E(J)}x_ix_j\).
+For the logarithmic-width bound, take the anchored-cycle conflict graph \(J\) in Theorem~\ref{thm:total-vars}, now writing \(V=|V(J)|\). With \(d=q\), the same degree extraction proves the quantitative superpolynomial bound for \(1-P_J\). To express this bit as satisfiability, guess an edge of \(J\) using \(O(\log V)\) address bits, duplicating a valid edge at unused addresses. For each vertex \(i\), a private bit \(y_i\) is forbidden by one optional unit when \(x_i=0\). Complementing an input flag is an affine substitution if flags conventionally indicate clause presence. For every incident edge test its address by a private chain of binary AND gates with each gate enforced by its three standard clauses, and require that a match implies \(y_i\). The template is satisfiable precisely when both endpoints of some edge are enabled. Keep all address bits in the bag and, for one vertex at a time, keep \(y_i\) and two consecutive chain states. This gives size \(V^{O(1)}\) and primal pathwidth \(O(\log V)\). The underlying Boolean function is just an OR of two-input conjunctions. It is also the existence bit for a Hamming-weight-two assignment to the negative binary clauses forbidding \emph{nonedges} and the units forbidding disabled vertices. For each fixed larger Hamming weight, append the required number of variables forced true. The weight-two count is the quadratic \(\sum_{ij\in E(J)}x_ix_j\).
 
 Finally let \(L(\mathbf x)\) be the number of active clauses, an affine function of the flags. Add one new literal \(z\) to every active clause and include the fixed unit \(\neg z\). If the old formula is satisfiable, all guarded clauses and \(\neg z\) can be satisfied. Otherwise \(z=1\) attains the maximum of \(L(\mathbf x)\). Thus the integer optimum is \(L(\mathbf x)+\mathbf1_{\rm SAT}\). Guarded optional units are already binary. Replace each fixed ternary clause \(a\lor b\lor c\) by the ten-clause Max-2-SAT gadget~\cite{garey-maxsat}, with private bit \(u\), as follows.
 \[
@@ -749,24 +564,24 @@ Finally let \(L(\mathbf x)\) be the number of active clauses, an affine function
  (a\lor\neg u),(b\lor\neg u),(c\lor\neg u).
  \end{gathered}
 \]
-For \(j\) true literals among \(a,b,c\), the two local scores are \(j+6-\binom j2\) and \(4+2j-\binom j2\). Their maximum is \(6+[j>0]\). A guarded four-literal clause first splits into \((a\lor b\lor v),(\neg v\lor c\lor d)\), whose optimum is one plus its old indicator. All auxiliary choices are private. The multilinear optimum therefore equals the multilinear satisfiability polynomial plus \(L\) and a fixed integer, over every field. Removing that affine term costs \(O(n)\) gates. Keep \(z\) throughout and introduce each gadget in a copy of a bag containing its original clause. The width grows by \(O(1)\). For the binary source, assigning true activity \(X_{v,a}-1\) to each row bit recovers \(F_H\) in its satisfying-assignment count with all optional units disabled. The \(n^{O(1)}2^{p_{\rm src}}\) assignment sweep gives \(p_{\rm src}\ge D-O(t)\). The optimum gadgets retain the original primal edges, so the final minimum width is \(D+O(t)\). Both claimed bounds follow.
+For \(j\) true literals among \(a,b,c\), the two local scores are \(j+6-\binom j2\) and \(4+2j-\binom j2\). Their maximum is \(6+[j>0]\). A guarded four-literal clause first splits into \((a\lor b\lor v),(\neg v\lor c\lor d)\), whose optimum is one plus its old indicator. All auxiliary choices are private. The multilinear optimum therefore equals the multilinear satisfiability polynomial plus \(L\) and a fixed integer, over every field. Removing that affine term costs \(O(\|\varphi\|)\) gates. Keep \(z\) throughout and introduce each gadget in a copy of a bag containing its original clause. The width grows by \(O(1)\). For the binary source, assigning true activity \(X_{v,a}-1\) to each row bit recovers \(F_H\) in its satisfying-assignment count with all optional units disabled. The \(\|\varphi\|^{O(1)}2^{p_{\rm src}}\) assignment sweep gives \(p_{\rm src}\ge D-O(t)\). The optimum gadgets retain the original primal edges, so the final minimum width is \(D+O(t)\). Both claimed bounds follow.
 \end{proof}
 
-\paragraph{Layouts for the optimum.} For the unweighted Max-2-SAT optimum of Theorem~\ref{thm:maxsat}, let \(h\) be the number of possible original clauses. Enforce equality of successive copies by opposite implications and repeat each clause at each vertical copy link of Section~\ref{sec:layouts} \(h+1\) times. One inconsistency loses more than can be gained from all the original clauses. Thus the integer optimum increases by exactly \(2(h+1)\) per link, and subtracting this constant recovers its multilinear extension over every field. Repeated clauses use a single edge of the simple primal graph. In particular the logarithmic-width optimum example has logarithmic cutwidth and bandwidth.
+\paragraph{Layouts for the optimum.} For the unweighted Max-2-SAT optimum of Theorem~\ref{thm:maxsat}, let \(h\) be the number of possible original clauses. Enforce equality of successive copies by opposite implications and repeat each clause at each vertical copy link of Appendix~\ref{sec:layouts} \(h+1\) times. One inconsistency loses more than can be gained from all the original clauses. Thus the integer optimum increases by exactly \(2(h+1)\) per link, and subtracting this constant recovers its multilinear extension over every field. Repeated clauses use a single edge of the simple primal graph. In particular the logarithmic-width optimum example has logarithmic cutwidth and bandwidth.
 
 \section{The cost of cancellation on the ordinary permanent}\label{sec:cancellation}
 
 For a complex arithmetic circuit \(C\), replace subtraction by addition and each scalar leaf by its absolute value to obtain \(|C|\). On \(K_{p,p}\), setting every edge variable to \(z\) makes the true degree-\(p\) coefficient \(p!\). Define \(K=[z^p]|C|(z,\ldots,z)/p!\). Parse expansion and the triangle inequality give \(K\ge1\).
 
 \begin{proposition}\label{prop:cancellation}
-Let \(p\) be even, \(n=1+2p+p^2\), and \(0\le g=o(p)\). If \(C\) computes the ordinary permanent in at most \(n^{C_0}2^{p-g}\) gates, then
+Let \(p\) be even, \(\|K_{p,p}\|=2p+p^2\), and \(0\le g=o(p)\). If \(C\) computes the ordinary permanent in at most \(\|K_{p,p}\|^{C_0}2^{p-g}\) gates, then
 \[
              \log_2 K\ge g-O_{C_0}\bigl(\log(p+2)+(1+g)^4/p^3\bigr).
 \]
 In particular a factor \(2^{\sqrt p}\) requires \(K\ge 2^{\sqrt p}/p^{O_{C_0}(1)}\). The same polynomial loss applies throughout \(g=O(p^{3/4}(\log p)^{1/4})\).
 \end{proposition}
 \begin{proof}
-Write \(m=p/2\) and \(M=Kp!\). In each unsigned degree-\(p\) parse follow the unique child of degree greater than \(m\) as long as possible, choosing the indicated child at sums. At the stopping product, its two inputs and the outside context have degrees at most \(m\). Fixing the gate and the two input degrees allows every eligible input parse to be combined with every eligible context, also for reused gates. We obtain at most \(G=(s+1)(p+1)^2\) products of three nonnegative polynomials, with masses at all ones summing to \(M\). Sort each group's degrees as \(m\ge a\ge b\ge c\).
+Write \(\nu=p/2\) and \(M=Kp!\). In each unsigned degree-\(p\) parse follow the unique child of degree greater than \(\nu\) as long as possible, choosing the indicated child at sums. At the stopping product, its two inputs and the outside context have degrees at most \(\nu\). Fixing the gate and the two input degrees allows every eligible input parse to be combined with every eligible context, also for reused gates. We obtain at most \(G=(s+1)(p+1)^2\) products of three nonnegative polynomials, with masses at all ones summing to \(M\). Sort each group's degrees as \(\nu\ge a\ge b\ge c\).
 
 A monomial that can occur in a permutation is a partial matching, with a scope specifying its row set and column set. Normalize each factor by its mass. Call its scope heavy when the partial matchings with that scope have normalized mass at least \(1/(8K)\). The two other factors' monomials determine the missing scope uniquely whenever they can complete a permutation. Across all groups, valid contributions from a light scope in either of the first two factors therefore have mass at most \(M/(4K)=p!/4\).
 
@@ -785,22 +600,22 @@ Apply this inequality with \(d=2c\), \(u_\sigma=\sqrt{C_\sigma}\), and the two h
                D_c^2\le\inf_{l\ge1,\ l\in\mathbb Z}
                       (16K)^{1/l}(2l-1)^{2c}.
 \]
-Put \(H=\ln(16K)\). At \(c\ge3H\) choose \(l=1\), obtaining \(D_c^2\le e^H\le\binom mc\) since \(c\le p/3\). For \(1\le c<3H\), use \(l=\lceil H/(2c)\rceil\) to get \(D_c^2\le(4eH/c)^{2c}\). This is at most \((m/c)^c\le\binom mc\) whenever \(c\ge32e^2H^2/p\). In these ranges \(a!b!\le m!(m-c)!\) gives a clipped bound \(\sqrt{(p!/\binom pm)M_0}\).
+Put \(H=\ln(16K)\). At \(c\ge3H\) choose \(l=1\), obtaining \(D_c^2\le e^H\le\binom \nu c\) since \(c\le p/3\). For \(1\le c<3H\), use \(l=\lceil H/(2c)\rceil\) to get \(D_c^2\le(4eH/c)^{2c}\). This is at most \((\nu/c)^c\le\binom \nu c\) whenever \(c\ge32e^2H^2/p\). In these ranges \(a!b!\le \nu!(\nu-c)!\) gives a clipped bound \(\sqrt{(p!/\binom p\nu)M_0}\).
 
-For \(c<32e^2H^2/p\), merge the two smaller factors. For a fixed scope of the larger factor and its complementary scope, apply Cauchy--Schwarz to the at most \(a!\) and \((p-a)!\) monomials on the two sides. Summing again by Cauchy--Schwarz over complementary scopes bounds this group's entire clipped mass by \(\sqrt{a!(p-a)!\,M_0}\). Since \(m-a\le c/2\) and \(a\ge p/3\), the product formula for the binomial ratio gives
+For \(c<32e^2H^2/p\), merge the two smaller factors. For a fixed scope of the larger factor and its complementary scope, apply Cauchy--Schwarz to the at most \(a!\) and \((p-a)!\) monomials on the two sides. Summing again by Cauchy--Schwarz over complementary scopes bounds this group's entire clipped mass by \(\sqrt{a!(p-a)!\,M_0}\). Since \(\nu-a\le c/2\) and \(a\ge p/3\), the product formula for the binomial ratio gives
 \[
-      \binom pm/\binom pa
-       \le\exp\bigl(O((m-a+1)^2/p)\bigr)
+      \binom p\nu/\binom pa
+       \le\exp\bigl(O((\nu-a+1)^2/p)\bigr)
        \le\exp\bigl(O(1+H^4/p^3)\bigr).
 \]
 Summing over the \(G\) groups by Cauchy--Schwarz, using \(\sum M_0=Kp!\) and the \(p!/4\) discarded light mass, yields
-\(\log_2(GK)\ge \log_2\binom pm-O(1+H^4/p^3)\).
-If \(\log_2 K\ge g\) the conclusion already holds. Otherwise \(H=O(1+g)\) and \(\log_2\binom pm\ge p-O(\log p)\), proving the claim.
+\(\log_2(GK)\ge \log_2\binom p\nu-O(1+H^4/p^3)\).
+If \(\log_2 K\ge g\) the conclusion already holds. Otherwise \(H=O(1+g)\) and \(\log_2\binom p\nu\ge p-O(\log p)\), proving the claim.
 \end{proof}
 
 The input to Proposition~\ref{prop:cancellation} is the ordinary permanent with independent edge weights. A small signed circuit is free to incur the stated mass. In fact the matrix-order algorithm of Curticapean~\cite{stars} achieves a fixed exponential saving on this particular host.
 
-The single vertex update admits a related test in which its old entries \(f_S\) and weights \(w_i\) are independent inputs. For a multioutput circuit computing all \(y_T=\sum_{i\in T}w_i f_{T-i}\), set every \(f_S=z\) and \(w_i=x\) in the unsigned circuit. Write \(M\) for the sum of the \(xz\) coefficients of its outputs, \(m=p2^{p-1}\) for their true sum, and \(K=M/m\).
+The single vertex update admits a related test in which its old entries \(f_S\) and weights \(w_i\) are independent inputs. For a multioutput circuit computing all \(y_T=\sum_{i\in T}w_i f_{T-i}\), set every \(f_S=z\) and \(w_i=x\) in the unsigned circuit. Write \(M\) for the sum of the \(xz\) coefficients of its outputs, \(\tau=p2^{p-1}\) for their true sum, and \(K=M/\tau\).
 
 \begin{proposition}\label{prop:update-mass}
 A size-\(s\) complex circuit computing this bilinear update satisfies
@@ -812,16 +627,16 @@ In particular an \(O(2^p\sqrt p)\) update of an independent table requires \(K=\
 \begin{proof}
 In each unsigned bidegree-\((1,1)\) parse there is a unique product where its \(w\)-leaf and \(f\)-leaf first meet. Each such gate gives at most two product groups, selecting which input has the \(w\)-leaf. The contributions across outputs thus have the form \(a_i b_S c_T\) summed over at most \(2s\) groups. The first two factors sum the corresponding input parses and the third sums their degree-zero contexts leading to output \(T\). Denote a group's mass by \(M_0=(\sum a_i)(\sum b_S)(\sum c_T)\).
 
-In a valid triple \(T=S+i\), \(i\notin S\). The other two indices determine either \(S\) or \(T\) uniquely, so as in Proposition~\ref{prop:cancellation} scopes of normalized mass below \(1/(8K)\) in either list discard at most \(m/4\) total valid mass. On the remaining at most \(h=16K\) vertices of the binary cube use the weighted one-coordinate translation matrix \(A=\sum_i\sqrt{a_i}\,X_i\). For its principal restriction to \(V\),
+In a valid triple \(T=S+i\), \(i\notin S\). The other two indices determine either \(S\) or \(T\) uniquely, so as in Proposition~\ref{prop:cancellation} scopes of normalized mass below \(1/(8K)\) in either list discard at most \(\tau/4\) total valid mass. On the remaining at most \(h=16K\) vertices of the binary cube use the weighted one-coordinate translation matrix \(A=\sum_i\sqrt{a_i}\,X_i\). For its principal restriction to \(V\),
 \[
  \operatorname{tr}\exp(tA_V)
     \le h\prod_i\cosh(t\sqrt{a_i})
     \le h\exp(t^2\textstyle\sum_i a_i/2).
 \]
-The first inequality counts nonnegative closed walks, with the same unrestricted count at each cube vertex. Since \(A_V\) is nonnegative symmetric, its norm is a nonnegative eigenvalue. Optimizing \(t\) gives \(\|A_V\|\le\sqrt{2\ln(2h)\sum_i a_i}\). Clip each true triple at one and bound a group's heavy contribution by the sum of \(\sqrt{a_i b_S c_T}\) on valid triples. Apply the norm estimate to the vectors \(\sqrt{b_S},\sqrt{c_T}\). The result is at most \(\sqrt{2\ln(32K)M_0}\). A final Cauchy--Schwarz over groups gives \(3m/4\le\sqrt{4s\ln(32K)M}\), as required. An algorithm for the whole graph can also exploit relations between the tables of successive vertices.
+The first inequality counts nonnegative closed walks, with the same unrestricted count at each cube vertex. Since \(A_V\) is nonnegative symmetric, its norm is a nonnegative eigenvalue. Optimizing \(t\) gives \(\|A_V\|\le\sqrt{2\ln(2h)\sum_i a_i}\). Clip each true triple at one and bound a group's heavy contribution by the sum of \(\sqrt{a_i b_S c_T}\) on valid triples. Apply the norm estimate to the vectors \(\sqrt{b_S},\sqrt{c_T}\). The result is at most \(\sqrt{2\ln(32K)M_0}\). A final Cauchy--Schwarz over groups gives \(3\tau/4\le\sqrt{4s\ln(32K)M}\), as required. An algorithm for the whole graph can also exploit relations between the tables of successive vertices.
 \end{proof}
 
-The matrix-order consequence in the introduction uses a different quantifier. Suppose for every \(C\) there is a bipartite graph whose permanent exceeds \(n^C2^{p-\sqrt p}\). Enlarge \(a\) so that \(s\le n^a2^p\) always. For each growing integer \(j\) choose such a graph with \(C=a+j\). Then \(\sqrt p>j\log_2 n\) and \(\log_2 s\ge p-\sqrt p\). Completing its support with zero entries specializes a generic permanent of matrix order \(m\le n\) to this polynomial. These \(m\) are unbounded and \(\log_2 s_{\F}(\per_m)/(\log_2 m)^2\) is unbounded along them. Thus resolving the pathwidth square-root question in this direction would also strengthen the known unrestricted lower bound in matrix order~\cite{circuits}.
+The matrix-order consequence in the introduction uses a different quantifier. Suppose for every \(C\) there is a bipartite graph whose permanent exceeds \(\|G\|^C2^{p-\sqrt p}\). Enlarge \(a\) so that \(s\le \|G\|^a2^p\) always. For each growing integer \(j\) choose such a graph with \(C=a+j\). Then \(\sqrt p>j\log_2 \|G\|\) and \(\log_2 s\ge p-\sqrt p\). Completing its support with zero entries specializes a generic permanent of matrix order \(r=n/2\) to this polynomial. These \(r\) are unbounded and \(\log_2 s_{\F}(\per_r)/(\log_2 r)^2\) is unbounded along them. Thus resolving the pathwidth square-root question in this direction would also strengthen the known unrestricted lower bound in matrix order~\cite{circuits}.
 
 \bibliographystyle{../linkedtitles}
 \bibliography{../references}

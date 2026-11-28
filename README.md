@@ -29,6 +29,8 @@ For the bipartite permanent outside characteristic two and for generating bipart
 
 For undirected Hamiltonian cycles, let $\rho$ be the exponential rank growth per path end of the matrix that tests whether two perfect matchings join into one cycle. Over every field, we rule out circuit size $n^{O(1)}B^p$ for every fixed pathwidth base $B<2+\rho$, and likewise every cutwidth base below $1+\rho$. Algorithms attain both bases in characteristics zero, two and three, where $\rho$ equals $4$, $\sqrt{2}$ and $1+2\cos(2\pi/9)$, respectively. In characteristic five we prove $\rho>2.7458$. Its exact value and algorithms attaining the corresponding bases remain open. [Paper](pathwidth/matching-connectivity-width.pdf)
 
+A [companion note](pathwidth/sharper-additive-bound.md) proves the sharper additive bounds for both papers.
+
 ## Small patterns
 
 ### Fixed-pattern catalogue
