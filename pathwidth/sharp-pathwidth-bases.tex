@@ -53,6 +53,8 @@ Write \(s_{\F}(f)\) for the minimum number of binary \(+,-,\times\) gates needed
 
 For a bipartite graph \(G=(V,E)\), give each edge its own indeterminate \(x_e\). Its permanent is \(\per(G)=\sum_M\prod_{e\in M}x_e\), summed over all perfect matchings \(M\). Write \(n=|V|\), \(m=|E|\), and \(\|G\|=n+m\) for total graph size. Put \(p=\pw(G)\).
 
+For numerical perfect-matching counts, Curticapean and Marx~\cite[Theorem~1.2 and the paragraph following it]{cm-perfmatch} obtained the base-two lower bound under counting SETH, including for pathwidth and cutwidth. We consider unrestricted arithmetic circuits for the formal edge-weighted polynomial.
+
 \begin{theorem}[Permanent]\label{thm:permanent}
 Over every field \(\F\) of characteristic different from two there is a sequence of bipartite graphs of maximum degree three and minimum pathwidth \(p\to\infty\) with
 \[
