@@ -170,7 +170,7 @@ origin, one at each listed difference, and the last moves from the origin
 to \(he_{n+1}\). Write \(W_0=W(S_0)\) and \(W_h=W(S_h)\).
 In the original \(n\) coordinates the origin maximizes the projection
 exactly on the \emph{order cone} \(\{g:g_i\le g_j\text{ whenever }i\prec j\}\).
-The extra coordinate measures the Gaussian probability of this cone.
+Its braid chambers correspond to linear extensions~\cite[Section~2.4]{dbkr-poset-cones}. Applying the standard normal distribution function coordinatewise turns this probability into the volume of Stanley's order polytope~\cite[Corollary~4.2]{stanley-poset-polytopes}. The extra coordinate measures the cone probability from width queries.
 
 \begin{lemma}\label{lem:lift}
 For every \(h>0\),
@@ -357,10 +357,12 @@ Let \(D\) be the diameter of the sites. If \(D=0\), return zero. For
 \[
  Y(g)=\max_{v,w\in S}\ip{g}{v-w}.
 \]
-Symmetry gives \(W=\sqrt{\pi/2}\,\E Y\). A diameter pair gives
+Symmetry gives \(W=\sqrt{\pi/2}\,\E Y\).
+Meka~\cite[Introduction and Theorem~1.2]{meka-gaussian} discusses Gaussian sampling and gives a deterministic PTAS for expected Gaussian suprema. The symmetric set of differences \(S-S=\{v-w:v,w\in S\}\) gives the supremum above. We analyze a randomized implementation with rational input and explicit bit precision.
+
+A diameter pair gives
 \(\E Y\ge\sqrt{2/\pi}\,D\), while the maximum formula makes \(Y\)
-\(D\)-Lipschitz. The following elementary variance estimate removes the
-ambient dimension from the number of samples.
+\(D\)-Lipschitz. Maurey's Gaussian rotation argument, as presented by Pisier~\cite[Theorem~2.2]{pisier-gaussian}, gives a variance estimate independent of the ambient dimension.
 
 \begin{lemma}
 \(\Var Y(g)\le\pi^2D^2/8\).
@@ -611,9 +613,7 @@ rank zero. If the bound exceeds the smaller matrix dimension every \(x\)
 works. Otherwise a factorization \(A(x)=UV\) of inner dimension \(2^h\)
 is a polynomial-size existential certificate.
 
-For hardness, write existential real feasibility as a conjunction of affine
-equations and products \(uv=w\) by assigning a variable to every arithmetic
-gate. To see the normal form, push negations to the atoms. An atom \(f\ge0\)
+For hardness, use the block-diagonal minimum-rank reduction of Buss, Frandsen and Shallit~\cite[Sections~11--12]{bfs-minrank}, with gate-sized blocks and a power-of-two rank threshold. Write existential real feasibility as a conjunction of affine equations and products \(uv=w\) by assigning a variable to every arithmetic gate. To see the normal form, push negations to the atoms. An atom \(f\ge0\)
 is \(f=z^2\), \(f>0\) is \(fz^2=1\), and \(f\ne0\) is \(fz=1\).
 Represent conjunction of two zero equations by the sum of their squares
 and disjunction by their product, giving each occurrence fresh witnesses.

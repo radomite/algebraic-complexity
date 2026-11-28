@@ -474,7 +474,7 @@ that one graph beating this threshold \emph{uniformly over all placements}
 proves ports. Roughly, the proof puts a copy of the good graph at each
 vertex of a preceding graph. A short random walk among the old vertices
 is used to join the copies. Under the threshold, the order grows at
-each iteration while the comparison constant stays bounded.
+each iteration while the comparison constant stays bounded. The related amplification in OpenAI~\cite[Section~11.1]{euclid} credits the balanced replacement product of Reingold, Vadhan and Wigderson~\cite[Definition~6.6]{rvw-zigzag} and the nonlinear product and walk estimates of Mendel and Naor~\cite[Theorem~1.13(V) and Section~8]{mn-nonlinear}\cite[Corollary~1.9]{mn-spectral}\cite[Theorem~3.4]{mendel}.
 
 There is a useful purely algebraic consequence.
 \begin{theorem}[One-sided search]\label{thm:search}
@@ -583,7 +583,7 @@ Over \(K=\F_2\), take the actual points and lines \(U\) of the plane in
 where \(r=\dim U\). In a basis adapted to two subspaces, the weight vector
 for \(U\) is its coordinate indicator minus \(r\one/3\). The same hexagon
 calculation as in Appendix~\ref{app:plane} gives the full fourteen-site
-table of Proposition~\ref{prop:plane}, up to scale. This constructs an
+table of Proposition~\ref{prop:plane}, up to scale. This is the unit-radius configuration in the cone on the Fano incidence graph studied by Izeki and Nayatani~\cite[Example~5 and Section~6]{izeki}. This constructs an
 ordinary flag model for one necessary table. Ruling out ports over
 \(\F_2\) would still require spectral witnesses against every candidate
 graph family.

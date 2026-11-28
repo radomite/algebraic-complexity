@@ -135,6 +135,8 @@ The same transfer gives a cutwidth bound when each crossing word is carried by e
 
 ## An additive bound at the partition-table scale
 
+Mannens and Nederlof classify numerical Tutte evaluation at integer points. The bounds here count gates for the formal edge-weighted polynomial. [Mannens–Nederlof, Theorem 1.1](https://arxiv.org/abs/2307.01046)
+
 For a bag of $k$ vertices, keep the conditional spin sum for each exact equality partition of the live colors. When forgetting a vertex and fixing the partition of the other vertices with $j$ classes, sum its $j$ possible placements in an existing class and its placement in a new class with multiplicity $q-j$. An edge contributes $1+w_e$ when its ends agree, and one otherwise. At finite effective palette $r$ only partitions with at most $r$ classes occur. With a formal parameter the recurrence is a polynomial identity by evaluation at every sufficiently large integer palette, and so it specializes in every field. This gives $O(\|G\| B_r(p+1))$ gates uniformly in $r$.
 
 The lower bound must account for the entropy lost to unnamed colors. For instance $\log_2\operatorname{Bell}(p+1)$ and $p\log_2 p$ differ by order $p\log\log p$, already larger than the allowed additive error. We encode the equality partition itself.
@@ -203,7 +205,7 @@ The change $w_e=-y_e$ costs at most one gate per edge in either direction. This 
 
 ## Hamiltonian cycles
 
-The undirected pathwidth bases use the fingerprint rank law of [Curticapean, Lindzey and Nederlof](https://arxiv.org/abs/1709.02311) and the characteristic-two matching basis of [Cygan, Kratsch and Nederlof](https://arxiv.org/abs/1211.1506). Here these ranks enter the additive circuit-size estimate.
+The undirected pathwidth bases use the fingerprint rank law of [Curticapean, Lindzey and Nederlof](https://arxiv.org/abs/1709.02311) and the characteristic-two matching basis of [Cygan, Kratsch and Nederlof](https://arxiv.org/abs/1211.1506). Here these ranks enter the additive circuit-size estimate. The tour paper also uses the characteristic-three tilting calculation of [Benson, Etingof and Ostrik](https://arxiv.org/abs/2003.10499), and discusses the undirected cutwidth precedent of [Bojikian, Chekan and Kratsch](https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ESA.2025.13).
 
 For a $c$-bit vertex wire use a nonsingular minor of order $2^c$ on $\mu\le c/\log_2 b+O(\log(2+c))$ shared sites. The boundary rank bound $b^\mu/\mu^{O(1)}$ suffices. At each end, a $c$-bit index chooses a physical state from the selected row or column list. The guarded graph in the tour paper tests the resulting pair. For each of the $O(\mu^2)$ candidate connections, read its selection bit from the index, create its guard and finish that bit before reading the next one. The bit paths, relays and private terminals require $O(c)$ live vertices per wire. The complete table has size $2^{O(t)}$. For the degree bound on directed tours use the paper's selectors as combs in incidence order. Each suffix has a leaf and the next suffix as children, and its representative is its first leaf. This takes constantly many additional live ends per active private vertex. The transfer lemma now gives all five tour pathwidth rows. [Directed states and selectors](matching-connectivity-width.pdf#nameddest=section.6) · [Undirected states and graph realization](matching-connectivity-width.pdf#nameddest=section.7)
 

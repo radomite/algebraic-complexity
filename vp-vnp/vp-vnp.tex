@@ -53,7 +53,7 @@ Fix a field \(F\). Give each vertex and edge of a graph its own weight.
 The weight of a clique is the product of the weights of its vertices and
 edges. We show that the polynomial adding up all these weights belongs to
 \(\VNP_F\) and requires more than polynomial-size arithmetic circuits.
-Thus \(\VP_F\subsetneq\VNP_F\).
+This gives the separation \(\VP_F\subsetneq\VNP_F\) in Valiant's algebraic complexity theory~\cite{valiant-completeness}.
 
 The proof follows the cliques of a fixed order \(k\). A small circuit
 would express the clique sum as a sum of networks. In each network
@@ -171,6 +171,7 @@ a Euclidean drawing of the complete graph.%
 
 \subsection*{A circuit gives two hubs for each balanced cut}
 
+We use the balanced-product decomposition of Anthropic~\cite[Lemma~E.4]{anthropic}, in the tradition of circuit decompositions by Hyafil~\cite{hyafil} and Valiant, Skyum, Berkowitz and Rackoff~\cite{vsbr}.
 Think of the variables at vertex \(i\) as one block \(x_i\).
 Every monomial of \(Z_{k,q}\) uses one variable from each block.
 Call \(S\subseteq[k]\) balanced if \(k/3\le |S|\le 2k/3\), and

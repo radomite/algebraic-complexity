@@ -1,4 +1,4 @@
-Since the recent VP versus VNP breakthrough, I've been very curious to understand the results and techniques that have suddenly become available. I've created this repository to collect AI-generated answers to questions I care about and am sharing those explorations so that whatever comes to light doesn’t stay buried in a private conversation with ChatGPT. This is the only purpose. The notes are not research papers and I do not claim authorship or priority for the ideas in them. Once the dust settles, I or others might use these notes to write traditional papers.
+Since the recent VP versus VNP breakthrough, I've been very curious to understand the results and techniques that have suddenly become available. This repository collects AI-generated answers to questions I care about and I am sharing those explorations so that whatever comes to light doesn’t stay buried in a private conversation with ChatGPT. The notes are **not research papers** and I do not claim authorship or priority for the ideas in them. Once the dust settles, I or others might use these notes to write traditional papers.
 
 While I have asked the questions and tried to ensure a minimum of output quality, some arguments may be wrong (but Lean formalizations are planned) and the notes may blatantly miss or misattribute earlier work. If you recognize an issue, please report it via a GitHub issue or send me a mail, and I will correct it as soon as possible. I am also happy about suggestions what to look into, pull requests on GitHub, and collaborators.
 
@@ -20,22 +20,18 @@ A single bit shared among rational sites costs the mean width of their convex hu
 
 ## Sharp bounds under width parameters
 
-We consider the complexity of graph-related polynomials parameterized by pathwidth, cutwidth, and bandwidth.
-
 ### Permanents, independent sets, and the Tutte polynomial
-For the bipartite permanent outside characteristic two and for generating bipartite independent sets over every field, graphs on $n$ vertices of pathwidth $p$ admit arithmetic circuits of size $n^{O(1)}2^p$. For every fixed $\alpha>3/4$ and $C\ge 0$, each polynomial admits graphs of arbitrarily large pathwidth requiring more than $n^C2^{p-p^\alpha}$ gates. For the chromatic and multivariate Tutte polynomials, the corresponding bound uses the number of partitions of a bag of $p+1$ vertices into at most $r$ blocks for an effective palette of $r\ge 2$ colors. A multivariate Tutte polynomial gives the full Bell number. Our constructions also give size bounds in terms of cutwidth and bandwidth. [Paper](pathwidth/sharp-pathwidth-bases.pdf)
+For the bipartite permanent in characteristic $\neq 2$ and for generating bipartite independent sets over every field, graphs on $n$ vertices of pathwidth $p$ admit arithmetic circuits of size $n^{O(1)}2^p$. For every fixed $\alpha>3/4$ and $C\ge 0$, each polynomial admits graphs of arbitrarily large pathwidth requiring more than $n^C2^{p-p^\alpha}$ gates. For the chromatic and multivariate Tutte polynomials, the corresponding bound uses the number of partitions of a bag of $p+1$ vertices into at most $r$ blocks for an effective palette of $r\ge 2$ colors. A multivariate Tutte polynomial gives the full Bell number. The constructions also give size bounds in terms of cutwidth and bandwidth. [Paper](pathwidth/sharp-pathwidth-bases.pdf)
 
 ### Hamiltonian cycles
 
-For undirected Hamiltonian cycles, let $\rho$ be the exponential rank growth per path end of the matrix that tests whether two perfect matchings join into one cycle. [Curticapean, Lindzey and Nederlof](https://arxiv.org/abs/1709.02311) established the pathwidth lower base $2+\rho$ for counting under SETH. Over every field, we rule out circuit size $n^{O(1)}B^p$ for every fixed pathwidth base $B<2+\rho$, and likewise every cutwidth base below $1+\rho$. Algorithms attain both bases in characteristics zero, two and three, where $\rho$ equals $4$, $\sqrt{2}$ and $1+2\cos(2\pi/9)$, respectively. In characteristic five we prove $\rho>2.7458$. Its exact value and algorithms attaining the corresponding bases remain open. [Paper](pathwidth/matching-connectivity-width.pdf)
-
-A [companion note](pathwidth/sharper-additive-bound.md) proves the sharper additive bounds for both papers.
+For undirected Hamiltonian cycles, let $\rho$ be the exponential rank growth per path end of the matrix that tests whether two perfect matchings join into one cycle. A pathwidth lower base $2+\rho$ for counting was known under SETH. Over every field, circuit size $n^{O(1)}B^p$ for every fixed pathwidth base $B<2+\rho$ is ruled out unconditionally, and likewise every cutwidth base below $1+\rho$. Algorithms attain both bases in characteristics zero, two and three, where $\rho$ equals $4$, $\sqrt{2}$ and $1+2\cos(2\pi/9)$, respectively. In characteristic five, the lower bound $\rho>2.7458$ holds. Its exact value and algorithms attaining the corresponding bases remain open. [Paper](pathwidth/matching-connectivity-width.pdf)
 
 ## Small patterns
 
 ### Fixed-pattern catalogue
 
-Over every field, the unrestricted circuit exponent for the colorful four-clique lies between $9/4$ and $25/8$. For the colorful five-clique it is between $9/4$ and $3.992353870$. For $K_{3,3}$, the colorful homomorphism polynomial has circuit lower exponent at least $4/\sqrt{3}$ over every field. Many other bounds are shown as well. [Paper](patterns/small-patterns.pdf)
+Over every field, the unrestricted circuit exponent for the colorful four-clique lies between $9/4$ and $25/8$. For the colorful five-clique it is between $9/4$ and $3.992353870$. For $K_{3,3}$, the colorful homomorphism polynomial has circuit lower exponent at least $4/\sqrt{3}$ over every field. Various other bounds are shown as well. [Paper](patterns/small-patterns.pdf)
 
 ### Parameterized sparse patterns
 

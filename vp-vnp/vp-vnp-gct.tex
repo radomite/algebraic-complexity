@@ -27,9 +27,9 @@ reuse of every gate. For a host with $N$ vertices set
       \prod_{i\in U}X_i\prod_{\{i,j\}\subseteq U}E_{ij},
  \qquad \Cl_N=\sum_{k=0}^N\Cl_{N,k}.
 \]
-We recover the clique bound of the wire argument in
-\cite[Appendix E]{anthropic}. All orbit closures below are taken over
-$K=\overline F$. Extending scalars preserves every circuit over $F$.
+We apply the complete-network hub argument from Anthropic~\cite[Lemma~E.4 and Proposition~E.5]{anthropic} to the weighted clique polynomial of Bl\"aser and Engels~\cite[Example~4.4]{be}. The exponent uses exact Euclidean wire prices and the clique projection below.
+We express the separation in Valiant's algebraic complexity theory~\cite{valiant-completeness} as an orbit-closure problem, following the framework of Mulmuley and Sohoni~\cite{mulmuley-sohoni-gct}.
+All orbit closures below are taken over $K=\overline F$. Extending scalars preserves every circuit over $F$.
 
 \begin{theorem}\label{main}
 For each fixed $k\ge2$ the circuit size $C_F$ satisfies
@@ -83,6 +83,8 @@ independent invertible linear maps on those spaces. Its Zariski closure
 is the common zero set of all polynomials in the entries that vanish on
 the orbit. Thus one polynomial that vanishes there and is nonzero at the
 clique suffices to distinguish the two.
+
+The balanced decomposition below is the one used by Anthropic~\cite[Lemma~E.4]{anthropic}, building on the circuit decomposition methods of Hyafil~\cite{hyafil} and Valiant, Skyum, Berkowitz and Rackoff~\cite{vsbr}.
 
 \begin{lemma}\label{cut}
 The coefficient tensor of a size-$s$ circuit on the $k$ palettes lies
@@ -158,8 +160,7 @@ simultaneously for all pairs.
 \end{quote}
 
 Write $H=c\log_2\phi$, with $H(0)=-\infty$. A $2^\ell$-wire costs
-$\ell$ times its length. The following elementary observation lets this
-exact-restriction theorem produce an equation on a Zariski closure.
+$\ell$ times its length. We use a finite-degree form of the tensor-power argument of Christandl, Hoeberechts, Nieuwboer, Vrana and Zuiddam~\cite[Lemma~2.3, Theorem~2.2 and Corollary~2.4]{chnvz-polynomials}. OpenAI~\cite[Lemma~2.1]{euclid} applies that argument to the closure of price sublevels. The finite-degree form gives an equation on the closure.
 
 \begin{lemma}\label{equation}
 Let $X$ be a set of tensors in a $v$-dimensional tensor space, all on
@@ -258,7 +259,7 @@ of $z$ over the weight-one assignments to a single selector equals $z$.
 
 Summing over all selectors gives $\Cl_N$ as a Boolean sum of a
 polynomial-size, polynomial-degree circuit, hence a VNP family.
-If it had polynomial-size circuits, replace each $X_i$ by $uX_i$ and
+If it had polynomial-size circuits, use the parameter extraction of Bl\"aser and Engels~\cite[Theorem~6.4, full version]{be}. Replace each $X_i$ by $uX_i$ and
 keep the coefficients of $u^0,\ldots,u^k$ at each gate. Truncated
 convolution costs $O((k+1)^2)$ per product. The $u^k$ coefficient is
 $\Cl_{N,k}$, which would give the forbidden FPT circuit family.
