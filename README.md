@@ -1,8 +1,6 @@
-# Algebraic complexity
-
 Since the recent VP versus VNP breakthrough, I've been very curious to understand the results and techniques that have suddenly become available. I've created this repository to collect AI-generated answers to questions I care about and am sharing those explorations so that whatever comes to light doesn’t stay buried in a private conversation with ChatGPT. This is the only purpose. The notes are not research papers and I do not claim authorship or priority for the ideas in them. Once the dust settles, I or others might use these notes to write traditional papers.
 
-While I have asked the questions and tried to ensure a minimum of output quality, some arguments may be wrong (but Lean formalizations are planned) and the notes may blatantly miss or misattribute earlier work. If you recognize an issue, please report it via GitHub or send me a mail, and I will correct it as soon as possible. I am also happy about suggestions what to look into.
+While I have asked the questions and tried to ensure a minimum of output quality, some arguments may be wrong (but Lean formalizations are planned) and the notes may blatantly miss or misattribute earlier work. If you recognize an issue, please report it via a GitHub issue or send me a mail, and I will correct it as soon as possible. I am also happy about suggestions what to look into, pull requests on GitHub, and collaborators.
 
 ## Tensor prices
 

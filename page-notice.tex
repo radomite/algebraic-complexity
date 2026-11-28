@@ -1,20 +1,18 @@
-\AddToHook{cmd/maketitle/after}{%
-  \par\noindent\begin{minipage}{\linewidth}
-  \small\sffamily
-  I asked ChatGPT these questions to understand what follows from the recent
-  VP versus VNP breakthrough. I share its answers so that these explorations
-  are available beyond a private conversation. These are AI-generated notes,
-  not research papers. I do not claim authorship or priority for the ideas.
-  Arguments may be wrong, and earlier work may be overlooked or misattributed.
-  I welcome corrections by mail or via
-  \href{https://github.com/radomite/algebraic-complexity/issues}{GitHub}.
-  \end{minipage}\par\medskip
-}
 \AddToHook{shipout/foreground}{%
-  \ifnum\ReadonlyShipoutCounter>1\relax
   \put(0pt,-24pt){\makebox[\paperwidth][c]{%
     \normalfont\sffamily\fontsize{8}{10}\selectfont\color[gray]{0.38}%
-    AI-generated exploration notes. Arguments and attributions may be wrong.
-    \href{https://github.com/radomite/algebraic-complexity/issues}{Corrections welcome on GitHub.}}}%
-  \fi
+    \hypersetup{urlcolor=.}%
+    \ifnum\ReadonlyShipoutCounter=1\relax
+      \parbox[t]{\textwidth}{\raggedright
+        This document is a result of conversations with Astra~6.2 about the recent VP versus VNP breakthrough and its implications.
+        I am sharing this in case it helps others to explore the new theory as well. This note is not a
+        research paper and I claim no authorship or priority. Arguments may be wrong,
+        and earlier work may be missed or misattributed. Corrections by
+        \href{https://github.com/radomite/algebraic-complexity/issues}{GitHub issue}
+        or \href{mailto:radu.curticapean@gmail.com}{mail} are welcome and I am also happy about further suggestions, GitHub pull requests, and collaborators.}%
+    \else
+      \parbox[t]{\textwidth}{\centering
+      AI-generated. Arguments and attributions may be wrong.
+      \href{https://github.com/radomite/algebraic-complexity/issues}{Corrections welcome on GitHub.}}%
+    \fi}}%
 }
